@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+
+        <div class="row center">
+            <h2> Formulaire d'inscription</h2>
+        </div>
+
+        <div class="row">
+            <form method="POST" action="{{ url_for('register') }}" class="col s12">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input placeholder="Anthony" id="first_name" type="text" class="validate" name="first_name">
+                        <label for="first_name">Prénom</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input placeholder="Herbert" id="last_name" type="text" class="validate" name="last_name">
+                        <label for="last_name">Nom</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">vpn_key</i>
+                        <input id="password" type="password" class="validate" name="password">
+                        <label for="password">Mot de passe</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">email</i>
+                        <input id="email" type="email" class="validate" name="email">
+                        <label for="email">Email</label>
+                    </div>
+                </div>
+                <div class="row center">
+                    <button class="btn waves-effect waves-light blue" type="submit">S'inscrire
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

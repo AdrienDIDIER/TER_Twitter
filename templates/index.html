@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row center">
+            <h1>Bienvenue sur TweetoStats</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere tortor dolor, finibus pulvinar
+                dui
+                interdum non. Sed vulputate risus nunc, id vulputate urna ullamcorper sit amet. Mauris eros velit,
+                semper id
+                lectus quis, iaculis blandit orci. Ut sit amet nisl condimentum, posuere dui a, aliquet lorem. Etiam ac
+                volutpat odio. Curabitur sollicitudin semper vehicula. Praesent vel hendrerit neque, et mollis purus.
+                Quisque ex ex, tristique dignissim feugiat in, maximus a enim. Integer odio nibh, tempus at leo eu,
+                tincidunt maximus quam. Aenean aliquet finibus felis quis dictum. Donec mollis eget ipsum nec pulvinar.
+
+                Nullam nec commodo tortor, efficitur semper ex. Suspendisse nec finibus tellus, eu condimentum eros.
+                Cras
+                mattis finibus lorem vitae congue. Nullam cursus porttitor mauris. Morbi et urna non augue porta
+                accumsan.
+                Nam a viverra leo. Etiam dui libero, sodales ut venenatis non, aliquam eu massa.
+
+                Suspendisse dictum eros eget lacus mollis, nec bibendum ante ultrices. Duis quis magna eget urna
+                sollicitudin consequat. Praesent quis risus pharetra risus convallis facilisis nec at risus. Vivamus
+                scelerisque ipsum sed felis feugiat suscipit. Aenean purus augue, lacinia eu ultricies a, euismod vitae
+                nunc. Ut dui lorem, sagittis imperdiet vehicula in, placerat eget nisi. Class aptent taciti sociosqu ad
+                litora torquent per conubia nostra, per inceptos himenaeos. In blandit suscipit ante, in dignissim lorem
+                eleifend at. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin imperdiet et turpis at
+                varius. Nullam imperdiet velit ac rutrum blandit. Duis sed felis vel tellus cursus efficitur eu nec
+                augue.
+                Nullam lorem justo, condimentum in iaculis at, venenatis in augue. Aliquam ac molestie nisl, vel
+                hendrerit
+                libero. Proin ultricies metus lorem, at laoreet nisl maximus sed. Mauris imperdiet egestas consectetur.
+
+                Donec placerat vehicula arcu. Suspendisse sem tortor, venenatis in pulvinar eu, elementum ut arcu.
+                Vestibulum et iaculis ante. Aliquam quis est mi. Mauris ultrices non metus quis hendrerit. Quisque eu
+                metus
+                sed quam aliquet fermentum nec ac mauris. Suspendisse eget sem elit. Sed finibus ullamcorper tincidunt.
+                Curabitur viverra risus id mi ultricies vulputate vel nec tortor. Praesent pellentesque, felis et luctus
+                vestibulum, tellus turpis lobortis sapien, quis facilisis diam enim sed sapien. Vestibulum sed purus
+                augue.
+                Curabitur volutpat, justo pretium imperdiet posuere, nisl lacus fermentum neque, a posuere est ligula eu
+                nulla.
+
+                Curabitur tincidunt nulla eu justo luctus laoreet. Nulla facilisi. Etiam eleifend massa eget fringilla
+                blandit. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque posuere sed orci id
+                accumsan.
+                Sed rutrum, nisl sed pretium maximus, libero mi congue turpis, eu faucibus ipsum justo quis ipsum.
+                Aliquam
+                orci ligula, semper in condimentum eget, viverra vitae enim.
+            </p>
+        </div>
+        <div class="row center">
+            <div class="col l6"><a class="waves-effect waves-light btn blue" href={{ url_for('login') }}>Se connecter</a></div>
+            <div class="col l6"><a class="waves-effect waves-light btn blue" href={{ url_for('register') }}>S'inscrire</a></div>
+        </div>
+    </div>
+{% endblock %}
