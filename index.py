@@ -4,8 +4,12 @@ from auth import *
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    userLogged = isLogged()
+    user = None
+    if userLogged:
+        users = mongo.db.users
+        user = users.find_one({'email': session['email']})
+    return render_template('index.html', userLogged=userLogged, user=user)
 
 if __name__ == '__main__':
     app.run(debug=True)
