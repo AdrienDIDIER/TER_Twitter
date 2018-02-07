@@ -1,5 +1,5 @@
 from auth import *
-from retrieve_tweets.dated_tweets.filters import filter
+from retrieve_tweets.filters import filter
 from retrieve_tweets.tweets_collection import delete_many_tweets
 
 @app.route('/')
