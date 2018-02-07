@@ -1,7 +1,6 @@
-from tweepy import api
+from tweepy_auth import *
 from retrieve_tweets.tweets_collection import *
 
-def filter(keywords = None, user_screen_name = None, geocode = None):
-
-    for tweet in api.Cursor(api.search, keyword = keywords + " " + user_screen_name, geocode=geocode):
+def filter(keywords = None, geocode = None):
+    for tweet in tweepy.Cursor(api.search, q = keywords, geocode=geocode).items(50):
         stock_tweets(tweet)
