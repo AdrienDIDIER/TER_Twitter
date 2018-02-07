@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, request, session, redirect
-from database import app, mongo
+from myapp import app, mongo
 import bcrypt
 
 
@@ -7,13 +7,10 @@ import bcrypt
 def register():
     if request.method == 'POST':
         users = mongo.db.users
-        print(users)
         existing_user = users.find_one({'email': request.form['email']})
-        print(existing_user)
-
         if existing_user is None:
             hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-            users.insert({'first_name': request.form['first_name'], 'last_name': request.form['last_name'],
+            users.insert_one({'first_name': request.form['first_name'], 'last_name': request.form['last_name'],
                           'email': request.form['email'], 'password': hashpass})
             session['email'] = request.form['email']
             return redirect(url_for('index'))
@@ -53,7 +50,15 @@ def getSession():
         return 'Not logged in !'
 
 
-@app.route('/dropSession')
-def dropSession():
-    session.pop('username', None)
-    return 'Logged out'
+@app.route('/logout')
+def logout():
+    session.pop('email', None)
+    return redirect(url_for('index'))
+
+
+def isLogged():
+    return 'email' in session
+
+def getUser():
+    if isLogged():
+        return mongo.db.users.find_one({'email' : session['email']})
