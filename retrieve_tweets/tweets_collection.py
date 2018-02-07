@@ -1,4 +1,4 @@
-from database import mongo
+from myapp import mongo
 import json, bson
 
 
