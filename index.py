@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, session, redirect
-from database import app, mongo
-from auth import *
+from auth import isLogged
+from myapp import app, mongo
 
 @app.route('/')
 def index():
@@ -11,5 +11,4 @@ def index():
         user = users.find_one({'email': session['email']})
     return render_template('index.html', userLogged=userLogged, user=user)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
