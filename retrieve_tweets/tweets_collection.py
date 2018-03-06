@@ -1,12 +1,12 @@
 from myapp import mongo
 import json, bson
-
+from flask import session
 
 
 def stock_tweets(tweet):
     tweets_table = mongo.db.tweets
     tweet = bson.BSON.encode(json.loads(json.dumps(tweet._json)))
-    tweets_table.insert_one({"session_id" : 1, "tweet_object" : tweet}).inserted_id
+    tweets_table.insert_one({"session_id": session['last_session'] , "tweet_object":tweet}).inserted_id
 
 def delete_many_tweets(key = None, value = None):
     tweets_table = mongo.db.tweets

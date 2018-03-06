@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, request, session, redirect
 from myapp import app, mongo
 import bcrypt
 
-
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
@@ -65,3 +64,7 @@ def isLogged():
 def getUser():
     if isLogged():
         return mongo.db.users.find_one({'email' : session['email']})
+
+
+
+
