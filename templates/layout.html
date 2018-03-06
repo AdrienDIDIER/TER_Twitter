@@ -10,7 +10,6 @@
     <meta name="author" content="TweetoStatsCompany">
 
     <title>TweetoStats</title>
-
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -22,6 +21,17 @@
 </head>
 
 <body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Logo</a>
+             {% if 'email' in session %}
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href={{ url_for('logout') }}>Se
+                    déconnecter</a></li>
+            </ul>
+            {% endif %}
+        </div>
+    </nav>
 
     {% block body %}{% endblock %}
 

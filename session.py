@@ -1,5 +1,6 @@
-from flask import Flask, render_template, url_for, request, session, redirect
+from flask import Flask,jsonify, render_template, url_for, request, session, redirect
 from myapp import app, mongo
+import datetime
 from auth import getUser, isLogged
 
 
@@ -12,5 +13,6 @@ def addSession(mode=None):
         if isLogged():
             session_collection = mongo.db.sessions
             user_logged = getUser()
-            session_collection.insert({'user_id': user_logged['_id'], 'session_name': request.form['session_name']})
+            dateOfDay = datetime.datetime.now()
+            session_collection.insert({'user_id': user_logged['_id'], 'session_name': request.form['session_name'], 'start_date' : dateOfDay.strftime("%d-%m-%y-%H-%M-%S")})
             return "<h1>Session created</h1>"

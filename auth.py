@@ -30,6 +30,9 @@ def login():
             if bcrypt.checkpw(request.form['password'].encode('utf-8'), login_user['password']):
                 session['email'] = request.form['email']
                 return redirect(url_for('index'))
+            else:
+                return 'Invalid email/password combination'
+
         else:
             return 'Invalid email/password combination'
     else:
