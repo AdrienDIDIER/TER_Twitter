@@ -19,7 +19,7 @@ def index():
 
 @app.route('/filtered-results')
 def filtered():
-    filter("Nutella")
+    filter("Trump", None, True)
     return render_template('index.html')
 
 @app.route('/delete-all-tweets')
