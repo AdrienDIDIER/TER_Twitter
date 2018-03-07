@@ -1,6 +1,6 @@
 from myapp import mongo
 import json, bson
-
+import re, collections
 
 
 def stock_tweets(tweet):
