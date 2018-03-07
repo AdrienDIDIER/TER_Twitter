@@ -58,10 +58,11 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <i class="material-icons prefix">map</i>
-                            <input placeholder="France" id="region" type="text" class="validate">
+                            <input placeholder="France" name="geocode" id="region" type="text" class="validate">
                             <label for="region">Régions</label>
                         </div>
                     </div>
+                    <input name="mode" value="{{ mode }}" type="hidden">
                     <div class="row center">
                         <button class="btn waves-effect waves-light blue" type="submit">Récupérer les tweets
                             <i class="material-icons right">send</i>
