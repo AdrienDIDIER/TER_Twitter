@@ -7,12 +7,16 @@ class Stream(tweepy.StreamListener):
         with app.app_context():
             stock_tweets(status)
 
-def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None):
+def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None):
     if stream:
         stream = tweepy.Stream(auth = api.auth, listener = Stream())
         # stream.filter(track=[keywords], geocode=[])
         stream.filter(track=[keywords], async = True)
     else:
-        query = keywords + " since:" + startdate + " until:" + stopdate
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode = "extended", geocode=geocode, lang="fr").items(50):
+        query = keywords
+        if startdate is not None and stopdate is not None:
+            query = query + " since:" + startdate + " until:" + stopdate
+        if user is not None:
+            query = query + " from:@" + user
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang="fr").items(50):
             stock_tweets(tweet)
