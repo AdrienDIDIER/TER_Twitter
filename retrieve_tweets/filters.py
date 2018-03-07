@@ -14,5 +14,5 @@ def filter(keywords = None, geocode = None, stream = False, startdate = None, st
         stream.filter(track=[keywords], async = True)
     else:
         query = keywords + " since:" + startdate + " until:" + stopdate
-        for tweet in tweepy.Cursor(api.search, q=query, geocode=geocode, lang="fr").items(50):
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode = "extended", geocode=geocode, lang="fr").items(50):
             stock_tweets(tweet)

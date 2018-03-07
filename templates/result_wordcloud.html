@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div id='wordcloud'></div>
+    <script type="text/javascript">
+        var words = {{ words | tojson | safe }};
+    </script>
+{% endblock %}
