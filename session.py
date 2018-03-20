@@ -20,7 +20,7 @@ def addSession(mode=None):
 
             session['last_session'] = str(getSessionById(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
-                filter(request.form['keywords'], None, True)
+                filter(request.form['keywords'], request.form['geocode'], True, None, None, request.form['twitter_user'])
             elif request.form['mode'] == 'dated_tweets':
                     filter(request.form['keywords'],
                         user=request.form['twitter_user'],

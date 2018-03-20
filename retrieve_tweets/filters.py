@@ -5,13 +5,20 @@ from myapp import app
 class Stream(tweepy.StreamListener):
     def on_status(self, status):
         with app.app_context():
-            stock_tweets(status)
+            # stock_tweets(status)
+            print(status)
 
 def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None):
     if stream:
         stream = tweepy.Stream(auth = api.auth, listener = Stream())
-        # stream.filter(track=[keywords], geocode=[])
-        stream.filter(track=[keywords], async = True)
+        if user is not "":
+            keywords = keywords + " from:@" + user
+
+        if geocode is "":
+            stream.filter(track=[keywords])
+        elif keywords is "" and geocode is not "":
+            # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
+            stream.filter(locations=[float(s) for s in geocode.split(",")])
     else:
         query = keywords
         if startdate is not None and stopdate is not None:
