@@ -20,21 +20,21 @@
             <div class="row">
                 <form method="POST" action="{{ url_for('addSession') }}" class="col s12">
                     <div class="row">
-                        <div class="input-field col m6">
+                        <div class="input-field col s12 l6 m6">
                             <i class="material-icons prefix">short_text</i>
                             <input placeholder="MySessionName" id="session_name" type="text" class="validate"
-                                   name="session_name">
+                                   name="session_name" required>
                             <label for="session_name">Nom de la session</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="input-field col m6">
+                        <div class="input-field col s12 l6 m6">
                             <i class="material-icons prefix">search</i>
                             <input placeholder="Nutella" id="keywords" type="text" class="validate"
                                    name="keywords">
                             <label for="keywords">Mots clés</label>
                         </div>
-                        <div class="input-field col m6">
+                        <div class="input-field col s12 l6 m6">
                             <i class="material-icons prefix">account_circle</i>
                             <input placeholder="@realDonaldTrump" id="twitter_user" type="text" class="validate"
                                    name="twitter_user">
@@ -43,12 +43,12 @@
                     </div>
                     {% if mode =='dated_tweets' %}
                         <div class="row">
-                            <div class="input-field col m6">
+                            <div class="input-field col s12 l6 m6">
                                 <i class="material-icons prefix">date_range</i>
                                 <input id="start_date" type="text" name="start_date" class="datepicker">
                                 <label for="start_date">Date de début</label>
                             </div>
-                        <div class="input-field col m6">
+                        <div class="input-field col s12 l6 m6">
                                 <i class="material-icons prefix">date_range</i>
                                 <input id="start_date" type="text" name="start_date" class="datepicker">
                                 <label for="start_date">Date de fin</label>
@@ -56,10 +56,15 @@
                         </div>
                     {% endif %}
                     <div class="row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">map</i>
+                        <div class="input-field col s12 l6 m6">
+                            <i class="material-icons prefix">add_location</i>
                             <input placeholder="France" name="geocode" id="region" type="text" class="validate">
                             <label for="region">Régions</label>
+                        </div>
+                        <div class="input-field col s12 l6 m6">
+                            <i class="material-icons prefix">language</i>
+                            <input placeholder="fr" name="language" id="language" type="text" class="validate">
+                            <label for="language">Langue</label>
                         </div>
                     </div>
                     <input name="mode" value="{{ mode }}" type="hidden">
