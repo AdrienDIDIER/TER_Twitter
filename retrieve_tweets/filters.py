@@ -8,7 +8,7 @@ class Stream(tweepy.StreamListener):
             # stock_tweets(status)
             print(status)
 
-def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None):
+def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None, language = None):
     if stream:
         stream = tweepy.Stream(auth = api.auth, listener = Stream())
         if user is not "":
