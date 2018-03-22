@@ -6,6 +6,7 @@ class Stream(tweepy.StreamListener):
     def on_status(self, status):
         with app.app_context():
             print(status)
+            # stock_tweets(tweet)
 
 def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None,language = None):
     if stream:
