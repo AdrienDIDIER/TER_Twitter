@@ -4,12 +4,16 @@ from myapp import app
 
 class Stream(tweepy.StreamListener):
     def on_status(self, status):
-        with app.app_context():
-            print(status)
-            # stock_tweets(tweet)
+        if not stopStream():
+            with app.app_context():
+                print(status)
+                # stock_tweets(tweet)
+        else:
+            return False
 
 def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None,language = None):
     if stream:
+        session['stop_stream'] = False
         stream = tweepy.Stream(auth = api.auth, listener = Stream())
         if user is not "":
             user = getIdByUser(user)
@@ -26,6 +30,16 @@ def filter(keywords = None, geocode = None, stream = False, startdate = None, st
         for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang="fr").items(50):
             # stock_tweets(tweet)
             print(tweet)
+
+@app.route('/session/add/stream/stop')
+def stopStreamRequest():
+    session['stop_stream'] = True
+
+def stopStream():
+    if session['stop_stream'] is False:
+        return False
+    else:
+        return True
 
 def getIdByUser(userName):
      return api.get_user(userName).id_str
