@@ -16,21 +16,3 @@ def index():
         user = users.find_one({'email': session['email']})
         user_sessions = mongo.db.sessions.find({'user_id' : user['_id']})
     return render_template('index.html', userLogged=userLogged, user=user,user_sessions = user_sessions)
-
-
-@app.route('/filtered-results')
-def filtered():
-    filter("Jawad", startdate="2018-02-25", stopdate="2018-02-27")
-    return render_template('index.html')
-
-
-@app.route('/delete-all-tweets')
-def deleted():
-    delete_many_tweets()
-    return render_template('index.html')
-
-
-@app.route('/result-wordcloud')
-def wordcloud():
-    words = retrieve_all_tweets_text()
-    return render_template('result_wordcloud.html', words=words)

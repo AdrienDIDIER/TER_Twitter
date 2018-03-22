@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div id='wordcloud'></div>
     <script type="text/javascript">
-        var words = {{ words | tojson | safe }};
-    </script>
+
+        var keywords ={{ keywords | tojson }};
+    </script >
+{% endblock %}
+{% block script_d3 %}
+    <script src="{{ url_for('static', filename='d3/js/script-d3.js') }}"></script>
 {% endblock %}

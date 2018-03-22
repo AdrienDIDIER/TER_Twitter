@@ -2,6 +2,7 @@ from myapp import mongo
 import json, bson
 import re, collections
 from flask import session
+from stop_words import get_stop_words
 
 
 def stock_tweets(tweet):
@@ -30,11 +31,19 @@ def retrieve_all_tweets_text():
 
 
 def word_splitter(tweet_text):
+
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
     tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
+    pattern = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+    pattern.sub('', tweet_text)
     words = tweet_text.split(" ")
     new_words = []
+    stop_words = get_stop_words('fr') + get_stop_words('en')
+    for word in words:
+        if 'http' in word.lower() or word.lower() in stop_words:
+            words.remove(word)
     word_counter = collections.Counter(words)
     for word in word_counter:
-        new_words.append({'text': word, 'size': word_counter[word]})
+        if word_counter[word] >= 3:
+            new_words.append({'text': word, 'size': word_counter[word]})
     return new_words
