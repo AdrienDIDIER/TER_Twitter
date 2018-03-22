@@ -18,5 +18,5 @@ def filter(keywords = None, geocode = None, stream = False, startdate = None, st
             query = query + " since:" + startdate + " until:" + stopdate
         if user is not None:
             query = query + " from:@" + user
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang="fr").items(50):
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang="fr").items(100):
             stock_tweets(tweet)
