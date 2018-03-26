@@ -1,6 +1,7 @@
 from tweepy_auth import *
 from retrieve_tweets.tweets_collection import *
 from myapp import app
+from flask import render_template
 
 class Stream(tweepy.StreamListener):
     def on_status(self, status):
@@ -34,6 +35,7 @@ def filter(keywords = None, geocode = None, stream = False, startdate = None, st
 @app.route('/session/add/stream/stop')
 def stopStreamRequest():
     session['stop_stream'] = True
+    return render_template('session_create_form.html') # On devrait rien retourner (ou page vide) car Ajax
 
 def stopStream():
     if session['stop_stream'] is False:

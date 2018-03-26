@@ -17,3 +17,40 @@ locationFilter.on("change", function (e) {
 	var bounds = locationFilter.getBounds().toBBoxString();
     region_input.value = bounds;
 });
+
+/* Ajax Bouton start/stop */
+$(document).ready(function () {
+    $(document).on("click", '#start-stream_button', function () {
+        console.log("Start button appuyé");
+        var xhr = $.ajax({
+            url: '/session/add/stream',
+            data: $('form').serialize(),
+            type: 'POST',
+            async: true,
+
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+    $(document).on("click", '#stop-stream_button', function () {
+        console.log("Stop button appuyé");
+        $.ajax({
+            url: '/session/add/stream/stop',
+            data: '',
+            type: 'GET',
+            async: true,
+
+            success: function (response) {
+                console.log("Success stop")
+                //console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+});
