@@ -36,8 +36,6 @@ def addSession(mode=None):
             session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
                 return redirect(url_for('display_session', session_id=documentInserted))
-                # filter(request.form['keywords'], request.form['geocode'], True, None, None,
-                #        request.form['twitter_user'], request.form['language'])
             elif request.form['mode'] == 'dated_tweets':
                 filter(request.form['keywords'],
                        user=request.form['twitter_user'],
@@ -48,10 +46,13 @@ def addSession(mode=None):
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
+    current_session = getSessionByObjectId(ObjectId(session_id))
     if request.method == 'GET':
-        current_session = getSessionByObjectId(ObjectId(session_id))
         return render_template('session_interface.html', current_session=current_session)
-
+    if request.is_xhr: # Si la route est appelée via Ajax
+        if current_session['mode'] == "stream":
+            filter(current_session['params']['keywords'], current_session['params']['geocode'], True, None, None,
+                   current_session['params']['twitter_user'], current_session['params']['language'])
 
 def getSessionByObjectId(id):
     return mongo.db.sessions.find_one(id)

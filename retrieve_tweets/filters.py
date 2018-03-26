@@ -8,20 +8,20 @@ class Stream(tweepy.StreamListener):
         if not stopStream():
             with app.app_context():
                 print(status)
-                # stock_tweets(tweet)
+                # stock_tweets(status)
         else:
             return False
 
 def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None,language = None):
     if stream:
         session['stop_stream'] = False
-        stream = tweepy.Stream(auth = api.auth, listener = Stream())
+        stream_o = tweepy.Stream(auth = api.auth, listener = Stream())
         if user is not "":
             user = getIdByUser(user)
         if geocode is not "":
             # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
             geocode = [float(s) for s in geocode.split(",")]
-        stream.filter(locations=geocode, track=[keywords], languages=[language], follow=[user])
+        stream_o.filter(locations=geocode, track=[keywords], languages=[language], follow=[user])
     else:
         query = keywords
         if startdate is not None and stopdate is not None:
