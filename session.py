@@ -24,7 +24,7 @@ def addSession(mode=None):
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionById(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
-                filter(request.form['keywords'], None, True)
+                filter(request.form['keywords'], request.form['geocode'], True, None, None, request.form['twitter_user'], request.form['language'])
             elif request.form['mode'] == 'dated_tweets':
                 filter(request.form['keywords'],
                        user=request.form['twitter_user'],
@@ -32,11 +32,10 @@ def addSession(mode=None):
                        stopdate=request.form['stop_date'])
             return wordcloud()
 
+
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
     render_template('session_interface.html')
-
-
 
 def getSessionById(id):
     return mongo.db.sessions.find_one(id)
