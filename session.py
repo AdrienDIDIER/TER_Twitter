@@ -4,6 +4,7 @@ import datetime
 from auth import getUser, isLogged
 from retrieve_tweets.filters import filter
 from index import wordcloud
+from bson import ObjectId
 
 
 @app.route('/session/add/', methods=['POST', 'GET'])
@@ -31,9 +32,10 @@ def addSession(mode=None):
                  })  # Insertion du document session dans la collection session
 
             # Recuperation de l'id de la dernière session créée
-            session['last_session'] = str(getSessionById(documentInserted)['_id'])
+
+            session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
-                return redirect(url_for('display_session', session_id=session['last_session']))
+                return redirect(url_for('display_session', session_id=documentInserted))
                 # filter(request.form['keywords'], request.form['geocode'], True, None, None,
                 #        request.form['twitter_user'], request.form['language'])
             elif request.form['mode'] == 'dated_tweets':
@@ -47,8 +49,9 @@ def addSession(mode=None):
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
     if request.method == 'GET':
-        return render_template('session_interface.html')
+        current_session = getSessionByObjectId(ObjectId(session_id))
+        return render_template('session_interface.html', current_session=current_session)
 
 
-def getSessionById(id):
+def getSessionByObjectId(id):
     return mongo.db.sessions.find_one(id)
