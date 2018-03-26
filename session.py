@@ -32,6 +32,11 @@ def addSession(mode=None):
                        stopdate=request.form['stop_date'])
             return wordcloud()
 
+@app.route('/session/<session_id>', methods=['POST', 'GET'])
+def display_session(session_id=None):
+    render_template('session_interface.html')
+
+
 
 def getSessionById(id):
     return mongo.db.sessions.find_one(id)
