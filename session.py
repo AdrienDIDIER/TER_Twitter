@@ -24,6 +24,7 @@ def addSession(mode=None):
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionById(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
+                return redirect(url_for('display_session', session_id=session['last_session']))
                 filter(request.form['keywords'], request.form['geocode'], True, None, None, request.form['twitter_user'], request.form['language'])
             elif request.form['mode'] == 'dated_tweets':
                 filter(request.form['keywords'],
@@ -35,7 +36,8 @@ def addSession(mode=None):
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
-    render_template('session_interface.html')
+    if request.method=='GET':
+        return render_template('session_interface.html')
 
 def getSessionById(id):
     return mongo.db.sessions.find_one(id)
