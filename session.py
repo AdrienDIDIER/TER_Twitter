@@ -19,13 +19,23 @@ def addSession(mode=None):
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(
-                     "%d-%m-%y-%H-%M-%S")})  # Insertion du document session dans la collection session
+                     "%d-%m-%y-%H-%M-%S"), 'mode': request.form['mode'],
+                 'params': {
+                     'keywords': request.form['keywords'],
+                     'geocode': request.form['geocode'],
+                     'start_date': request.form['start_date'] if request.form['mode'] is 'dated_tweets' else None,
+                     'stop_date': request.form['stop_date'] if request.form['mode'] is 'dated_tweets' else None,
+                     'twitter_user': request.form['twitter_user'],
+                     'language': request.form['language']
+                 }
+                 })  # Insertion du document session dans la collection session
 
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionById(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
                 return redirect(url_for('display_session', session_id=session['last_session']))
-                filter(request.form['keywords'], request.form['geocode'], True, None, None, request.form['twitter_user'], request.form['language'])
+                # filter(request.form['keywords'], request.form['geocode'], True, None, None,
+                #        request.form['twitter_user'], request.form['language'])
             elif request.form['mode'] == 'dated_tweets':
                 filter(request.form['keywords'],
                        user=request.form['twitter_user'],
@@ -36,8 +46,9 @@ def addSession(mode=None):
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
-    if request.method=='GET':
+    if request.method == 'GET':
         return render_template('session_interface.html')
+
 
 def getSessionById(id):
     return mongo.db.sessions.find_one(id)
