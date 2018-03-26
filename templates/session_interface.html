@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col m3 l3 s6">
+                <h4>{{ current_session.session_name }}</h4>
+                <ul>
+                    <li>Date de création : {{ current_session.start_date }}</li>
+                    <li>Mode : {{ current_session.mode }}</li>
+                    {% for param in current_session.params %}
+                        {% if current_session.params[param] %}
+                        <li>{{ param }} : {{ current_session.params[param] }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{# Pour obtenir l'index on utilise object.index .Pour avoir la value on fait object[index] #}
