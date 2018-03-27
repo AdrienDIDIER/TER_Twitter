@@ -20,39 +20,31 @@ locationFilter.on("change", function (e) {
 
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
-    var xhr = new window.XMLHttpRequest();
     $(document).on("click", '#start-stream_button', function () {
-        console.log("START");
-        xhr = $.ajax({
+        $.ajax({
             url: '/session/' + $(this).attr('action-target'),
             data: $('form').serialize(),
             type: 'POST',
 
             success: function (response) {
-                console.log("Success START");
+                /**/
             },
             error: function (error) {
-                console.log("Error START");
+               /**/
             }
         });
     });
     $(document).on("click", '#stop-stream_button', function () {
-        console.log("STOP");
-        if(xhr !== null){
-            console.log("ABORT");
-            xhr.abort();
-        }
         $.ajax({
-            url: '/session/add/stream/stop',
+            url: '/session/stream/stop',
             data: '',
             type: 'GET',
-            async: true,
 
             success: function (response) {
-                console.log("Success STOP")
+                /**/
             },
             error: function (error) {
-                console.log("Error STOP")
+                /**/
             }
         });
     });

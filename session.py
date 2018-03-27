@@ -53,6 +53,7 @@ def display_session(session_id=None):
         if current_session['mode'] == "stream":
             filter(current_session['params']['keywords'], current_session['params']['geocode'], True, None, None,
                    current_session['params']['twitter_user'], current_session['params']['language'])
+            return render_template('session_interface.html', current_session=current_session)
 
 def getSessionByObjectId(id):
     return mongo.db.sessions.find_one(id)
