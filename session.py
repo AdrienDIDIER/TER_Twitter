@@ -3,7 +3,7 @@ from myapp import app, mongo
 import datetime
 from auth import getUser, isLogged
 from retrieve_tweets.filters import filter
-from retrieve_tweets.tweets_collection import delete_many_tweets, retrieve_all_tweets_text
+from retrieve_tweets.tweets_collection import delete_many_tweets, retrieve_all_tweets_text, retrieve_tweet_dates
 import json
 
 
@@ -21,8 +21,9 @@ def test(keywords):
 @app.route('/result-wordcloud/<keywords>')
 def wordcloud(keywords):
     filter(keywords=keywords)
+    freq_per_date = retrieve_tweet_dates()
     words = retrieve_all_tweets_text()
-    return json.dumps(words)
+    return json.dumps(words), json.dumps(freq_per_date)
 
 @app.route('/session/add/', methods=['POST', 'GET'])
 @app.route('/session/add/<mode>', methods=['POST', 'GET'])
@@ -43,7 +44,7 @@ def addSession(mode=None):
             session['last_session'] = str(getSessionById(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
                 filter(request.form['keywords'], None, True)
-            return redirect(url_for('wordcloud', keywords=request.form['keywords']))
+            return redirect(url_for('test', keywords=request.form['keywords']))
 
 
 def getSessionById(id):

@@ -3,7 +3,7 @@ import json, bson
 import re, collections
 from flask import session
 from stop_words import get_stop_words
-
+import datetime, pytz, time
 
 def stock_tweets(tweet):
     tweets_table = mongo.db.tweets
@@ -39,11 +39,42 @@ def word_splitter(tweet_text):
     words = tweet_text.split(" ")
     new_words = []
     stop_words = get_stop_words('fr') + get_stop_words('en')
+    print(stop_words)
     for word in words:
-        if 'http' in word.lower() or word.lower() in stop_words:
+        if word.lower() in stop_words or 'RT' in word.lower():
             words.remove(word)
     word_counter = collections.Counter(words)
     for word in word_counter:
         if word_counter[word] >= 3:
             new_words.append({'text': word, 'size': word_counter[word]})
     return new_words
+
+def retrieve_tweet_dates():
+    tweets_table = mongo.db.tweets;
+    buffer = []
+    for tweet in tweets_table.find():
+        buffer.append(bson.BSON.decode(tweet['tweet_object']))
+    date_buffer = []
+    for tweet in buffer:
+        date_buffer.append(tweet['created_at'])
+    return date_to_int(date_buffer)
+
+
+def date_to_int(tweet_dates):
+    buffer = []
+    for date in tweet_dates:
+        d = datetime.datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
+        buffer.append(time.mktime(d.timetuple()))
+    start_date = int(min(buffer))
+    stop_date = int(max(buffer))
+    print(len(buffer))
+    freq = [0]*len(buffer)
+    print(len(freq))
+    index = 0
+    for x in range(start_date,stop_date,10):
+        for i in range(len(buffer)):
+            if buffer[i] >= float(x) and buffer[i] <= float(x+10):
+                freq[index] = freq[index] + 1
+        index = index + 1
+    return freq
+
