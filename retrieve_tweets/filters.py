@@ -15,6 +15,8 @@ class Stream(tweepy.StreamListener):
 
 def filter(keywords = None, geocode = None, stream = False, startdate = None, stopdate = None, user = None,language = None):
     if stream:
+        global stream_stop
+        stream_stop = False
         stream_o = tweepy.Stream(auth = api.auth, listener = Stream())
         if user is not "":
             user = getIdByUser(user)
