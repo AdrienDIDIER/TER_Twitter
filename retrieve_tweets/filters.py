@@ -1,6 +1,6 @@
 from tweepy_auth import *
 from retrieve_tweets.tweets_collection import *
-from myapp import app
+from myapp import *
 
 class Stream(tweepy.StreamListener):
     def on_status(self, status):

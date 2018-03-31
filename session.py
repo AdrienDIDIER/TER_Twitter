@@ -2,8 +2,8 @@ from flask import Flask, jsonify, render_template, url_for, request, session, re
 from myapp import app, mongo
 import datetime
 from auth import getUser, isLogged
-from retrieve_tweets.filters import filter
-from index import wordcloud
+from retrieve_tweets.filters import *
+from index import *
 from bson import ObjectId
 
 
