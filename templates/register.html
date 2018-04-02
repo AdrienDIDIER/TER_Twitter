@@ -2,10 +2,10 @@
 {% block body %}
     <div class="container">
         <div class="row center">
-            <h2> Formulaire d'inscription</h2>
+            <h2>Lancez-vous</h2>
         </div>
         {% if error == True %}
-             {# TODO mettre un toast materialize à la place #}
+            {# TODO mettre un toast materialize à la place #}
             <script>window.alert("Echec de la connexion à l'API")</script>
         {% endif %}
         <div class="row">
@@ -63,9 +63,15 @@
                     </fieldset>
                 </div>
                 <div class="row center">
-                    <button class="btn waves-effect waves-light  blue darken-2" type="submit">S'inscrire
-                        <i class="material-icons right">send</i>
-                    </button>
+                    <div class="col s12 m6 l6">
+                        <a class="waves-effect waves-light btn blue darken-2" href={{ url_for('index') }}><i
+                                class="material-icons left">home</i>Page d'accueil</a>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <button class="btn waves-effect waves-light  blue darken-2" type="submit">Envoyer
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

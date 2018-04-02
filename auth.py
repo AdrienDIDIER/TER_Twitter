@@ -64,7 +64,7 @@ def changeAPIAuth(consumer_key,consumer_secret,access_token,access_token_secret)
     # Test if authenfication worked, else return tweepy.error.TweepError
     print(api.me())
 
-    
+
 @app.route('/logout')
 def logout():
     session.pop('email', None)

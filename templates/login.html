@@ -1,14 +1,14 @@
- {% extends "layout.html" %}
+{% extends "layout.html" %}
 {% block body %}
     <div class="container ">
 
         <div class="row center ">
-            <h2>Connexion</h2>
+            <h2>Connectez-vous</h2>
         </div>
 
         <div class="row">
             <form method="POST" action="{{ url_for('login') }}" class="col s12">
-                 <div class="row">
+                <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix">email</i>
                         <input id="email" type="email" class="validate" name="email">
@@ -23,11 +23,17 @@
                     </div>
                 </div>
                 <div class="row center">
-                    <button class="btn waves-effect waves-light  blue darken-2" type="submit">S'inscrire
-                        <i class="material-icons right">send</i>
-                    </button>
+                    <div class="col s12 m6 l6">
+                       <a class="waves-effect waves-light btn blue darken-2" href={{ url_for('index') }}><i class="material-icons left">home</i>Page d'accueil</a>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <button class="btn waves-effect waves-light  blue darken-2" type="submit">Connexion
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
                 </div>
-            </form>
         </div>
+        </form>
+    </div>
     </div>
 {% endblock %}
