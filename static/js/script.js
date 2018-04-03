@@ -22,6 +22,8 @@ if(document.getElementById('map') != null){
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
     $(document).on("click", '#start-stream_button', function () {
+        $(this).prop("disabled", true);
+        $('#stop-stream_button').prop("disabled", false);
         $.ajax({
             url: '/session/' + $(this).attr('action-target'),
             data: $('form').serialize(),
@@ -36,6 +38,8 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", '#stop-stream_button', function () {
+        $(this).attr("disabled", "disabled");
+        $('#start-stream_button').prop("disabled", false);
         $.ajax({
             url: '/session/stream/stop',
             data: '',
