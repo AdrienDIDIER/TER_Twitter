@@ -1,6 +1,6 @@
 from tweepy_auth import *
 from retrieve_tweets.tweets_collection import *
-from myapp import app
+from myapp import *
 from flask import render_template
 
 stream_stop = False # Variable globale pour permettre le partage de la variable entre les 2 threads.
