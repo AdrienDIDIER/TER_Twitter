@@ -8,8 +8,8 @@ stream_stop = False # Variable globale pour permettre le partage de la variable 
 class Stream(tweepy.StreamListener):
     def on_status(self, status):
         if not stream_stop:
-            print(status)
-            # stock_tweets(status)
+            # print(status)
+            stock_tweets(status)
         else:
             return False
 
@@ -23,7 +23,7 @@ def filter(keywords = None, geocode = None, stream = False, startdate = None, st
         if geocode is not "":
             # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
             geocode = [float(s) for s in geocode.split(",")]
-        stream_o.filter(locations=geocode, track=[keywords], languages=[language], follow=[user], async=True)
+        stream_o.filter(locations=geocode, track=[keywords], languages=[language], follow=[user])
     else:
         query = keywords
         if startdate is not None and stopdate is not None:
