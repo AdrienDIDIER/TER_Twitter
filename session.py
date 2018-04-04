@@ -55,5 +55,16 @@ def display_session(session_id=None):
                    current_session['params']['twitter_user'], current_session['params']['language'])
             return render_template('session_interface.html', current_session=current_session)
 
+@app.route('/session/close/<session_id>')
+def close_session(session_id=None):
+    current_session = getSessionByObjectId(ObjectId(session_id))
+    dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
+    mongo.db.sessions.update_one({'_id': current_session['_id']}, {'$set': {
+        'last_modification_date': dateOfDay.strftime(
+                     "%d-%m-%y-%H-%M-%S")
+    }})
+    return redirect(url_for('index'))
+
+
 def getSessionByObjectId(id):
     return mongo.db.sessions.find_one(id)

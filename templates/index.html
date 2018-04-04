@@ -1,21 +1,32 @@
 {% extends "layout.html" %}
 {% block body %}
     {% if userLogged %}
-        <div class="row center">
-            <h3>Bonjour, {{ user.first_name }}</h3>
+        <div class="row container">
+            <h3 class="left"><i>Bonjour, {{ user.first_name }}</i></h3>
         </div>
-        <div class="row">
-            <div class=" col m6 center container">
-                <h4>Mes sessions </h4>
-                <ul>
-                    {% for s in user_sessions %}
-                        <li><h5>{{ s.session_name }} {{ s.st }}</h5></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class=" col m6 center ">
+        <div class="row container">
+            <div class=" col m12 center ">
                 <a class="waves-effect waves-light btn blue darken-2" href={{ url_for('addSession') }}><i
-                                class="material-icons right">add_circle</i> Nouvelle session</a>
+                        class="material-icons right">add_circle</i> Nouvelle session</a>
+            </div>
+        </div>
+        <div class="row container">
+            <div class="col m12 center grey lighten-4 z-depth-3">
+                {% if sessionAmount == 0 %}
+                    <h4>Aucune session pour le moment</h4>
+                {% else %}
+                    <h4>Mes sessions </h4>
+                    <div class="divider"></div>
+                    <p>
+                        {% for s in user_sessions %}
+                            <a class="sessionLink" href="{{ url_for('display_session',session_id=s._id) }}">
+                            <h5>{{ s.session_name }} </h5>
+                            {% if s.last_modification_date %}<i>dernière modification le {{ s.last_modification_date }}</i>  {% endif %}
+                            <div class="divider"></div>
+                            </a>
+                        {% endfor %}
+                    </p>
+                {% endif %}
             </div>
         </div>
     {% else %}

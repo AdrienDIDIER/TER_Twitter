@@ -69,7 +69,3 @@ function refresh_number_tweets(){
         });
     });
 }
-
-function toast(text) {
-	 return M.toast(text, 4000)
-}
