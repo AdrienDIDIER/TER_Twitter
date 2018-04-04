@@ -5,15 +5,13 @@ from flask import render_template
 
 stream_stop = False  # Variable globale pour permettre le partage de la variable entre les 2 threads.
 
-
 class Stream(tweepy.StreamListener):
     def on_status(self, status):
         if not stream_stop:
-            print(status)
-            # stock_tweets(status)
+            # print(status)
+            stock_tweets(status)
         else:
             return False
-
 
 def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=None, user=None, language=None):
     if stream:
@@ -35,13 +33,11 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
         for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang="fr").items(50):
             print(tweet)
 
-
 @app.route('/session/stream/stop')
 def stopStream():
     global stream_stop
     stream_stop = True
     return render_template('session_create_form.html')  # On devrait rien retourner (ou page vide) car Ajax
-
 
 def getIdByUser(userName):
     return api.get_user(userName).id_str
