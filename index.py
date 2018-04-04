@@ -11,11 +11,13 @@ def index():
     userLogged = isLogged()
     user = None
     user_sessions = None
+    sessionAmount = None
     if userLogged:
         users = mongo.db.users
         user = users.find_one({'email': session['email']})
         user_sessions = mongo.db.sessions.find({'user_id' : user['_id']})
-    return render_template('index.html', userLogged=userLogged, user=user,user_sessions = user_sessions)
+        sessionAmount= user_sessions.count()
+    return render_template('index.html', userLogged=userLogged, user=user,user_sessions = user_sessions, sessionAmount = sessionAmount)
 
 
 @app.route('/filtered-results')

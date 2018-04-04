@@ -54,12 +54,3 @@ $(document).ready(function () {
         });
     });
 });
-
-locationFilter.on("change", function (e) {
-	var bounds = locationFilter.getBounds().toBBoxString();
-  region_input.value = bounds;
-});
-
-function toast(text) {
-	 return M.toast(text, 4000)
-}

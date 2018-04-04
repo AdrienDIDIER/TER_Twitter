@@ -1,24 +1,42 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col m3 l3 s6">
-                <h4>{{ current_session.session_name }}</h4>
-                <ul>
-                    <li>Date de création : {{ current_session.start_date }}</li>
-                    <li>Mode : {{ current_session.mode }}</li>
-                    {% for param in current_session.params %}
-                        {% if current_session.params[param] %}
-                        <li>{{ param }} : {{ current_session.params[param] }}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-                {% if current_session.mode == "stream" %}
-                    <button id="start-stream_button" action-target="{{ current_session._id }}" class="btn waves-effect waves-light green">Start</button>
-                    <button id="stop-stream_button" class="btn waves-effect waves-light red" disabled>Stop</button>
-                {% endif %}
+    <div class="row">
+        <div class="querryRecap col m3 l3 s6 grey lighten-4 z-depth-3">
+            <h4>{{ current_session.session_name }}</h4>
+            <div class="divider"></div>
+            <div class="section">
+                <h5><i>Date de création</i></h5>
+                <p>{{ current_session.start_date }}</p>
             </div>
+            <div class="divider"></div>
+            <div class="section">
+                <h5><i>Mode</i></h5>
+                <p> {{ current_session.mode }}</p>
+                <div class="divider"></div>
+                {% for param in current_session.params %}
+                    {% if current_session.params[param] and param!='geocode' %}
+                        <div class="section">
+                            <h5><i>{{ param }}</i></h5>
+                            <p>{{ current_session.params[param] }}</p>
+                        </div>
+                        <div class="divider"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% if current_session.mode == "stream" %}
+                <div class=" row center">
+                    <button id="start-stream_button" action-target="{{ current_session._id }}"
+                            class="btn waves-effect waves-light green">Start
+                    </button>
+                    <button id="stop-stream_button" class="btn waves-effect waves-light red" disabled>Stop</button>
+                </div>
+            {% endif %}
         </div>
+        <div class="right">
+            <a class="btn waves-effect waves-light red " href="{{ url_for('close_session', session_id=current_session['_id'])}}" id="closeSessionBtn"><i class="material-icons right">close</i>Fermer la session</a>
+        </div>
+    </div>
+    <div class="container">
     </div>
 {% endblock %}
 
