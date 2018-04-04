@@ -17,13 +17,13 @@
 
     function draw(words) {
 
-        d3.select("body").selectAll("svg").selectAll("g")
+        d3.select("#wordcloud").selectAll("svg").selectAll("g")
             .transition()
             .duration(1000)
             .style("opacity", 1e-6)
             .remove();
 
-        d3.select("body").selectAll("svg")
+        d3.select("#wordcloud").selectAll("svg")
             .append("g")
             .attr("transform", "translate(300,300)")
             .selectAll("text")
@@ -57,6 +57,6 @@
     };
 
     get_words();
-    d3.select("body").append("svg")
+    d3.select("#wordcloud").append("svg")
         .attr("width", 600)
         .attr("height", 600)

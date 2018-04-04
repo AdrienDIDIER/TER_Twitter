@@ -3,7 +3,7 @@ from myapp import app, mongo
 import datetime
 from auth import getUser, isLogged
 from retrieve_tweets.filters import filter
-from retrieve_tweets.tweets_collection import delete_many_tweets, retrieve_all_tweets_text, retrieve_tweet_dates
+from retrieve_tweets.tweets_collection import delete_many_tweets, retrieve_all_tweets_text, retrieve_tweet_dates, retrieve_tweets_by_date
 import json
 
 
@@ -13,17 +13,21 @@ def deleted():
     return render_template('index.html')
 
 
+@app.route('/result-wordcloud/<start_date>/<stop_date>')
+def get_little_wordcloud(start_date,stop_date):
+    words = retrieve_tweets_by_date(start_date, stop_date)
+    return json.dumps(words);
 
 @app.route('/test/<keywords>')
 def test(keywords):
-    return render_template('result_wordcloud.html', keywords=keywords)
+    filter(keywords=keywords)
+    freq_per_date = retrieve_tweet_dates()
+    return render_template('result_wordcloud.html', keywords=keywords, freq_per_date=freq_per_date)
 
 @app.route('/result-wordcloud/<keywords>')
 def wordcloud(keywords):
-    filter(keywords=keywords)
-    freq_per_date = retrieve_tweet_dates()
     words = retrieve_all_tweets_text()
-    return json.dumps(words), json.dumps(freq_per_date)
+    return json.dumps(words)
 
 @app.route('/session/add/', methods=['POST', 'GET'])
 @app.route('/session/add/<mode>', methods=['POST', 'GET'])
