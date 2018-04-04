@@ -13,6 +13,10 @@
                         {% endif %}
                     {% endfor %}
                 </ul>
+                {% if current_session.mode == "stream" %}
+                    <button id="start-stream_button" action-target="{{ current_session._id }}" class="btn waves-effect waves-light green">Start</button>
+                    <button id="stop-stream_button" class="btn waves-effect waves-light red" disabled>Stop</button>
+                {% endif %}
             </div>
         </div>
     </div>

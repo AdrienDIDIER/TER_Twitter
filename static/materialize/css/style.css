@@ -41,3 +41,7 @@ nav{
   height: 250px;
   width: 250px;
 }
+
+.icon-block i{
+    color: #1976d2;
+}
