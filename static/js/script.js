@@ -53,12 +53,22 @@ $(document).ready(function () {
             }
         });
     });
+
+    window.setInterval(function () {
+        if($('#start-stream_button').is(":disabled")){
+            refresh_number_tweets();
+        }
+    }, 1000);
 });
 
-locationFilter.on("change", function (e) {
-	var bounds = locationFilter.getBounds().toBBoxString();
-  region_input.value = bounds;
-});
+function refresh_number_tweets(){
+    var target = $('#div_number_of_tweets');
+    target.load(' #div_number_of_tweets', function () {
+        target.fadeOut(1, function () {
+            target.fadeIn(500);
+        });
+    });
+}
 
 function toast(text) {
 	 return M.toast(text, 4000)

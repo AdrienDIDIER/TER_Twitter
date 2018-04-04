@@ -1,4 +1,4 @@
-from myapp import mongo
+from myapp import mongo, app
 import json, bson
 import re, collections
 from flask import session
@@ -17,6 +17,11 @@ def delete_many_tweets(key = None, value = None):
         results = tweets_table.delete_many({})# Delete all from the collection
     print(results.deleted_count)
 
+def tweets_by_session_id(session_id):
+    return mongo.db.tweets.find({'session_id': session_id})
+
+def count_number_of_tweets(session_id):
+    return tweets_by_session_id(session_id).count()
 
 def retrieve_all_tweets_text():
     tweets_table = mongo.db.tweets

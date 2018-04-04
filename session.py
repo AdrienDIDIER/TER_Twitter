@@ -48,7 +48,7 @@ def addSession(mode=None):
 def display_session(session_id=None):
     current_session = getSessionByObjectId(ObjectId(session_id))
     if request.method == 'GET':
-        return render_template('session_interface.html', current_session=current_session)
+        return render_template('session_interface.html', current_session=current_session, number_of_tweets = count_number_of_tweets(session_id))
     if request.is_xhr: # Si la route est appelée via Ajax
         if current_session['mode'] == "stream":
             filter(current_session['params']['keywords'], current_session['params']['geocode'], True, None, None,
