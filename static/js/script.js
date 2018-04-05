@@ -40,6 +40,7 @@ $(document).ready(function () {
     $(document).on("click", '#stop-stream_button', function () {
         $(this).attr("disabled", "disabled");
         $('#start-stream_button').prop("disabled", false);
+        refresh_number_tweets();
         $.ajax({
             url: '/session/stream/stop',
             data: '',
