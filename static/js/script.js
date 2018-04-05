@@ -1,7 +1,7 @@
 /* Area location filter */
 if(document.getElementById('map') != null){
     var map = L.map('map');
-    map.setView([43.6109200, 3.8772300], 13);
+    map.setView([45.5, 2], 4);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
