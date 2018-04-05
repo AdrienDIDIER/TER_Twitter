@@ -92,7 +92,7 @@ L.Control.ButtonContainer = L.Control.extend({
 });
 
 L.LocationFilter = L.Layer.extend({
-    includes: L.Mixin.Events,
+    includes: L.Evented,
 
     options: {
         enableButton: {
