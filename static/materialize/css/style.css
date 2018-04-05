@@ -62,3 +62,9 @@ nav{
 .icon-block i{
     color: #1976d2;
 }
+
+/* Liens de la map */
+#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div{
+    background-color: #eeeeeeb0;
+    display: inline-grid;
+}
