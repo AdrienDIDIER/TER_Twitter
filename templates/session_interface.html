@@ -32,8 +32,13 @@
                 </div>
             {% endif %}
         </div>
-        <div class="right">
-            <a class="btn waves-effect waves-light red " href="{{ url_for('close_session', session_id=current_session['_id'])}}" id="closeSessionBtn"><i class="material-icons right">close</i>Fermer la session</a>
+        <div class="col m9 l9 s6">
+            <a class="btn waves-effect waves-light orange right btnSession "
+               href="{{ url_for('close_session', session_id=current_session['_id']) }}"><i
+                    class="material-icons right">close</i>Fermer la session</a>
+            <!-- Modal Trigger -->
+            <a class="right waves-effect waves-light red btn modal-trigger btnSession" href="#modal1"><i
+                    class="material-icons right">delete</i>Supprimer la session</a>
         </div>
         <div class="col m4 l4 s6 center">
             <h5>
@@ -41,8 +46,19 @@
             </h5>
         </div>
     </div>
-    <div class="container">
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Supprimer votre session ?</h4>
+            <p>Vous êtes sur le point de supprimer votre session, toutes les données seront perdues. Confirmez-vous sa suppression ?</p>
+        </div>
+        <div class="modal-footer">
+            <a href="{{ url_for('delete_session', session_id=current_session['_id']) }}" class="modal-action modal-close waves-effect waves-green btn-flat">Supprimer</a>
+            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
+        </div>
     </div>
+
 {% endblock %}
 
 {# Pour obtenir l'index on utilise object.index .Pour avoir la value on fait object[index] #}

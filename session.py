@@ -48,12 +48,14 @@ def addSession(mode=None):
 def display_session(session_id=None):
     current_session = getSessionByObjectId(ObjectId(session_id))
     if request.method == 'GET':
-        return render_template('session_interface.html', current_session=current_session, number_of_tweets = count_number_of_tweets(session_id))
-    if request.is_xhr: # Si la route est appelée via Ajax
+        return render_template('session_interface.html', current_session=current_session,
+                               number_of_tweets=count_number_of_tweets(session_id))
+    if request.is_xhr:  # Si la route est appelée via Ajax
         if current_session['mode'] == "stream":
             filter(current_session['params']['keywords'], current_session['params']['geocode'], True, None, None,
                    current_session['params']['twitter_user'], current_session['params']['language'])
             return render_template('session_interface.html', current_session=current_session)
+
 
 @app.route('/session/close/<session_id>')
 def close_session(session_id=None):
@@ -61,8 +63,15 @@ def close_session(session_id=None):
     dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
     mongo.db.sessions.update_one({'_id': current_session['_id']}, {'$set': {
         'last_modification_date': dateOfDay.strftime(
-                     "%d-%m-%y-%H-%M-%S")
+            "%d-%m-%y-%H-%M-%S")
     }})
+    return redirect(url_for('index'))
+
+
+@app.route('/session/delete/<session_id>')
+def delete_session(session_id=None):
+    current_session = getSessionByObjectId(ObjectId(session_id))
+    mongo.db.sessions.delete_one({'_id': current_session['_id']})
     return redirect(url_for('index'))
 
 

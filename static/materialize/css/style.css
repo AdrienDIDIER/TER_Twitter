@@ -42,7 +42,7 @@ nav{
     color: #1976d2 !important;
 }
 
-#closeSessionBtn{
+.btnSession{
     margin: 8px;
 }
 .part {
