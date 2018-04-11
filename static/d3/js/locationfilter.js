@@ -40,6 +40,7 @@ L.Control.Button = L.Class.extend({
         var that = this;
         this._onClick = function(event) {
             that.options.onClick.call(that, event);
+            document.getElementById("region").value = locationFilter.getBounds().toBBoxString();
         };
 
         L.DomEvent
@@ -92,17 +93,17 @@ L.Control.ButtonContainer = L.Control.extend({
 });
 
 L.LocationFilter = L.Layer.extend({
-    includes: L.Mixin.Events,
+    includes: L.Evented,
 
     options: {
         enableButton: {
-            enableText: "Select area",
-            disableText: "Remove selection"
+            enableText: "Sélectionner une zone",
+            disableText: "Supprimer la sélection"
         },
         adjustButton: {
-            text: "Select area within current zoom"
+            text: "Sélectionner une zone sur ce zoom"
         },
-        buttonPosition: 'topleft'
+        buttonPosition: 'bottomleft'
     },
 
     initialize: function(options) {

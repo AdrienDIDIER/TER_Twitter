@@ -47,6 +47,7 @@ def addSession(mode=None):
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
     current_session = getSessionByObjectId(ObjectId(session_id))
+    session['last_session'] = session_id
     if request.method == 'GET':
         return render_template('session_interface.html', current_session=current_session,
                                number_of_tweets=count_number_of_tweets(session_id))
