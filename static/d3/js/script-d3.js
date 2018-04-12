@@ -52,6 +52,6 @@ function draw(words, divElement) {
             return d.text;
         });
 }
-d3.json("http://127.0.0.1:5000/result-wordcloud/" + keywords, function (json) {
+d3.json("http://127.0.0.1:5000/result-wordcloud/", function (json) {
     mycloud.stop().words(json).start().on("end", draw(json, "wordcloud"));
 });
