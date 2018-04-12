@@ -6,14 +6,28 @@
                 <h2>Quel type de tweets souhaitez-vous ?</h2>
             </div>
             <div class="row">
-                <div class="col m6 center">
-                    <a class="waves-effect waves-light btn blue" href={{ url_for('addSession',mode='stream') }}>Tweets en direct
-                    <i class="material-icons left">play_circle_outline</i></a>
+                <div class="col s12 m4 l4 center">
+                    <a class="waves-effect waves-light btn-large blue darken-2" href={{ url_for('addSession',mode='stream') }}>Tweets
+                        en direct
+                        <i class="material-icons left">play_circle_outline</i></a>
                 </div>
-                <div class="col m6 center">
-                    <a class="waves-effect waves-light btn blue"
+                <div class="col s12 m4 l4 center">
+                    <a class="waves-effect waves-light btn-large blue darken-2"
                        href={{ url_for('addSession',mode='dated_tweets') }}>Tweets passés
-                    <i class="material-icons left">date_range</i></a>
+                        <i class="material-icons left">date_range</i></a>
+                </div>
+                <div class="col s12 m4 l4 center">
+                    <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+                        <div class="file-field input-field">
+                            <button class="btn-large waves-effect waves-light blue darken-2" type="submit"><i class="material-icons left">file_upload</i>
+                                Tweets importés
+                            </button>
+                            <input type="file" name="json" required>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -65,7 +79,8 @@
                     <div class="row">
                         <div class="input-field col s12 l6 m6">
                             <i class="material-icons prefix">add_location</i>
-                            <input placeholder="3.78300108, 43.54854151, 3.97065725, 43.67333749 " name="geocode" id="region" type="text" class="validate">
+                            <input placeholder="3.78300108, 43.54854151, 3.97065725, 43.67333749 " name="geocode"
+                                   id="region" type="text" class="validate">
                             <label for="region">Régions</label>
                             <div id="map"></div>
                         </div>

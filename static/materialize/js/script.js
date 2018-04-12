@@ -13,7 +13,13 @@ $('.datepicker').pickadate({
     weekdaysLetter: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
     today: 'Aujourd\'hui',
     clear: 'Réinitialiser',
-    close: 'Fermer',
     format: 'yyyy-mm-dd',
+    onSet: function () {
+      $('.picker__close').click();
+    }
 });
 
+ $(document).ready(function(){
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+  });
