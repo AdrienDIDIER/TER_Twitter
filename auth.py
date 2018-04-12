@@ -77,7 +77,3 @@ def isLogged():
 def getUser():
     if isLogged():
         return mongo.db.users.find_one({'email': session['email']})
-
-def getUserByObjectId(object_id):
-    return mongo.db.users.find_one(object_id)
-

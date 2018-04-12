@@ -42,7 +42,7 @@ nav{
     color: #1976d2 !important;
 }
 
-.btnSession{
+#closeSessionBtn{
     margin: 8px;
 }
 .part {
@@ -67,8 +67,4 @@ nav{
 #map > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div{
     background-color: #eeeeeeb0;
     display: inline-grid;
-}
-
-.input-field{
-    margin-top: 0;
 }

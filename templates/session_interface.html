@@ -9,13 +9,6 @@
                 <p>{{ current_session.start_date }}</p>
             </div>
             <div class="divider"></div>
-            {% if current_session.exporter_user %}
-                <div class="section">
-                    <h5><i>Session exportée par</i></h5>
-                    <p>{{ current_session.exporter_user }}</p>
-                </div>
-                <div class="divider"></div>
-            {% endif %}
             <div class="section">
                 <h5><i>Mode</i></h5>
                 <p> {{ current_session.mode }}</p>
@@ -31,41 +24,26 @@
                 {% endfor %}
             </div>
             <div class="row center">
-                {% if current_session.mode == "stream" %}
+            {% if current_session.mode == "stream" %}
                     <button id="start-stream_button" action-target="{{ current_session._id }}"
                             class="btn waves-effect waves-light green">Start
                     </button>
                     <button id="stop-stream_button" class="btn waves-effect waves-light red" disabled>Stop</button>
-                {% else %}
-                    <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
+            {% else %}
+                <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
                             class="btn waves-effect waves-light green">Start
-                    </button>
-                {% endif %}
-            </div>
-            <div class="row center" id="div_download_btn">
-                {% if number_of_tweets != 0 %}
-                    <a class="waves-effect waves-light  blue darken-2 btn modal-trigger" id="download_btn"
-                       href="{{ url_for('download_file') }}"><i
-                            class="material-icons right">file_download</i>Télécharger</a>
-                {% endif %}
+                </button>
+            {% endif %}
             </div>
         </div>
-        <div class="col m9 l9 s6">
-            <a class="btn waves-effect waves-light orange right btnSession "
-               href="{{ url_for('close_session') }}"><i
-                    class="material-icons right">close</i>Fermer la session</a>
-            <!-- Modal Trigger -->
-            <a class="right waves-effect waves-light red btn modal-trigger btnSession" href="#modal1"><i
-                    class="material-icons right">delete</i>Supprimer la session</a>
+        <div class="right">
+            <a class="btn waves-effect waves-light red " href="{{ url_for('close_session', session_id=current_session['_id'])}}" id="closeSessionBtn"><i class="material-icons right">close</i>Fermer la session</a>
         </div>
         <div class="col m4 l4 s6 center">
             <h5>
                 <span id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></span> tweets récupérés.
             </h5>
-            <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
-                style="display: none" {% endif %}
-                class="preloader-wrapper big active"
-                id="loading_circle">
+            <div {% if number_of_tweets == 0 or current_session.mode == "stream" %} style="display: none" {% endif %} class="preloader-wrapper big active" id="loading_circle">
                 <div class="spinner-layer spinner-blue-only">
                     <div class="circle-clipper left">
                         <div class="circle"></div>
@@ -81,21 +59,7 @@
             <div id="wordcloud"></div>
         </div>
     </div>
-
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Supprimer votre session ?</h4>
-            <p>Vous êtes sur le point de supprimer votre session, toutes les données seront perdues. Confirmez-vous
-                sa
-                suppression ?</p>
-        </div>
-        <div class="modal-footer">
-            <a href="{{ url_for('delete_session') }}"
-               class="modal-action modal-close waves-effect waves-green btn-flat">Supprimer</a>
-            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
-        </div>
-    </div>
+    <div class="container">
     </div>
 {% endblock %}
 
