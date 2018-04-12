@@ -1,3 +1,5 @@
 database.py
 .idea
 tweepy_auth.py
+venv
+__pycache__
