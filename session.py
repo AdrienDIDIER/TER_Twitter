@@ -1,10 +1,12 @@
-from flask import Flask, jsonify, render_template, url_for, request, session, redirect
+from flask import Flask, jsonify, render_template, url_for, request, session, redirect, send_file, Response
 from myapp import app, mongo
 import datetime
-from auth import getUser, isLogged
+from auth import getUser, isLogged, getUserByObjectId
 from retrieve_tweets.filters import *
 from index import *
-from bson import ObjectId
+from bson import ObjectId, Binary, Code, BSON
+from bson.json_util import dumps
+import json
 
 
 @app.route('/session/add/', methods=['POST', 'GET'])
@@ -32,7 +34,6 @@ def addSession(mode=None):
                  })  # Insertion du document session dans la collection session
 
             # Recuperation de l'id de la dernière session créée
-
             session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
             if request.form['mode'] == 'stream':
                 return redirect(url_for('display_session', session_id=documentInserted))
@@ -58,22 +59,63 @@ def display_session(session_id=None):
             return render_template('session_interface.html', current_session=current_session)
 
 
-@app.route('/session/close/<session_id>')
-def close_session(session_id=None):
-    current_session = getSessionByObjectId(ObjectId(session_id))
+@app.route('/session/close/')
+def close_session():
     dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
-    mongo.db.sessions.update_one({'_id': current_session['_id']}, {'$set': {
+    mongo.db.sessions.update_one({'_id': ObjectId(session['last_session'])}, {'$set': {
         'last_modification_date': dateOfDay.strftime(
             "%d-%m-%y-%H-%M-%S")
     }})
     return redirect(url_for('index'))
 
 
-@app.route('/session/delete/<session_id>')
-def delete_session(session_id=None):
-    current_session = getSessionByObjectId(ObjectId(session_id))
-    mongo.db.sessions.delete_one({'_id': current_session['_id']})
+@app.route('/session/delete/')
+def delete_session():
+    result = mongo.db.tweets.delete_many({'session_id': session['last_session']})
+    mongo.db.sessions.delete_one({'_id': ObjectId(session['last_session'])})
     return redirect(url_for('index'))
+
+
+@app.route('/session/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # <input type="file" name="json">
+        file = request.files['json']
+        # On lit le contenu du fichier et le stock dans une var
+        data = json.loads(file.read())
+        # la première case du tableau contient le document de la session exportée
+        session_document = data[0]
+        del session_document['_id']
+        imported_tweets = data[1]  # Un tableau de documents tweets
+        exporter_user = getUserByObjectId(ObjectId(session_document['user_id']['$oid']))
+        user_logged = getUser()
+        # On remplace l'user id par celui de l'utilisateur courrant
+        session_document['user_id'] = user_logged['_id']
+        # On ajoute le nom et prenom de l'utilisateur qui a exporté la session
+        session_document['exporter_user'] = exporter_user['first_name'] + exporter_user['last_name']
+        mongo.db.sessions.insert_one(session_document)
+        session['last_session'] = str(session_document['_id'])
+        tweet_collection = mongo.db.tweets.find_one({"session_id": "5acfa7d14f610629981feee1"})
+        for tweet in imported_tweets:
+            # Lier les tweets importés à notre nouvelle session
+            tweet['session_id'] = session['last_session']
+            del tweet['_id']
+        mongo.db.tweets.insert_many(imported_tweets)
+        return redirect(url_for('display_session', session_id=session['last_session']))
+
+
+@app.route('/session/download')
+def download_file():
+    # On récupère le document de la session courrante pour le mettre dans le fichier exporté + nommage du fichier
+    current_session = getSessionByObjectId(ObjectId(session['last_session']))
+    # On récupère tous les tweets liés à la session
+    tweets = mongo.db.tweets.find({'session_id': session['last_session']})
+    # On dump tout ça, stocké dans une variable sous forme de tableau
+    file_data = dumps([current_session, tweets])
+    # On retourne le fichier json qui se dl automatiquement
+    return Response(file_data, mimetype="text/plain", headers={
+        "Content-Disposition": "attachement;filename=" + current_session['session_name'] + ".json"},
+                    content_type="application/json")
 
 
 def getSessionByObjectId(id):

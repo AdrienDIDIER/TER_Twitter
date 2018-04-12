@@ -68,3 +68,7 @@ nav{
     background-color: #eeeeeeb0;
     display: inline-grid;
 }
+
+.input-field{
+    margin-top: 0;
+}

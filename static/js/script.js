@@ -1,11 +1,11 @@
 /* Area location filter */
-if(document.getElementById('map') != null){
+if (document.getElementById('map') != null) {
     var map = L.map('map');
     map.setView([45.5, 2], 4);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-            maxZoom: 18,
-            id: 'mapbox.streets'
+        maxZoom: 18,
+        id: 'mapbox.streets'
     }).addTo(map);
 
     var locationFilter = new L.LocationFilter().addTo(map);
@@ -30,7 +30,7 @@ $(document).ready(function () {
                 /**/
             },
             error: function (error) {
-               /**/
+                /**/
             }
         });
     });
@@ -53,13 +53,27 @@ $(document).ready(function () {
     });
 
     window.setInterval(function () {
-        if($('#start-stream_button').is(":disabled")){
+        if ($('#start-stream_button').is(":disabled")) {
             refresh_number_tweets();
+            refresh_download_btn();
         }
     }, 1000);
 });
 
-function refresh_number_tweets(){
+
+function refresh_download_btn() {
+    var div = $('#div_download_btn'); // Ma div
+    var btn = $('#download_btn'); // Mon bouton
+    if (!btn.length) {
+        div.load(' #div_download_btn', function () {
+            div.fadeOut(1, function () {
+                div.fadeIn(500);
+            });
+        });
+    }
+}
+
+function refresh_number_tweets() {
     var target = $('#div_number_of_tweets');
     target.load(' #div_number_of_tweets', function () {
         target.fadeOut(1, function () {
