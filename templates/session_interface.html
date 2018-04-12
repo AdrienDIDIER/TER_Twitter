@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="row">
+        <div class="querryRecap col m3 l3 s6 grey lighten-4 z-depth-3">
+            <h4>{{ current_session.session_name }}</h4>
+            <div class="divider"></div>
+            <div class="section">
+                <h5><i>Date de création</i></h5>
+                <p>{{ current_session.start_date }}</p>
+            </div>
+            <div class="divider"></div>
+            <div class="section">
+                <h5><i>Mode</i></h5>
+                <p> {{ current_session.mode }}</p>
+                <div class="divider"></div>
+                {% for param in current_session.params %}
+                    {% if current_session.params[param] and param!='geocode' %}
+                        <div class="section">
+                            <h5><i>{{ param }}</i></h5>
+                            <p>{{ current_session.params[param] }}</p>
+                        </div>
+                        <div class="divider"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="row center">
+            {% if current_session.mode == "stream" %}
+                    <button id="start-stream_button" action-target="{{ current_session._id }}"
+                            class="btn waves-effect waves-light green">Start
+                    </button>
+                    <button id="stop-stream_button" class="btn waves-effect waves-light red" disabled>Stop</button>
+            {% else %}
+                <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
+                            class="btn waves-effect waves-light green">Start
+                </button>
+            {% endif %}
+            </div>
+        </div>
+        <div class="right">
+            <a class="btn waves-effect waves-light red " href="{{ url_for('close_session', session_id=current_session['_id'])}}" id="closeSessionBtn"><i class="material-icons right">close</i>Fermer la session</a>
+        </div>
+        <div class="col m4 l4 s6 center">
+            <h5>
+                <span id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></span> tweets récupérés.
+            </h5>
+            <div {% if number_of_tweets == 0 or current_session.mode == "stream" %} style="display: none" {% endif %} class="preloader-wrapper big active" id="loading_circle">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="wordcloud"></div>
+        </div>
+    </div>
+    <div class="container">
+    </div>
+{% endblock %}
+
+{# Pour obtenir l'index on utilise object.index .Pour avoir la value on fait object[index] #}

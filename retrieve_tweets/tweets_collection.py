@@ -1,4 +1,4 @@
-from myapp import mongo
+from myapp import mongo, app
 import json, bson
 import re, collections
 from flask import session
@@ -18,15 +18,17 @@ def delete_many_tweets(key = None, value = None):
         results = tweets_table.delete_many({})# Delete all from the collection
     print(results.deleted_count)
 
+def tweets_by_session_id(session_id):
+    return mongo.db.tweets.find({'session_id': session_id})
+
+def count_number_of_tweets(session_id):
+    return tweets_by_session_id(session_id).count()
 
 def retrieve_all_tweets_text():
-    tweets_table = mongo.db.tweets
-    buffer = []
-    for tweet in tweets_table.find({"session_id": session['last_session']}):
-        buffer.append(bson.BSON.decode(tweet['tweet_object']))
+    tweets_table = tweets_by_session_id(session['last_session'])
     tweet_text = ""
-    for tweet in buffer:
-        tweet_text = tweet_text + " " + tweet["full_text"]
+    for tweet in tweets_table:
+        tweet_text = tweet_text + " " + tweet['tweet_object']['full_text']
     return word_splitter(tweet_text)
 
 
@@ -53,12 +55,8 @@ def retrieve_tweet_dates():
     tweets_table = mongo.db.tweets;
     buffer = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
-        buffer.append(bson.BSON.decode(tweet['tweet_object']))
-    date_buffer = []
-    for tweet in buffer:
-        date_buffer.append(tweet['created_at'])
-    print(date_buffer)
-    return date_to_int(date_buffer)
+        buffer.append(tweet['tweet_object']['created_at'])
+    return date_to_int(buffer)
 
 
 def date_to_int(tweet_dates):
@@ -79,20 +77,19 @@ def date_to_int(tweet_dates):
     return new_freq
 
 
-def count_date(buffer,d, f):
-    count =0
+def count_date(buffer, d, f):
+    count = 0
     for i in range(len(buffer)):
         if buffer[i] >= d and buffer[i] <= f:
             count = count + 1
     return count
+
+
 def retrieve_tweets_by_date(start,stop):
     tweets_table = mongo.db.tweets
-    buffer = []
-    for tweet in tweets_table.find({"session_id": session['last_session']}):
-        buffer.append(bson.BSON.decode(tweet['tweet_object']))
     tweet_text = ""
-    for tweet in buffer:
-        d = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
+        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
         if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
-            tweet_text = tweet_text + " " + tweet["full_text"]
+            tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
     return word_splitter(tweet_text)

@@ -55,3 +55,25 @@ function draw(words, divElement) {
 d3.json("http://127.0.0.1:5000/result-wordcloud/", function (json) {
     mycloud.stop().words(json).start().on("end", draw(json, "wordcloud"));
 });
+
+function ajax_wordcloud(){
+    $.ajax({
+        url: '/result-wordcloud/',
+        type: 'GET',
+        data: { get_param: 'value' },
+        dataType: 'json',
+
+        success: function (response) {
+            $('#loading_circle').hide();
+            mycloud.stop().words(response).start();
+        },
+        error: function (error) {
+            /**/
+        }
+    });
+}
+
+$(document).ready(function () {
+    ajax_wordcloud();
+});
+

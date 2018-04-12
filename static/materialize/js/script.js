@@ -16,3 +16,4 @@ $('.datepicker').pickadate({
     close: 'Fermer',
     format: 'yyyy-mm-dd',
 });
+

@@ -1,22 +1,18 @@
-from flask import Flask, jsonify, render_template, url_for, request, session, redirect
 from myapp import app, mongo
-import datetime
 from auth import getUser, isLogged
-from retrieve_tweets.filters import filter
-from retrieve_tweets.tweets_collection import delete_many_tweets, retrieve_all_tweets_text, retrieve_tweet_dates, retrieve_tweets_by_date
-import json
-
+from retrieve_tweets.filters import *
+from index import *
+from bson import ObjectId
 
 @app.route('/delete-all-tweets')
 def deleted():
     delete_many_tweets()
     return render_template('index.html')
 
-
 @app.route('/result-wordcloud/<start_date>/<stop_date>')
 def get_little_wordcloud(start_date,stop_date):
     words = retrieve_tweets_by_date(start_date, stop_date)
-    return json.dumps(words);
+    return json.dumps(words)
 
 
 @app.route('/test/<keywords>')
@@ -43,14 +39,49 @@ def addSession(mode=None):
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(
-                     "%d-%m-%y-%H-%M-%S")})  # Insertion du document session dans la collection session
+                     "%d-%m-%y-%H-%M-%S"), 'mode': request.form['mode'],
+                 'params': {
+                     'keywords': request.form['keywords'],
+                     'geocode': request.form['geocode'],
+                     'start_date': request.form['start_date'] if request.form['mode'] == "dated_tweets" else None,
+                     'stop_date': request.form['stop_date'] if request.form['mode'] == "dated_tweets" else None,
+                     'twitter_user': request.form['twitter_user'],
+                     'language': request.form['language']
+                 }
+                 })  # Insertion du document session dans la collection session
 
             # Recuperation de l'id de la dernière session créée
-            session['last_session'] = str(getSessionById(documentInserted)['_id'])
-            if request.form['mode'] == 'stream':
-                filter(request.form['keywords'], None, True)
-            return redirect(url_for('test', keywords=request.form['keywords']))
+            session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
+            return redirect(url_for('display_session', session_id = documentInserted))
 
+@app.route('/session/<session_id>', methods=['POST', 'GET'])
+def display_session(session_id=None):
+    current_session = getSessionByObjectId(ObjectId(session_id))
+    session['last_session'] = session_id
+    if request.method == 'GET':
+        return render_template('session_interface.html', current_session=current_session, number_of_tweets = count_number_of_tweets(session_id))
+    if request.is_xhr: # Si la route est appelée via Ajax
+        keywords = current_session['params']['keywords']
+        geocode = current_session['params']['geocode']
+        stream = True if current_session['mode'] == "stream" else False
+        startdate = current_session['params']['start_date']
+        stopdate = current_session['params']['stop_date']
+        user = current_session['params']['twitter_user']
+        language = current_session['params']['language']
 
-def getSessionById(id):
+        filter(keywords, geocode, stream, startdate, stopdate, user, language)
+
+        return render_template('session_interface.html', current_session = current_session)
+
+@app.route('/session/close/<session_id>')
+def close_session(session_id=None):
+    current_session = getSessionByObjectId(ObjectId(session_id))
+    dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
+    mongo.db.sessions.update_one({'_id': current_session['_id']}, {'$set': {
+        'last_modification_date': dateOfDay.strftime(
+                     "%d-%m-%y-%H-%M-%S")
+    }})
+    return redirect(url_for('index'))
+
+def getSessionByObjectId(id):
     return mongo.db.sessions.find_one(id)

@@ -2,12 +2,19 @@
 {% block body %}
     {% if not mode %}
         <div class="container">
-        <div class="row">
-            <div class="col m6"><a class="waves-effect waves-light btn blue"
-                                   href={{ url_for('addSession',mode='stream') }}>Stream</a>
+            <div class="row center">
+                <h2>Quel type de tweets souhaitez-vous ?</h2>
             </div>
-            <div class="col m6"><a class="waves-effect waves-light btn blue"
-                                   href={{ url_for('addSession',mode='dated_tweets') }}>Dated tweets</a>
+            <div class="row">
+                <div class="col m6 center">
+                    <a class="waves-effect waves-light btn blue" href={{ url_for('addSession',mode='stream') }}>Tweets en direct
+                    <i class="material-icons left">play_circle_outline</i></a>
+                </div>
+                <div class="col m6 center">
+                    <a class="waves-effect waves-light btn blue"
+                       href={{ url_for('addSession',mode='dated_tweets') }}>Tweets passés
+                    <i class="material-icons left">date_range</i></a>
+                </div>
             </div>
         </div>
     {% elif mode == 'stream' or mode == 'dated_tweets' %}
@@ -48,7 +55,7 @@
                                 <input id="start_date" type="text" name="start_date" class="datepicker">
                                 <label for="start_date">Date de début</label>
                             </div>
-                        <div class="input-field col s12 l6 m6">
+                            <div class="input-field col s12 l6 m6">
                                 <i class="material-icons prefix">date_range</i>
                                 <input id="stop_date" type="text" name="stop_date" class="datepicker">
                                 <label for="stop_date">Date de fin</label>
@@ -58,8 +65,9 @@
                     <div class="row">
                         <div class="input-field col s12 l6 m6">
                             <i class="material-icons prefix">add_location</i>
-                            <input placeholder="France" name="geocode" id="region" type="text" class="validate">
+                            <input placeholder="3.78300108, 43.54854151, 3.97065725, 43.67333749 " name="geocode" id="region" type="text" class="validate">
                             <label for="region">Régions</label>
+                            <div id="map"></div>
                         </div>
                         <div class="input-field col s12 l6 m6">
                             <i class="material-icons prefix">language</i>
