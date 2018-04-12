@@ -3,7 +3,6 @@ from myapp import app, mongo
 import bcrypt
 from tweepy_auth import *
 
-
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':

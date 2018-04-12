@@ -36,7 +36,6 @@ def retrieve_all_tweets_text():
 
 
 def word_splitter(tweet_text):
-
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
     tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
     pattern = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
@@ -55,7 +54,7 @@ def word_splitter(tweet_text):
     return new_words
 
 def retrieve_tweet_dates():
-    tweets_table = mongo.db.tweets;
+    tweets_table = mongo.db.tweets
     buffer = []
     for tweet in tweets_table.find():
         buffer.append(bson.BSON.decode(tweet['tweet_object']))
@@ -63,7 +62,6 @@ def retrieve_tweet_dates():
     for tweet in buffer:
         date_buffer.append(tweet['created_at'])
     return date_to_int(date_buffer)
-
 
 def date_to_int(tweet_dates):
     buffer = []
@@ -85,7 +83,6 @@ def date_to_int(tweet_dates):
         new_freq.append({'freq': i, 'start_date': x, 'stop_date': x+10})
     print(new_freq)
     return new_freq
-
 
 def retrieve_tweets_by_date(start,stop):
     tweets_table = mongo.db.tweets
