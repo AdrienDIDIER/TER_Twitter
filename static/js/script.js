@@ -51,6 +51,22 @@ $(document).ready(function () {
             }
         });
     });
+    $(document).on("click", '#start-dated_tweets_button', function () {
+        $(this).attr("disabled", "disabled");
+        $.ajax({
+            url: '/session/' + $(this).attr('action-target'),
+            data: '',
+            type: 'POST',
+
+            success: function (response) {
+                /**/
+            },
+            error: function (error) {
+                /**/
+            }
+        });
+
+    });
 
     window.setInterval(function () {
         if($('#start-stream_button').is(":disabled")){

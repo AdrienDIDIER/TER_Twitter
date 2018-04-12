@@ -13,23 +13,27 @@ class Stream(tweepy.StreamListener):
             return False
 
 def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=None, user=None, language=None):
+    if geocode is not "":
+        # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
+        geocode = [float(s) for s in geocode.split(",")]
     if stream:
         global stream_stop
         stream_stop = False
-        stream_o = tweepy.Stream(auth=api.auth, listener=Stream())
+
         if user is not "":
             user = getIdByUser(user)
-        if geocode is not "":
-            # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
-            geocode = [float(s) for s in geocode.split(",")]
+
+        stream_o = tweepy.Stream(auth=api.auth, listener=Stream())
         stream_o.filter(locations=geocode, track=[keywords], languages=[language], follow=[user])
     else:
+        geocode = None # TODO: FIX (Filtrer par geocode)
         query = keywords
         if startdate is not None and stopdate is not None:
             query = query + " since:" + startdate + " until:" + stopdate
         if user is not None:
             query = query + " from:@" + user
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang="fr").items(100):
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, language=language).items(100):
+            # print(tweet)
             stock_tweets(tweet)
 
 @app.route('/session/stream/stop')

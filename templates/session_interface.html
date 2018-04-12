@@ -23,14 +23,18 @@
                     {% endif %}
                 {% endfor %}
             </div>
+            <div class="row center">
             {% if current_session.mode == "stream" %}
-                <div class=" row center">
                     <button id="start-stream_button" action-target="{{ current_session._id }}"
                             class="btn waves-effect waves-light green">Start
                     </button>
                     <button id="stop-stream_button" class="btn waves-effect waves-light red" disabled>Stop</button>
-                </div>
+            {% else %}
+                <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
+                            class="btn waves-effect waves-light green">Start
+                </button>
             {% endif %}
+            </div>
         </div>
         <div class="right">
             <a class="btn waves-effect waves-light red " href="{{ url_for('close_session', session_id=current_session['_id'])}}" id="closeSessionBtn"><i class="material-icons right">close</i>Fermer la session</a>

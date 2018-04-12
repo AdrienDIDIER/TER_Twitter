@@ -68,11 +68,16 @@ def display_session(session_id=None):
     if request.method == 'GET':
         return render_template('session_interface.html', current_session=current_session, number_of_tweets = count_number_of_tweets(session_id))
     if request.is_xhr: # Si la route est appelée via Ajax
-        if current_session['mode'] == "stream":
-            filter(current_session['params']['keywords'], current_session['params']['geocode'], True, None, None,
-                   current_session['params']['twitter_user'], current_session['params']['language'])
-        else:
-            pass
+        keywords = current_session['params']['keywords']
+        geocode = current_session['params']['geocode']
+        stream = True if current_session['mode'] == "stream" else False
+        startdate = current_session['params']['start_date']
+        stopdate = current_session['params']['stop_date']
+        user = current_session['params']['twitter_user']
+        language = current_session['params']['language']
+
+        filter(keywords, geocode, stream, startdate, stopdate, user, language)
+
         return render_template('session_interface.html', current_session = current_session)
 
 @app.route('/session/close/<session_id>')
