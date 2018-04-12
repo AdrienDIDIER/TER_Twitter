@@ -36,7 +36,7 @@ def retrieve_all_tweets_text():
     tweets_table = tweets_by_session_id(session['last_session'])
     buffer = []
     for tweet in tweets_table:
-        buffer.append(bson.BSON.decode(tweet['tweet_object']))
+        buffer.append(tweet['tweet_object'].text)
     tweet_text = ""
     for tweet in buffer:
         tweet_text = tweet_text + " " + tweet["full_text"]
@@ -64,7 +64,7 @@ def retrieve_tweet_dates():
     tweets_table = mongo.db.tweets()
     buffer = []
     for tweet in tweets_table.find():
-        buffer.append(bson.BSON.decode(tweet['tweet_object']))
+        buffer.append(tweet['tweet_object'].text)
     date_buffer = []
     for tweet in buffer:
         date_buffer.append(tweet['created_at'])
@@ -96,7 +96,7 @@ def retrieve_tweets_by_date(start,stop):
     buffer = []
     buffer.append(time.mktime(d.timetuple()))
     for tweet in tweets_table.find():
-        buffer.append(bson.BSON.decode(tweet['tweet_object']))
+        buffer.append(tweet['tweet_object'].text)
     tweet_text = ""
     for tweet in buffer:
         d = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
