@@ -1,7 +1,37 @@
 {% extends "layout.html" %}
 {% block body %}
-    <div id='wordcloud'></div>
+    <div id="wordcloud"></div>
+    <div id="duration"></div>
+    <style>
+        body {
+            font: 10px sans-serif;
+        }
+
+        .bar rect {
+            fill: steelblue;
+            shape-rendering: crispEdges;
+        }
+
+        .bar text {
+            fill: #fff;
+        }
+
+        .axis path, .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+    </style>
     <script type="text/javascript">
-        var words = {{ words | tojson | safe }};
-    </script>
+        var keywords ={{ keywords | tojson }};
+        var freq_per_date ={{ freq_per_date | tojson }};
+    </script >
+{% endblock %}
+{% block script_d3 %}
+
+    <script src="{{ url_for('static', filename='d3/js/script-d3.js') }}"></script>
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="{{ url_for('static', filename='d3/js/script-duration.js') }}"></script>
+
+
 {% endblock %}
