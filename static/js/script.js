@@ -52,14 +52,15 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
-        $(this).attr("disabled", "disabled");
+        var button_target = $(this);
+        button_target.attr("disabled", "disabled");
         $.ajax({
-            url: '/session/' + $(this).attr('action-target'),
+            url: '/session/' + button_target.attr('action-target'),
             data: '',
             type: 'POST',
 
             success: function (response) {
-                /**/
+                button_target.prop("disabled", false);
             },
             error: function (error) {
                 /**/
@@ -69,7 +70,7 @@ $(document).ready(function () {
     });
 
     window.setInterval(function () {
-        if($('#start-stream_button').is(":disabled")){
+        if($('#start-stream_button').is(":disabled") || $('#start-dated_tweets_button').is(":disabled")){
             refresh_number_tweets();
         }
     }, 1000);
