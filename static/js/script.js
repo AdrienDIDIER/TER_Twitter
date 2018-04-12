@@ -60,6 +60,7 @@ $(document).ready(function () {
             type: 'POST',
 
             success: function (response) {
+                refresh_number_tweets();
                 button_target.prop("disabled", false);
             },
             error: function (error) {
