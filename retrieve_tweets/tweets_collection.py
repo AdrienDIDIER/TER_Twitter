@@ -22,7 +22,7 @@ def delete_many_tweets(key = None, value = None):
 def retrieve_all_tweets_text():
     tweets_table = mongo.db.tweets
     buffer = []
-    for tweet in tweets_table.find():
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
         buffer.append(bson.BSON.decode(tweet['tweet_object']))
     tweet_text = ""
     for tweet in buffer:
@@ -52,11 +52,12 @@ def word_splitter(tweet_text):
 def retrieve_tweet_dates():
     tweets_table = mongo.db.tweets;
     buffer = []
-    for tweet in tweets_table.find():
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
         buffer.append(bson.BSON.decode(tweet['tweet_object']))
     date_buffer = []
     for tweet in buffer:
         date_buffer.append(tweet['created_at'])
+    print(date_buffer)
     return date_to_int(date_buffer)
 
 
@@ -65,32 +66,33 @@ def date_to_int(tweet_dates):
     for date in tweet_dates:
         d = datetime.datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
         buffer.append(time.mktime(d.timetuple()))
-    print(buffer)
+    #print(buffer)
     start_date = int(min(buffer))
     stop_date = int(max(buffer))
+    print(start_date)
+    print(stop_date)
     freq = [0]*len(buffer)
-    index = 0
-    for x in range(start_date,stop_date,10):
-        for i in range(len(buffer)):
-            if buffer[i] >= float(x) and buffer[i] <= float(x+10):
-                freq[index] = freq[index] + 1
-        index = index + 1
     new_freq = []
-    for x, i in zip(range(start_date, stop_date,11), freq):
-        new_freq.append({'freq': i, 'start_date': x, 'stop_date': x+10})
+    for x, i in zip(range(start_date, stop_date,61), freq):
+        new_freq.append({'freq': count_date(buffer, x, x+60), 'start_date': x, 'stop_date': x+60})
     print(new_freq)
     return new_freq
 
 
+def count_date(buffer,d, f):
+    count =0
+    for i in range(len(buffer)):
+        if buffer[i] >= d and buffer[i] <= f:
+            count = count + 1
+    return count
 def retrieve_tweets_by_date(start,stop):
     tweets_table = mongo.db.tweets
     buffer = []
-    buffer.append(time.mktime(d.timetuple()))
-    for tweet in tweets_table.find():
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
         buffer.append(bson.BSON.decode(tweet['tweet_object']))
     tweet_text = ""
     for tweet in buffer:
         d = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
-        if d >= start and d <= stop:
+        if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
             tweet_text = tweet_text + " " + tweet["full_text"]
     return word_splitter(tweet_text)
