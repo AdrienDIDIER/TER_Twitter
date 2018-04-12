@@ -20,8 +20,8 @@ def test(keywords):
     freq_per_date = retrieve_tweet_dates()
     return render_template('result_wordcloud.html', keywords=keywords, freq_per_date=freq_per_date)
 
-@app.route('/result-wordcloud/<keywords>')
-def wordcloud(keywords):
+@app.route('/result-wordcloud/')
+def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
 
@@ -51,14 +51,6 @@ def addSession(mode=None):
 
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
-            #if request.form['mode'] == 'stream':
-            #    return redirect(url_for('display_session', session_id = documentInserted))
-            #elif request.form['mode'] == 'dated_tweets':
-            #    filter(request.form['keywords'],
-            #           user=request.form['twitter_user'],
-            #           startdate=request.form['start_date'],
-            #           stopdate=request.form['stop_date'])
-            #return redirect(url_for('test', keywords=request.form['keywords']))
             return redirect(url_for('display_session', session_id = documentInserted))
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])

@@ -47,15 +47,27 @@ function draw(words) {
         });
 }
 
-function get_words() {
-    d3.json("http://127.0.0.1:5000/result-wordcloud/" + keywords, function (json) {
-        console.log(json);
-        mycloud.stop().words(json).start();
-    });
-}
-
-get_words();
-
 d3.select("#wordcloud").append("svg")
     .attr("width", 600)
     .attr("height", 600);
+
+function ajax_wordcloud(){
+    $.ajax({
+        url: '/result-wordcloud/',
+        type: 'GET',
+        data: { get_param: 'value' },
+        dataType: 'json',
+
+        success: function (response) {
+            $('#loading_circle').hide();
+            mycloud.stop().words(response).start();
+        },
+        error: function (error) {
+            /**/
+        }
+    });
+}
+
+$(document).ready(function () {
+    ajax_wordcloud();
+});

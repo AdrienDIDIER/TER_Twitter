@@ -1,5 +1,7 @@
 from retrieve_tweets.tweets_collection import *
 from myapp import *
+from tweepy_auth import *
+from retrieve_tweets.tweets_collection import *
 from flask import render_template
 
 stream_stop = False  # Variable globale pour permettre le partage de la variable entre les 2 threads.
@@ -26,13 +28,13 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
         stream_o = tweepy.Stream(auth=api.auth, listener=Stream())
         stream_o.filter(locations=geocode, track=[keywords], languages=[language], follow=[user])
     else:
-        geocode = None # TODO: FIX (Filtrer par geocode)
+        geocode = None # TODO: FIX (Filtrer par geocode) et fix language
         query = keywords
         if startdate is not None and stopdate is not None:
             query = query + " since:" + startdate + " until:" + stopdate
         if user is not None:
             query = query + " from:@" + user
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, language=language).items(100):
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, language=language).items(10):
             # print(tweet)
             stock_tweets(tweet)
 

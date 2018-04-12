@@ -25,15 +25,14 @@ def count_number_of_tweets(session_id):
     return tweets_by_session_id(session_id).count()
 
 def retrieve_all_tweets_text():
-    tweets_table = mongo.db.tweets
+    tweets_table = tweets_by_session_id(session['last_session'])
     buffer = []
-    for tweet in tweets_table.find():
+    for tweet in tweets_table:
         buffer.append(bson.BSON.decode(tweet['tweet_object']))
     tweet_text = ""
     for tweet in buffer:
         tweet_text = tweet_text + " " + tweet["full_text"]
     return word_splitter(tweet_text)
-
 
 def word_splitter(tweet_text):
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
@@ -43,7 +42,7 @@ def word_splitter(tweet_text):
     words = tweet_text.split(" ")
     new_words = []
     stop_words = get_stop_words('fr') + get_stop_words('en')
-    print(stop_words)
+    # print(stop_words)
     for word in words:
         if word.lower() in stop_words or 'RT' in word.lower():
             words.remove(word)
@@ -54,7 +53,7 @@ def word_splitter(tweet_text):
     return new_words
 
 def retrieve_tweet_dates():
-    tweets_table = mongo.db.tweets
+    tweets_table = mongo.db.tweets()
     buffer = []
     for tweet in tweets_table.find():
         buffer.append(bson.BSON.decode(tweet['tweet_object']))

@@ -43,6 +43,20 @@
             <h5>
                 <span id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></span> tweets récupérés.
             </h5>
+            <div {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="preloader-wrapper big active" id="loading_circle">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="wordcloud"></div>
         </div>
     </div>
     <div class="container">

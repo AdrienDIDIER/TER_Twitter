@@ -53,7 +53,15 @@ $(document).ready(function () {
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
         var button_target = $(this);
+        var wordcloud = $('#wordcloud');
         button_target.attr("disabled", "disabled");
+        $('#loading_circle').show();
+
+        /* Si un wordcloud a déjà été généré */
+        if(wordcloud.find('svg') !== 0){
+            wordcloud.find('svg').find("g").remove(); /* Vide le wordcloud pour en accueillir un nouveau */
+        }
+
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
             data: '',
@@ -61,6 +69,7 @@ $(document).ready(function () {
 
             success: function (response) {
                 refresh_number_tweets();
+                ajax_wordcloud();
                 button_target.prop("disabled", false);
             },
             error: function (error) {
