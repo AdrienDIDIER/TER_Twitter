@@ -2,12 +2,34 @@ from flask import Flask, jsonify, render_template, url_for, request, session, re
 from myapp import app, mongo
 import datetime
 from auth import getUser, isLogged, getUserByObjectId
+from myapp import app, mongo
+from auth import getUser, isLogged
 from retrieve_tweets.filters import *
 from index import *
 from bson import ObjectId, Binary, Code, BSON
 from bson.json_util import dumps
 import json
 
+@app.route('/delete-all-tweets')
+def deleted():
+    delete_many_tweets()
+    return render_template('index.html')
+
+@app.route('/result-wordcloud/<start_date>/<stop_date>')
+def get_little_wordcloud(start_date,stop_date):
+    words = retrieve_tweets_by_date(start_date, stop_date)
+    return json.dumps(words)
+
+@app.route('/test/<keywords>')
+def test(keywords):
+    filter(keywords=keywords)
+    freq_per_date = retrieve_tweet_dates()
+    return render_template('result_wordcloud.html', keywords=keywords, freq_per_date=freq_per_date)
+
+@app.route('/result-wordcloud/')
+def wordcloud():
+    words = retrieve_all_tweets_text()
+    return json.dumps(words)
 
 @app.route('/session/add/', methods=['POST', 'GET'])
 @app.route('/session/add/<mode>', methods=['POST', 'GET'])
@@ -26,8 +48,8 @@ def addSession(mode=None):
                  'params': {
                      'keywords': request.form['keywords'],
                      'geocode': request.form['geocode'],
-                     'start_date': request.form['start_date'] if request.form['mode'] is 'dated_tweets' else None,
-                     'stop_date': request.form['stop_date'] if request.form['mode'] is 'dated_tweets' else None,
+                     'start_date': request.form['start_date'] if request.form['mode'] == "dated_tweets" else None,
+                     'stop_date': request.form['stop_date'] if request.form['mode'] == "dated_tweets" else None,
                      'twitter_user': request.form['twitter_user'],
                      'language': request.form['language']
                  }
@@ -35,15 +57,7 @@ def addSession(mode=None):
 
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
-            if request.form['mode'] == 'stream':
-                return redirect(url_for('display_session', session_id=documentInserted))
-            elif request.form['mode'] == 'dated_tweets':
-                filter(request.form['keywords'],
-                       user=request.form['twitter_user'],
-                       startdate=request.form['start_date'],
-                       stopdate=request.form['stop_date'])
-            return wordcloud()
-
+            return redirect(url_for('display_session', session_id = documentInserted))
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
@@ -57,7 +71,19 @@ def display_session(session_id=None):
             filter(current_session['params']['keywords'], current_session['params']['geocode'], True, None, None,
                    current_session['params']['twitter_user'], current_session['params']['language'])
             return render_template('session_interface.html', current_session=current_session)
+        return render_template('session_interface.html', current_session=current_session, number_of_tweets = count_number_of_tweets(session_id))
+    if request.is_xhr: # Si la route est appelée via Ajax
+        keywords = current_session['params']['keywords']
+        geocode = current_session['params']['geocode']
+        stream = True if current_session['mode'] == "stream" else False
+        startdate = current_session['params']['start_date']
+        stopdate = current_session['params']['stop_date']
+        user = current_session['params']['twitter_user']
+        language = current_session['params']['language']
 
+        filter(keywords, geocode, stream, startdate, stopdate, user, language)
+
+        return render_template('session_interface.html', current_session = current_session)
 
 @app.route('/session/close/')
 def close_session():
@@ -116,7 +142,6 @@ def download_file():
     return Response(file_data, mimetype="text/plain", headers={
         "Content-Disposition": "attachement;filename=" + current_session['session_name'] + ".json"},
                     content_type="application/json")
-
 
 def getSessionByObjectId(id):
     return mongo.db.sessions.find_one(id)

@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 app.config.from_pyfile('database.py')
 
-
 mongo = PyMongo(app)
 
 #import your views here
