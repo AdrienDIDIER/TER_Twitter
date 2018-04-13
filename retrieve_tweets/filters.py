@@ -14,7 +14,7 @@ class Stream(tweepy.StreamListener):
         else:
             return False
 
-def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=None, user=None, language="fr"):
+def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=None, user=None, language=None):
     if geocode is not "":
         # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
         geocode = [float(s) for s in geocode.split(",")]
@@ -35,6 +35,8 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
         if user != "":
             query = query + " from:@" + user
             print(language)
+        if language == "":
+            language = "fr"
         for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, language=language).items(300):
             stock_tweets(tweet)
         print("stockage fini")
