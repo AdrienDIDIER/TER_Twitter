@@ -61,13 +61,13 @@ function ajax_wordcloud(){
         success: function (response) {
             $('#loading_circle').hide();
             mycloud.stop().words(response).start();
+            var stream_button_pressed = $('#start-stream_button').is(":disabled");
+            if(stream_button_pressed){
+                refresh_wordcloud(true);
+            }
         },
         error: function (error) {
             /**/
         }
     });
 }
-
-$(document).ready(function () {
-    ajax_wordcloud();
-});
