@@ -6,9 +6,9 @@ from stop_words import get_stop_words
 import datetime, pytz, time
 
 def stock_tweets(tweet):
+    print(tweet)
     tweets_table = mongo.db.tweets
-    tweet = bson.BSON.encode(json.loads(json.dumps(tweet._json)))
-    tweets_table.insert_one({"session_id": session['last_session'] , "tweet_object":tweet}).inserted_id
+    tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
 
 def delete_many_tweets(key = None, value = None):
     tweets_table = mongo.db.tweets
@@ -41,7 +41,7 @@ def word_splitter(tweet_text):
     words = tweet_text.split(" ")
     new_words = []
     stop_words = get_stop_words('fr') + get_stop_words('en')
-    print(stop_words)
+    #print(stop_words)
     for word in words:
         if word.lower() in stop_words or 'RT' in word.lower():
             words.remove(word)

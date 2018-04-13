@@ -52,9 +52,6 @@ function draw(words, divElement) {
             return d.text;
         });
 }
-d3.json("http://127.0.0.1:5000/result-wordcloud/", function (json) {
-    mycloud.stop().words(json).start().on("end", draw(json, "wordcloud"));
-});
 
 function ajax_wordcloud(){
     $.ajax({
@@ -65,7 +62,7 @@ function ajax_wordcloud(){
 
         success: function (response) {
             $('#loading_circle').hide();
-            mycloud.stop().words(response).start();
+            mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
         },
         error: function (error) {
             /**/
@@ -73,7 +70,25 @@ function ajax_wordcloud(){
     });
 }
 
+function ajax_freq_per_date(){
+    $.ajax({
+        url: '/result-freq-per-date/',
+        type: 'GET',
+        data: { get_param: 'value' },
+        dataType: 'json',
+
+        success: function (response) {
+           histogram(response);
+        },
+        error: function (error) {
+            /**/
+        }
+    });
+}
+
+
 $(document).ready(function () {
+    ajax_freq_per_date();
     ajax_wordcloud();
 });
 

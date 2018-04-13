@@ -69,7 +69,9 @@ $(document).ready(function () {
 
             success: function (response) {
                 refresh_number_tweets();
+                ajax_freq_per_date();
                 ajax_wordcloud();
+
                 button_target.prop("disabled", false);
             },
             error: function (error) {

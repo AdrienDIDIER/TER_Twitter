@@ -15,16 +15,16 @@ def get_little_wordcloud(start_date,stop_date):
     return json.dumps(words)
 
 
-@app.route('/test/<keywords>')
-def test(keywords):
-    filter(keywords=keywords)
-    freq_per_date = retrieve_tweet_dates()
-    return render_template('result_wordcloud.html', keywords=keywords, freq_per_date=freq_per_date)
-
 @app.route('/result-wordcloud/')
 def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
+
+@app.route('/result-freq-per-date/')
+def histogram():
+    freq_per_date = retrieve_tweet_dates()
+    print(freq_per_date)
+    return json.dumps(freq_per_date)
 
 @app.route('/session/add/', methods=['POST', 'GET'])
 @app.route('/session/add/<mode>', methods=['POST', 'GET'])
