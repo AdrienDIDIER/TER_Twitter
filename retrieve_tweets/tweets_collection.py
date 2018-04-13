@@ -33,14 +33,15 @@ def count_number_of_tweets(session_id):
 
 
 def retrieve_all_tweets_text():
-    tweets_table = tweets_by_session_id(session['last_session'])
-    tweet_text = ""
-    for tweet in tweets_table:
-        if 'full_text' in tweet['tweet_object']:
-            tweet_text = tweet_text + tweet['tweet_object']['full_text']
-        elif 'text' in tweet['tweet_object']:
-            tweet_text = tweet_text + tweet['tweet_object']['text']
-    return word_splitter(tweet_text)
+    if 'last_session' in session:
+        tweets_table = tweets_by_session_id(session['last_session'])
+        tweet_text = ""
+        for tweet in tweets_table:
+            if 'full_text' in tweet['tweet_object']:
+                tweet_text = tweet_text + tweet['tweet_object']['full_text']
+            elif 'text' in tweet['tweet_object']:
+                tweet_text = tweet_text + tweet['tweet_object']['text']
+        return word_splitter(tweet_text)
 
 
 def word_splitter(tweet_text):
