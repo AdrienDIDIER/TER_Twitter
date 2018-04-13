@@ -9,7 +9,7 @@ from index import *
 from bson import ObjectId, Binary, Code, BSON
 from bson.json_util import dumps
 import json
-
+from lib.google_images_download import google_images_download
 @app.route('/delete-all-tweets')
 def deleted():
     delete_many_tweets()
@@ -41,10 +41,11 @@ def addSession(mode=None):
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
+            src_img = getLinkImgFromKeyWords(request.form['keywords'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(
-                     "%d-%m-%y-%H-%M-%S"), 'mode': request.form['mode'],
+                     "%d-%m-%y-%H-%M-%S"), 'mode': request.form['mode'],'src_img' : src_img,
                  'params': {
                      'keywords': request.form['keywords'],
                      'geocode': request.form['geocode'],
@@ -58,6 +59,13 @@ def addSession(mode=None):
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
             return redirect(url_for('display_session', session_id = documentInserted))
+
+def getLinkImgFromKeyWords(keywords):
+    response = google_images_download.googleimagesdownload()  # class instantiation
+    arguments = {"keywords": keywords, "limit": 1,
+                 "print_urls": True}  # creating list of arguments
+    urlLink = response.download(arguments)  # passing the arguments to the function
+    return urlLink
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):

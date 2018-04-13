@@ -58,8 +58,9 @@ $(document).ready(function () {
         $('#loading_circle').show();
 
         /* Si un wordcloud a déjà été généré */
-        if(wordcloud.find('svg') !== 0){
-            wordcloud.find('svg').find("g").remove(); /* Vide le wordcloud pour en accueillir un nouveau */
+        if (wordcloud.find('svg') !== 0) {
+            wordcloud.find('svg').find("g").remove();
+            /* Vide le wordcloud pour en accueillir un nouveau */
         }
 
         $.ajax({
@@ -80,7 +81,7 @@ $(document).ready(function () {
     });
 
     window.setInterval(function () {
-        if($('#start-stream_button').is(":disabled") || $('#start-dated_tweets_button').is(":disabled")){
+        if ($('#start-stream_button').is(":disabled") || $('#start-dated_tweets_button').is(":disabled")) {
             refresh_number_tweets();
             refresh_download_btn();
         }
@@ -108,3 +109,12 @@ function refresh_number_tweets() {
         });
     });
 }
+
+$(function () {
+    $('.card').matchHeight({
+        byRow: true,
+        property: 'height',
+        target: null,
+        remove: false
+    });
+});
