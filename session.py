@@ -99,7 +99,7 @@ def upload_file():
         # <input type="file" name="json">
         file = request.files['json']
         # On lit le contenu du fichier et le stock dans une var
-        data = json.loads(file.read())
+        data = json.loads(file.read().decode('utf-8'))
         # la première case du tableau contient le document de la session exportée
         session_document = data[0]
         del session_document['_id']
