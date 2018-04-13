@@ -38,9 +38,7 @@ function histogram(freq_per_date) {
         .attr('height', function (d) {
             return d*2;
         })
-        .attr('x', function (d, i) {
-            return i * diff;
-        })
+        .attr('x', function(d,i){ return i* diff; })
         .attr('y', function (d) {
             return height - d*2;
         })
@@ -76,12 +74,11 @@ function histogram(freq_per_date) {
 
     var yScale = d3.scaleLinear()
         .domain([0, d3.max(freq) + (10 - (d3.max(freq) % 10))])
-        .range([height, height- d3.max(freq) * 2])
-        .nice();
+        .range([height, height- d3.max(freq) * 2]);
 
     svg.append("g")
       .attr("class", "axis axis--y")
-      .call(d3.axisLeft(yScale))
+      .call(d3.axisLeft(yScale).ticks(3))
       .attr("transform", "translate("+20+", 0)")
         .append("text")
       .attr("y", 2)
