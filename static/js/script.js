@@ -18,6 +18,8 @@ if (document.getElementById('map') != null) {
 
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
+    refresh_wordcloud();
+
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
@@ -53,16 +55,7 @@ $(document).ready(function () {
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
         var button_target = $(this);
-        var wordcloud = $('#wordcloud');
         button_target.attr("disabled", "disabled");
-        $('#loading_circle').show();
-
-        /* Si un wordcloud a déjà été généré */
-        if (wordcloud.find('svg') !== 0) {
-            wordcloud.find('svg').find("g").remove();
-            /* Vide le wordcloud pour en accueillir un nouveau */
-        }
-
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
             data: '',
@@ -70,20 +63,27 @@ $(document).ready(function () {
 
             success: function (response) {
                 refresh_number_tweets();
-                ajax_wordcloud();
+                refresh_wordcloud();
                 button_target.prop("disabled", false);
             },
             error: function (error) {
                 /**/
             }
         });
-
     });
 
+    var first_refresh = false;
+
     window.setInterval(function () {
-        if ($('#start-stream_button').is(":disabled") || $('#start-dated_tweets_button').is(":disabled")) {
+        var stream_button_pressed = $('#start-stream_button').is(":disabled");
+        var datedtweets_button_pressed = $('#start-dated_tweets_button').is(":disabled");
+        if (stream_button_pressed || datedtweets_button_pressed) {
             refresh_number_tweets();
             refresh_download_btn();
+            if (!first_refresh) {
+                first_refresh = true;
+                refresh_wordcloud(true);
+            }
         }
     }, 1000);
 });
@@ -118,3 +118,17 @@ $(function () {
         remove: false
     });
 });
+
+function refresh_wordcloud(stream = false) {
+    if (!stream) {
+        $('#loading_circle').show();
+        var wordcloud = $('#wordcloud');
+        /* Si un wordcloud a déjà été généré */
+        if (wordcloud.find('svg') !== 0) {
+            wordcloud.find('svg').find("g").remove();
+            /* Vide le wordcloud pour en accueillir un nouveau */
+        }
+    }
+
+    ajax_wordcloud();
+}
