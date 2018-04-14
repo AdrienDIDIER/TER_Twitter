@@ -64,10 +64,13 @@ def addSession(mode=None):
 
 def getLinkImgFromKeyWords(keywords):
     response = google_images_download.googleimagesdownload()  # class instantiation
-    arguments = {"keywords": keywords, "limit": 20}  # creating list of arguments
+    arguments = {"keywords": keywords, "limit": 20, "usage_rights" : "labeled-for-reuse"}  # creating list of arguments
     links = response.download(arguments)  # passing the arguments to the function
-    #return le lien parmi les 20 liens récupérés
-    return links[randint(0,19)]
+    #return le lien random parmi les liens récupérés
+    if len(links) >0:
+        return links[randint(0,len(links)-1)]
+    else:
+        return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
