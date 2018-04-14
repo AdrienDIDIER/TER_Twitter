@@ -7,7 +7,8 @@
             </div>
             <div class="row">
                 <div class="col s12 m4 l4 center">
-                    <a class="waves-effect waves-light btn-large blue darken-2" href={{ url_for('addSession',mode='stream') }}>Tweets
+                    <a class="waves-effect waves-light btn-large blue darken-2"
+                       href={{ url_for('addSession',mode='stream') }}>Tweets
                         en direct
                         <i class="material-icons left">play_circle_outline</i></a>
                 </div>
@@ -19,7 +20,8 @@
                 <div class="col s12 m4 l4 center">
                     <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
                         <div class="file-field input-field">
-                            <button class="btn-large waves-effect waves-light blue darken-2" type="submit"><i class="material-icons left">file_upload</i>
+                            <button class="btn-large waves-effect waves-light blue darken-2" type="submit"><i
+                                    class="material-icons left">file_upload</i>
                                 Tweets importés
                             </button>
                             <input type="file" name="json" required>
@@ -48,49 +50,60 @@
                             <label for="session_name">Nom de la session</label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="input-field col s12 l6 m6">
-                            <i class="material-icons prefix">search</i>
-                            <input placeholder="Nutella" id="keywords" type="text" class="validate"
-                                   name="keywords">
-                            <label for="keywords">Mots clés</label>
-                        </div>
-                        <div class="input-field col s12 l6 m6">
-                            <i class="material-icons prefix">account_circle</i>
-                            <input placeholder="@realDonaldTrump" id="twitter_user" type="text" class="validate"
-                                   name="twitter_user">
-                            <label for="twitter_user">Utilisateur Twitter</label>
-                        </div>
-                    </div>
-                    {% if mode =='dated_tweets' %}
+                    <fieldset>
+                        <div class="row"></div>
+                        <legend>
+                            <strong>
+                                <i class="material-icons right blue-text tooltipped" data-position="right"
+                                   data-tooltip="Les filtres ne s'additionnent pas ! (Sauf pour la langue)">help</i>
+                                Filtres
+                            </strong>
+                        </legend>
                         <div class="row">
                             <div class="input-field col s12 l6 m6">
-                                <i class="material-icons prefix">date_range</i>
-                                <input id="start_date" type="text" name="start_date" class="datepicker">
-                                <label for="start_date">Date de début</label>
+                                <i class="material-icons prefix">search</i>
+                                <input placeholder="Nutella" id="keywords" type="text" class="validate"
+                                       name="keywords">
+                                <label for="keywords">Mots clés</label>
                             </div>
                             <div class="input-field col s12 l6 m6">
-                                <i class="material-icons prefix">date_range</i>
-                                <input id="stop_date" type="text" name="stop_date" class="datepicker">
-                                <label for="stop_date">Date de fin</label>
+                                <i class="material-icons prefix">account_circle</i>
+                                <input placeholder="@realDonaldTrump" id="twitter_user" type="text" class="validate"
+                                       name="twitter_user">
+                                <label for="twitter_user">Utilisateur Twitter</label>
                             </div>
                         </div>
-                    {% endif %}
-                    <div class="row">
-                        <div class="input-field col s12 l6 m6">
-                            <i class="material-icons prefix">add_location</i>
-                            <input placeholder="3.78300108, 43.54854151, 3.97065725, 43.67333749 " name="geocode"
-                                   id="region" type="text" class="validate">
-                            <label for="region">Régions</label>
-                            <div id="map"></div>
+                        {% if mode =='dated_tweets' %}
+                            <div class="row">
+                                <div class="input-field col s12 l6 m6">
+                                    <i class="material-icons prefix">date_range</i>
+                                    <input id="start_date" type="text" name="start_date" class="datepicker">
+                                    <label for="start_date">Date de début</label>
+                                </div>
+                                <div class="input-field col s12 l6 m6">
+                                    <i class="material-icons prefix">date_range</i>
+                                    <input id="stop_date" type="text" name="stop_date" class="datepicker">
+                                    <label for="stop_date">Date de fin</label>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="input-field col s12 l6 m6">
+                                <i class="material-icons prefix">add_location</i>
+                                <input placeholder="3.78300108, 43.54854151, 3.97065725, 43.67333749 " name="geocode"
+                                       id="region" type="text" class="validate">
+                                <label for="region">Régions</label>
+                                <div id="map"></div>
+                            </div>
+                            <div class="input-field col s12 l6 m6">
+                                <i class="material-icons prefix">language</i>
+                                <input placeholder="fr" name="language" id="language" type="text" class="validate">
+                                <label for="language">Langue</label>
+                            </div>
                         </div>
-                        <div class="input-field col s12 l6 m6">
-                            <i class="material-icons prefix">language</i>
-                            <input placeholder="fr" name="language" id="language" type="text" class="validate">
-                            <label for="language">Langue</label>
-                        </div>
-                    </div>
+                    </fieldset>
                     <input name="mode" value="{{ mode }}" type="hidden">
+                    <div class="row"></div>
                     <div class="row center">
                         <button class="btn waves-effect waves-light blue darken-2" type="submit">Récupérer les tweets
                             <i class="material-icons right">send</i>
