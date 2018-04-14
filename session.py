@@ -10,6 +10,8 @@ from bson import ObjectId, Binary, Code, BSON
 from bson.json_util import dumps
 import json
 from lib.google_images_download import google_images_download
+from random import randint
+
 @app.route('/delete-all-tweets')
 def deleted():
     delete_many_tweets()
@@ -62,10 +64,10 @@ def addSession(mode=None):
 
 def getLinkImgFromKeyWords(keywords):
     response = google_images_download.googleimagesdownload()  # class instantiation
-    arguments = {"keywords": keywords, "limit": 1,
-                 "print_urls": True}  # creating list of arguments
-    urlLink = response.download(arguments)  # passing the arguments to the function
-    return urlLink
+    arguments = {"keywords": keywords, "limit": 20}  # creating list of arguments
+    links = response.download(arguments)  # passing the arguments to the function
+    #return le lien parmi les 20 liens récupérés
+    return links[randint(0,19)]
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):

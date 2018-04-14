@@ -119,6 +119,10 @@ $(function () {
     });
 });
 
+$(document).ready(function(){
+    $('.tooltipped').tooltip({delay: 50});
+  });
+
 function refresh_wordcloud(stream = false) {
     if (!stream) {
         $('#loading_circle').show();
