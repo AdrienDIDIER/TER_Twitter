@@ -11,6 +11,8 @@ def index():
     user = None
     user_sessions = None
     sessionAmount = None
+    page_number = None
+    current_page = None
     if userLogged:
         current_page = 1
         if 'page' in request.args:
