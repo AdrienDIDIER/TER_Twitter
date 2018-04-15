@@ -5,38 +5,73 @@
             <h3 class="left"><i>Bonjour, {{ user.first_name }}</i></h3>
         </div>
         <div class="row container">
-            <div class=" col m12 center ">
-                <a class="waves-effect waves-light btn blue darken-2" href={{ url_for('addSession') }}><i
-                        class="material-icons right">add_circle</i> Nouvelle session</a>
-            </div>
-        </div>
-        <div class="row container">
             {% if sessionAmount == 0 %}
                 <h4 class="center">Aucune session pour le moment</h4>
+                <div class="row ">
+                    <div class=" col m12 center ">
+                        <a class="waves-effect waves-light btn blue darken-2" href={{ url_for('addSession') }}><i
+                                class="material-icons right">add_circle</i> Nouvelle session</a>
+                    </div>
+                </div>
             {% else %}
                 <h4 class="center">Mes sessions </h4>
+                <div class="row">
+                    <div class=" col m12 center ">
+                        <a class="waves-effect waves-light btn blue darken-2" href={{ url_for('addSession') }}><i
+                                class="material-icons right">add_circle</i> Nouvelle session</a>
+                    </div>
+                </div>
                 {% for s in user_sessions %}
                     <div class="col s6 m3 l3">
                         <div class="card">
                             <div class="card-image center">
                                 <img src="{{ s.src_img }}">
-                                <a class="btn-floating halfway-fab waves-effect waves-light blue darken-3" data-position="right"
+                                <a class="btn-floating halfway-fab waves-effect waves-light blue darken-3"
+                                   data-position="right"
                                    href="{{ url_for('display_session',session_id=s._id) }}"><i
                                         class="material-icons">launch</i></a>
                             </div>
                             <div class="card-content">
                                 <span class="card-title">{{ s.session_name }}</span>
                                 <p>
-                                    {% if s.last_modification_date %}
-                                        <i>dernière modification le <br> {{ s.last_modification_date }}</i>  {% endif %}
+                                    {% if s.last_modification_date != s.start_date %}
+                                        <i>dernière modification le <br> {{ s.last_modification_date }}</i>
+                                    {% else %}
+                                        <i>créée le <br> {{ s.start_date }}</i>
+                                    {% endif %}
                                 </p>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
-
         </div>
+        {% if page_number > 1 %}
+            <div class="row center">
+                <ul class="pagination">
+                    {% if current_page > 1 %}
+                        <li class="waves-effect"><a href="{{ url_for('index', page=current_page-1) }}"><i
+                                class="material-icons">chevron_left</i></a></li>
+                    {% else %}
+                        <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+                    {% endif %}
+                    {% for i in range(1,page_number + 1) %}
+                        {% if current_page == i %}
+                            <li class="active blue darken-2"><a href="{{ url_for('index', page=i) }}">{{ i }}</a></li>
+                        {% else %}
+                            <li class="waves-effect"><a href="{{ url_for('index', page=i) }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if current_page < page_number %}
+                        <li class="waves-effect"><a href="{{ url_for('index', page=current_page + 1) }}"><i
+                                class="material-icons">chevron_right</i></a></li>
+                    {% else %}
+                        <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
     {% else %}
         <div class="row container center">
             <h1>Bienvenue sur TweetoStats</h1>
