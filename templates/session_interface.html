@@ -79,6 +79,12 @@
                 </div>
             </div>
             <div id="wordcloud"></div>
+            <script>
+                var startdate ={% if startdate is defined %} {{ startdate | tojson }} {% else %}"";{% endif %}
+                var stopdate  ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
+            </script>
+            <div class="duration"></div>
+            <div id="little-wordcloud"></div>
         </div>
     </div>
 

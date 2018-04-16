@@ -9,28 +9,24 @@ from flask import session
 from stop_words import get_stop_words
 import datetime, pytz, time
 
-
 def stock_tweets(tweet):
+    #print(tweet)
     tweets_table = mongo.db.tweets
-    tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet. _json})
+    tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
 
-
-def delete_many_tweets(key=None, value=None):
+def delete_many_tweets(key = None, value = None):
     tweets_table = mongo.db.tweets
     if key is not None and value is not None:
         results = tweets_table.delete_many({key: value})
     else:
-        results = tweets_table.delete_many({})  # Delete all from the collection
+        results = tweets_table.delete_many({})# Delete all from the collection
     print(results.deleted_count)
-
 
 def tweets_by_session_id(session_id):
     return mongo.db.tweets.find({'session_id': session_id})
 
-
 def count_number_of_tweets(session_id):
     return tweets_by_session_id(session_id).count()
-
 
 def retrieve_all_tweets_text():
     if 'last_session' in session:
@@ -45,6 +41,7 @@ def retrieve_all_tweets_text():
 
 
 def word_splitter(tweet_text):
+    #print(tweet_text)
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
     tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
     pattern = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
@@ -52,56 +49,70 @@ def word_splitter(tweet_text):
     words = tweet_text.split(" ")
     new_words = []
     stop_words = get_stop_words('fr') + get_stop_words('en')
-    # print(stop_words)
+   # print(tweet_text)
     for word in words:
-        if word.lower() in stop_words or 'RT' in word.lower():
+        if 'RT' == word.lower() or word in stop_words:
             words.remove(word)
+    #print(words)
     word_counter = collections.Counter(words)
     for word in word_counter:
-        if word_counter[word] >= 3:
+        if word_counter[word] >= 2:
             new_words.append({'text': word, 'size': word_counter[word]})
+    print(new_words)
     return new_words
 
-def retrieve_tweet_dates():
-    tweets_table = mongo.db.tweets()
+def retrieve_tweet_dates(start_date = None, stop_date=None):
+
+    tweets_table = mongo.db.tweets;
     buffer = []
-    for tweet in tweets_table.find():
-        buffer.append(tweet['tweet_object'])
-    date_buffer = []
-    for tweet in buffer:
-        date_buffer.append(tweet['created_at'])
-    return date_to_int(date_buffer)
+    if start_date is not None and stop_date is not None:
+        start_date = datetime.datetime.strptime(start_date, '%a %b %d %H:%M:%S +0000 %Y').replace(
+            tzinfo=pytz.UTC)
+        stop_date = datetime.datetime.strptime(stop_date, '%a %b %d %H:%M:%S +0000 %Y').replace(
+            tzinfo=pytz.UTC)
+        for tweet in tweets_table.find({"session_id": session['last_session']}):
+            d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
+                tzinfo=pytz.UTC)
+            if time.mktime(d.timetuple()) >= float(start_date) and time.mktime(d.timetuple()) <= float(stop_date):
+                print(time.mktime(d.timetuple()))
+                buffer.append(time.mktime(d.timetuple()))
+    else:
+        for tweet in tweets_table.find({"session_id": session['last_session']}):
+            d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
+            buffer.append(time.mktime(d.timetuple()))
+    print(buffer)
+    return date_to_int(buffer)
+
 
 def date_to_int(tweet_dates):
-    buffer = []
-    for date in tweet_dates:
-        d = datetime.datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
-        buffer.append(time.mktime(d.timetuple()))
-    print(buffer)
-    start_date = int(min(buffer))
-    stop_date = int(max(buffer))
-    freq = [0]*len(buffer)
-    index = 0
-    for x in range(start_date,stop_date,10):
-        for i in range(len(buffer)):
-            if buffer[i] >= float(x) and buffer[i] <= float(x+10):
-                freq[index] = freq[index] + 1
-        index = index + 1
+    start_date = int(min(tweet_dates))
+    stop_date = int(max(tweet_dates))
     new_freq = []
-    for x, i in zip(range(start_date, stop_date,11), freq):
-        new_freq.append({'freq': i, 'start_date': x, 'stop_date': x+10})
-    print(new_freq)
+    for x in range(start_date, stop_date, 86400):
+        if x == stop_date:
+            break
+        new_freq.append({'freq': count_date(tweet_dates, x, x+86400), 'start_date': x, 'stop_date': x+86400})
+    #print(new_freq)
     return new_freq
+
+
+def count_date(buffer, d, f):
+    count = 0
+    for i in range(len(buffer)):
+        # print("tweet : " + str(buffer[i]) + " debut : " + str(d) + " fin : " + str(f))
+        if buffer[i] >= d and buffer[i] <= f:
+            count = count + 1
+    return count
+
 
 def retrieve_tweets_by_date(start,stop):
     tweets_table = mongo.db.tweets
-    buffer = []
-    buffer.append(time.mktime(d.timetuple()))
-    for tweet in tweets_table.find():
-        buffer.append(tweet['tweet_object'])
     tweet_text = ""
-    for tweet in buffer:
-        d = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
-        if d >= start and d <= stop:
-            tweet_text = tweet_text + " " + tweet["full_text"]
+    count = 0
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
+        count = count +1
+        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
+        if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
+            tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
+    print("count : " + str(count))
     return word_splitter(tweet_text)
