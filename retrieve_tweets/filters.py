@@ -30,13 +30,16 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
     else:
         geocode = None # TODO: FIX (Filtrer par geocode) et fix language
         query = keywords
-        if startdate is not None and stopdate is not None:
+        if startdate != "" and stopdate != "":
             query = query + " since:" + startdate + " until:" + stopdate
-        if user is not None:
+        if user != "":
             query = query + " from:@" + user
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, language=language).items(10):
-            # print(tweet)
+            print(language)
+        if language == "":
+            language = "fr"
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, language=language).items(300):
             stock_tweets(tweet)
+        print("stockage fini")
 
 @app.route('/session/stream/stop')
 def stopStream():

@@ -45,7 +45,8 @@
     <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}"></script>
     <script src="{{ url_for('static', filename='materialize/js/script.js') }}"></script>
     <script src="{{ url_for('static', filename='d3/js/script-d3.js') }}"></script>
-    {% block script_d3 %}{% endblock %}
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="{{ url_for('static', filename='d3/js/script-duration.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 

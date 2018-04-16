@@ -20,16 +20,22 @@ def get_little_wordcloud(start_date,stop_date):
     words = retrieve_tweets_by_date(start_date, stop_date)
     return json.dumps(words)
 
-@app.route('/test/<keywords>')
-def test(keywords):
-    filter(keywords=keywords)
-    freq_per_date = retrieve_tweet_dates()
-    return render_template('result_wordcloud.html', keywords=keywords, freq_per_date=freq_per_date)
 
 @app.route('/result-wordcloud/')
 def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
+
+@app.route('/result-freq-per-date/<startdate>/<stopdate>')
+@app.route('/result-freq-per-date/')
+def histogram(startdate = None,stopdate = None):
+    print(startdate)
+    if startdate is None and stopdate is None:
+        freq_per_date = retrieve_tweet_dates()
+    else:
+        freq_per_date = retrieve_tweet_dates(startdate,stopdate)
+    print(freq_per_date)
+    return json.dumps(freq_per_date)
 
 @app.route('/session/add/', methods=['POST', 'GET'])
 @app.route('/session/add/<mode>', methods=['POST', 'GET'])
@@ -74,7 +80,12 @@ def display_session(session_id=None):
         user = current_session['params']['twitter_user']
         language = current_session['params']['language']
         filter(keywords, geocode, stream, startdate, stopdate, user, language)
-        return render_template('session_interface.html', current_session = current_session)
+        if startdate is not None and stopdate is not None:
+            print(startdate)
+            return render_template('session_interface.html', current_session = current_session, startdate = startdate, stopdate = stopdate)
+        else:
+            return render_template('session_interface.html', current_session=current_session)
+
 
 @app.route('/session/close/')
 def close_session():
