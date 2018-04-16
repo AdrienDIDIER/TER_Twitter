@@ -1,5 +1,7 @@
 function histogram(freq_per_date) {
-    var formatTime = d3.time.format("%H:%M");
+     var difference = freq_per_date[0].stop_date - freq_per_date[0].start_date;
+
+     var formatTime = d3.time.format("Le %d %m - %Hh%Mmin");
 
     var bins = [];
     for (var i = 0; i <= freq_per_date.length - 1; i++) {
@@ -7,41 +9,43 @@ function histogram(freq_per_date) {
         bins.push(formatTime(new Date(1000*freq_per_date[i].stop_date)));
     }
     var dates = []
+
     for (var i = 0; i <= freq_per_date.length - 1; i++) {
         dates.push(freq_per_date[i].start_date);
         dates.push(freq_per_date[i].stop_date);
     }
+
     console.log(freq_per_date);
     var freq = [];
     for (var i = 0; i <= freq_per_date.length - 1; i++) {
         freq.push(freq_per_date[i].freq);
     }
     var height = 550;
-
+    var heightCart = 500;
     var svg = d3.select('div.duration').append('svg')
         .attr("transform", "translate(25,25)");
 
- var diff = (d3.max(dates) - d3.min(dates)) / dates.length;
+ //var diff = (d3.max(dates) - d3.min(dates)) / dates.length;
 
     var xScale = d3.scalePoint()
-        .range([0, (60 * freq.length)]);
+        .range([0, 30*bins.length/2]);
     xScale.domain(bins);
 
     var color = d3.scale.category20c();
 
-    svg.attr("width", 60*freq.length + 100)
-        .attr("height", height + 50);
+    svg.attr("width", 30*freq.length + 200)
+        .attr("height", height + 200);
 
     svg.selectAll('rect').data(freq).enter().append('rect')
-        .attr("width", 60)
+        .attr("width", 30)
         .attr('height', function (d) {
-            return d*2;
+            return ((d/ d3.max(freq)) * heightCart);
         })
-        .attr('x', function(d,i){ return i* 60; })
+        .attr('x', function(d,i){ return i* 30; })
         .attr('y', function (d) {
-            return height - d*2;
+            return height - ((d/ d3.max(freq)) * heightCart);
         })
-        .attr("transform", "translate("+ 20+",0)")
+        .attr("transform", "translate("+ 100+"," + 0 + " )")
         .attr("fill", function (d, i) {
             return color(i);
         })
@@ -60,9 +64,10 @@ function histogram(freq_per_date) {
         })
         .on("click", function (d, i) {
             console.log(i);
-            var da = dates[0] + 60 * i;
-            var s = da + 60;
-            console.log(da);
+            var da = dates[0] + difference * i;
+            var s = da + difference;
+            console.log(difference);
+            console.log(formatTime(new Date(1000*da)));
             console.log(s);
             d3.json("http://127.0.0.1:5000/result-wordcloud/" + da + "/" + s, function (json) {
                 mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
@@ -71,17 +76,22 @@ function histogram(freq_per_date) {
 
     svg.append("g")
         .attr("class", "axis axis--x")
-      .attr("transform", "translate("+ 20 +"," + height + ")")
-      .call(d3.axisBottom(xScale));
+      .attr("transform", "translate("+ 100 +"," + height + ")")
+      .call(d3.axisBottom(xScale))
+       .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-65)");
 
     var yScale = d3.scaleLinear()
-        .domain([0, d3.max(freq) + (10 - (d3.max(freq) % 10))])
-        .range([height, height- d3.max(freq) * 2]);
+        .domain([0,d3.max(freq)])
+        .range([height, height - heightCart]);
 
     svg.append("g")
       .attr("class", "axis axis--y")
       .call(d3.axisLeft(yScale).ticks(3))
-      .attr("transform", "translate("+20+", 0)")
+      .attr("transform", "translate("+100+", 0)")
         .append("text")
       .attr("y", 2)
       .attr("dy", "0.71em")

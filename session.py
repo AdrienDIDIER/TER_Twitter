@@ -20,9 +20,14 @@ def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
 
+@app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')
-def histogram():
-    freq_per_date = retrieve_tweet_dates()
+def histogram(startdate = None,stopdate = None):
+    print(startdate)
+    if startdate is None and stopdate is None:
+        freq_per_date = retrieve_tweet_dates()
+    else:
+        freq_per_date = retrieve_tweet_dates(startdate,stopdate)
     print(freq_per_date)
     return json.dumps(freq_per_date)
 
@@ -70,8 +75,11 @@ def display_session(session_id=None):
         language = current_session['params']['language']
 
         filter(keywords, geocode, stream, startdate, stopdate, user, language)
-
-        return render_template('session_interface.html', current_session = current_session)
+        if startdate is not None and stopdate is not None:
+            print(startdate)
+            return render_template('session_interface.html', current_session = current_session, startdate = startdate, stopdate = stopdate)
+        else:
+            return render_template('session_interface.html', current_session=current_session)
 
 @app.route('/session/close/<session_id>')
 def close_session(session_id=None):

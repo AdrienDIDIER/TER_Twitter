@@ -52,37 +52,45 @@ def word_splitter(tweet_text):
             new_words.append({'text': word, 'size': word_counter[word]})
     return new_words
 
-def retrieve_tweet_dates():
+def retrieve_tweet_dates(start_date = None, stop_date=None):
+
     tweets_table = mongo.db.tweets;
     buffer = []
-    for tweet in tweets_table.find({"session_id": session['last_session']}):
-        buffer.append(tweet['tweet_object']['created_at'])
+    if start_date is not None and stop_date is not None:
+        start_date = datetime.datetime.strptime(start_date, '%a %b %d %H:%M:%S +0000 %Y').replace(
+            tzinfo=pytz.UTC)
+        stop_date = datetime.datetime.strptime(stop_date, '%a %b %d %H:%M:%S +0000 %Y').replace(
+            tzinfo=pytz.UTC)
+        for tweet in tweets_table.find({"session_id": session['last_session']}):
+            d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
+                tzinfo=pytz.UTC)
+            if time.mktime(d.timetuple()) >= float(start_date) and time.mktime(d.timetuple()) <= float(stop_date):
+                print(time.mktime(d.timetuple()))
+                buffer.append(time.mktime(d.timetuple()))
+    else:
+        for tweet in tweets_table.find({"session_id": session['last_session']}):
+            d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
+            buffer.append(time.mktime(d.timetuple()))
+    print(buffer)
     return date_to_int(buffer)
 
 
 def date_to_int(tweet_dates):
-    buffer = []
-    for date in tweet_dates:
-        d = datetime.datetime.strptime(date, '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
-        buffer.append(time.mktime(d.timetuple()))
-    print(buffer)
-    start_date = int(min(buffer))
-    stop_date = int(max(buffer))
-    print(start_date)
-    print(stop_date)
+    start_date = int(min(tweet_dates))
+    stop_date = int(max(tweet_dates))
     new_freq = []
-    for x in range(start_date, stop_date,60):
+    for x in range(start_date, stop_date, 30):
         if x == stop_date:
             break
-        new_freq.append({'freq': count_date(buffer, x, x+60), 'start_date': x, 'stop_date': x+60})
-    print(new_freq)
+        new_freq.append({'freq': count_date(tweet_dates, x, x+30), 'start_date': x, 'stop_date': x+30})
+    #print(new_freq)
     return new_freq
 
 
 def count_date(buffer, d, f):
     count = 0
     for i in range(len(buffer)):
-        print("tweet : " + str(buffer[i]) + " debut : " + str(d) + " fin : " + str(f))
+        # print("tweet : " + str(buffer[i]) + " debut : " + str(d) + " fin : " + str(f))
         if buffer[i] >= d and buffer[i] <= f:
             count = count + 1
     return count

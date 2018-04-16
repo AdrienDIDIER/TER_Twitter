@@ -70,20 +70,19 @@ function ajax_wordcloud(){
     });
 }
 
-function ajax_freq_per_date(){
-    $.ajax({
-        url: '/result-freq-per-date/',
-        type: 'GET',
-        data: { get_param: 'value' },
-        dataType: 'json',
+function ajax_freq_per_date() {
+    if((startdate != "")&&(stopdate != "")){
+        d3.json("http://127.0.0.1:5000/result-freq-per-date/" + startdate + "/" + stopdate + "/", function (json) {
+            histogram(json);
+        });
+    }
+    else{
+        console.log("toto");
+        d3.json("http://127.0.0.1:5000/result-freq-per-date/", function (json) {
+            histogram(json);
+        });
+    }
 
-        success: function (response) {
-           histogram(response);
-        },
-        error: function (error) {
-            /**/
-        }
-    });
 }
 
 
