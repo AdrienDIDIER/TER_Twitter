@@ -63,10 +63,11 @@ function ajax_wordcloud(){
         success: function (response) {
             $('#loading_circle').hide();
             var stream_button_pressed = $('#start-stream_button').is(":disabled");
+             mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
             if(stream_button_pressed){
                 refresh_wordcloud(true);
             }
-            mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
+
         },
         error: function (error) {
             /**/

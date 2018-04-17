@@ -38,11 +38,6 @@ def retrieve_all_tweets_text():
             elif 'text' in tweet['tweet_object']:
                 tweet_text = tweet_text + tweet['tweet_object']['text']
         return word_splitter(tweet_text)
-    tweets_table = tweets_by_session_id(session['last_session'])
-    tweet_text = ""
-    for tweet in tweets_table:
-        tweet_text = tweet_text + " " + tweet['tweet_object']['full_text']
-    return word_splitter(tweet_text)
 
 
 def word_splitter(tweet_text):
@@ -121,3 +116,16 @@ def retrieve_tweets_by_date(start,stop):
             tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
     print("count : " + str(count))
     return word_splitter(tweet_text)
+
+def getTheMostRT(start, stop):
+    tweets_table = tweets_by_session_id(session['last_session'])
+    twot = []
+    max = 0
+    for tweet in tweets_table:
+        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
+            tzinfo=pytz.UTC)
+        if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
+            if tweet['tweet_object']['retweet_count'] >= max:
+                twot = tweet['tweet_object']
+    buffer = []
+    #buffer.append({'user': twot['']})
