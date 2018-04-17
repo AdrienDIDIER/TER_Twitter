@@ -4,8 +4,8 @@ if (document.getElementById('map') != null) {
     map.setView([45.5, 2], 4);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-            maxZoom: 18,
-            id: 'mapbox.streets'
+        maxZoom: 18,
+        id: 'mapbox.streets'
     }).addTo(map);
 
     var locationFilter = new L.LocationFilter().addTo(map);
@@ -18,6 +18,9 @@ if (document.getElementById('map') != null) {
 
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
+    refresh_wordcloud(false);
+    ajax_freq_per_date();
+
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
@@ -30,7 +33,7 @@ $(document).ready(function () {
                 /**/
             },
             error: function (error) {
-               /**/
+                /**/
             }
         });
     });
@@ -44,7 +47,7 @@ $(document).ready(function () {
             type: 'GET',
 
             success: function (response) {
-                /**/
+                first_refresh = false;
             },
             error: function (error) {
                 /**/
@@ -53,8 +56,8 @@ $(document).ready(function () {
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
         var button_target = $(this);
-        var wordcloud = $('#wordcloud');
         button_target.attr("disabled", "disabled");
+        $('#loading_circle').show();
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
             data: '',
@@ -62,9 +65,8 @@ $(document).ready(function () {
 
             success: function (response) {
                 refresh_number_tweets();
-                refresh_wordcloud();
+                refresh_wordcloud(false);
                 ajax_freq_per_date();
-
                 button_target.prop("disabled", false);
             },
             error: function (error) {
@@ -121,9 +123,9 @@ $(function () {
     });
 });
 
-$(document).ready(function(){
+$(document).ready(function () {
     $('.tooltipped').tooltip({delay: 50});
-  });
+});
 
 function refresh_wordcloud(stream = false) {
     if (!stream) {

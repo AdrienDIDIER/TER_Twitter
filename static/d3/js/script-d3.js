@@ -61,12 +61,16 @@ function ajax_wordcloud(){
         dataType: 'json',
 
         success: function (response) {
-            $('#loading_circle').hide();
             var stream_button_pressed = $('#start-stream_button').is(":disabled");
             if(stream_button_pressed){
                 refresh_wordcloud(true);
             }
             mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
+            $('#loading_circle').hide();
+            var startdated_button_pressed = $('#start-dated_tweets_button').is(":disabled");
+            if(startdated_button_pressed){
+                $('#loading_circle').show();
+            }
         },
         error: function (error) {
             /**/
@@ -86,11 +90,4 @@ function ajax_freq_per_date() {
             histogram(json);
         });
     }
-
 }
-
-
-$(document).ready(function () {
-    ajax_freq_per_date();
-    ajax_wordcloud();
-});

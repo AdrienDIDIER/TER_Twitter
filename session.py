@@ -146,7 +146,6 @@ def upload_file():
         session_document['exporter_user'] = exporter_user['first_name'] + exporter_user['last_name']
         mongo.db.sessions.insert_one(session_document)
         session['last_session'] = str(session_document['_id'])
-        tweet_collection = mongo.db.tweets.find_one({"session_id": "5acfa7d14f610629981feee1"})
         for tweet in imported_tweets:
             # Lier les tweets importés à notre nouvelle session
             tweet['session_id'] = session['last_session']
