@@ -128,4 +128,6 @@ def getTheMostRT(start, stop):
             if tweet['tweet_object']['retweet_count'] >= max:
                 twot = tweet['tweet_object']
     buffer = []
-    #buffer.append({'user': twot['']})
+    buffer.append({'user': twot['user']["name"], 'nbRt': twot['retweet_count'], 'text': twot['full_text'] })
+    print(buffer)
+    return buffer
