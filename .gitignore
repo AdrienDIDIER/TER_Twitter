@@ -2,5 +2,6 @@ database.py
 .idea
 tweepy_auth.py
 venv
+venv1
 __pycache__
 retrieve_tweets/__pycache__

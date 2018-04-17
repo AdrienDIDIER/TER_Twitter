@@ -18,6 +18,8 @@ if (document.getElementById('map') != null) {
 
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
+    refresh_wordcloud();
+
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
@@ -30,7 +32,7 @@ $(document).ready(function () {
                 /**/
             },
             error: function (error) {
-               /**/
+                /**/
             }
         });
     });
@@ -53,7 +55,6 @@ $(document).ready(function () {
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
         var button_target = $(this);
-        var wordcloud = $('#wordcloud');
         button_target.attr("disabled", "disabled");
 
         $.ajax({
@@ -65,7 +66,6 @@ $(document).ready(function () {
                 refresh_number_tweets();
                 refresh_wordcloud();
                 ajax_freq_per_date();
-
                 button_target.prop("disabled", false);
             },
             error: function (error) {
