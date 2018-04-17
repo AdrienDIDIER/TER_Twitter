@@ -19,6 +19,7 @@ if (document.getElementById('map') != null) {
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
     refresh_wordcloud(false);
+    ajax_freq_per_date();
 
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
