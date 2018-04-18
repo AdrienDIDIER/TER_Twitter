@@ -36,6 +36,14 @@ function histogram(freq_per_date) {
     svg.attr("width", 30*freq.length + 200)
         .attr("height", height + 200);
 
+    var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([-10, 0])
+        .html(function(d,i){
+
+        });
+
+    svg.call(tip);
     svg.selectAll('rect').data(freq).enter().append('rect')
         .attr("width", 30)
         .attr('height', function (d) {
@@ -53,14 +61,29 @@ function histogram(freq_per_date) {
             return i;
         })
 
-        .on("mouseover", function () {
-            d3.select(this)
-                .attr("fill", "red");
+        .on("mouseover", function (d,i) {
+           var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
+           var yPosition = parseFloat(d3.select(this).attr("y")) / 2 + height / 2;
+           var da = dates[0] + difference * i;
+           var s = da + difference;
+           d3.json("http://127.0.0.1:5000/retrieve-themostrt/" + da + "/" + s, function(json){
+               var tip = d3.select("#tooltip");
+               tip.style("z-index", 10000)
+               .select("#user")
+               .text("Nom d'utilisateur : " + json[0]['user']);
+
+               tip.select('#content')
+                   .text("Contenu du tweet : \"" +  json[0]['text'] + "\"");
+
+               tip.select('#nbrt')
+                   .text("Nombre de RT: " + json[0]['nbRt']);
+
+                d3.select("#tooltip").classed("hidden", false);
+
+           })
         })
-        .on("mouseout", function (d, i) {
-            d3.select(this).attr("fill", function () {
-                return "" + color(this.id) + "";
-            });
+        .on("mouseout", function() {
+            d3.select("#tooltip").classed("hidden", true);
         })
         .on("click", function (d, i) {
             console.log(i);
