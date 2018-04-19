@@ -88,10 +88,10 @@ def date_to_int(tweet_dates):
     start_date = int(min(tweet_dates))
     stop_date = int(max(tweet_dates))
     new_freq = []
-    for x in range(start_date, stop_date, 86400):
+    for x in range(start_date, stop_date, 3600):
         if x == stop_date:
             break
-        new_freq.append({'freq': count_date(tweet_dates, x, x+86400), 'start_date': x, 'stop_date': x+86400})
+        new_freq.append({'freq': count_date(tweet_dates, x, x+3600), 'start_date': x, 'stop_date': x+3600})
     #print(new_freq)
     return new_freq
 
