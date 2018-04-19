@@ -19,8 +19,6 @@ if (document.getElementById('map') != null) {
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
     refresh_wordcloud(false);
-    ajax_freq_per_date();
-
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
@@ -65,8 +63,8 @@ $(document).ready(function () {
 
             success: function (response) {
                 refresh_number_tweets();
-                refresh_wordcloud(false);
                 ajax_freq_per_date();
+                refresh_wordcloud(false);
                 button_target.prop("disabled", false);
             },
             error: function (error) {

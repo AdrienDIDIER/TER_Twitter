@@ -59,6 +59,7 @@ def addSession(mode=None):
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
+            print(request.form['keywords'])
             src_img = getLinkImgFromKeyWords(request.form['keywords'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
@@ -86,6 +87,7 @@ def getLinkImgFromKeyWords(keywords):
     response = google_images_download.googleimagesdownload()  # class instantiation
     arguments = {"keywords": keywords, "limit": 6, "usage_rights": "labeled-for-reuse", "aspect_ratio" : "wide", "size": "medium"}  # creating list of arguments
     links = response.download(arguments)  # passing the arguments to the function
+    print(response.download(arguments))
     # return le lien random parmi les liens récupérés
     if len(links) > 0:
         return links[randint(0, len(links) - 1)]
