@@ -90,11 +90,4 @@ function ajax_freq_per_date() {
             histogram(json);
         });
     }
-
 }
-
-
-$(document).ready(function () {
-    ajax_freq_per_date();
-    ajax_wordcloud();
-});
