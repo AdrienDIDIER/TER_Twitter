@@ -63,8 +63,8 @@ $(document).ready(function () {
 
             success: function (response) {
                 refresh_number_tweets();
-                ajax_freq_per_date();
                 refresh_wordcloud(false);
+                refresh_histogram();
                 button_target.prop("disabled", false);
             },
             error: function (error) {
@@ -137,4 +137,15 @@ function refresh_wordcloud(stream = false) {
     }
 
     ajax_wordcloud();
+}
+
+function refresh_histogram(){
+    var histogram = $('.duration');
+    /* Si un histogramme a déjà été généré */
+    if (histogram.find('svg') !== 0) {
+        histogram.find('svg').remove();
+        /* Vide l'histogramme pour en accueillir un nouveau */
+    }
+
+    ajax_freq_per_date();
 }
