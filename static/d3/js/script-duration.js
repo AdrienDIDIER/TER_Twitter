@@ -27,7 +27,10 @@ function histogram(freq_per_date) {
     }
     var height = 550;
     var heightCart = 500;
-    var svg = d3.select('div.duration').append('svg')
+    if($('#histogram').find('svg')){
+        $('#histogram').find('svg').remove();
+    }
+    var svg = d3.select('#histogram').append('svg')
         .attr("transform", "translate(25,25)");
 
  //var diff = (d3.max(dates) - d3.min(dates)) / dates.length;
