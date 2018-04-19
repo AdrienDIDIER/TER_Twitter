@@ -85,7 +85,6 @@ function ajax_freq_per_date() {
         });
     }
     else{
-        console.log("toto");
         d3.json("/result-freq-per-date/", function (json) {
             histogram(json);
         });
