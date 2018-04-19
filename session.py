@@ -43,6 +43,12 @@ def histogram(startdate = None,stopdate = None):
     print(freq_per_date)
     return json.dumps(freq_per_date)
 
+@app.route('/retrieve-themostrt/<start>/<stop>')
+def retrieveTheMostRt(start, stop):
+    most_rt = getTheMostRT(start, stop)
+    return json.dumps(most_rt)
+
+
 @app.route('/session/add/', methods=['POST', 'GET'])
 @app.route('/session/add/<mode>', methods=['POST', 'GET'])
 def addSession(mode=None):
