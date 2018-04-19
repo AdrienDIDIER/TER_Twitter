@@ -127,7 +127,7 @@ $(document).ready(function () {
     $('.tooltipped').tooltip({delay: 50});
 });
 
-function refresh_wordcloud(stream = false) {
+function refresh_wordcloud(stream) {
     if (!stream) {
         $('#loading_circle').show();
         var wordcloud = $('#wordcloud');

@@ -106,6 +106,8 @@ def date_to_int(tweet_dates,start = None,stop = None):
         intervals = 60
     elif stop_date-start_date >= 30:#intervalle de 30 secondes
         intervals = 30
+    else:
+        intervals = 10
     start_date = int(min(tweet_dates))
     stop_date = int(max(tweet_dates))
     new_freq = []

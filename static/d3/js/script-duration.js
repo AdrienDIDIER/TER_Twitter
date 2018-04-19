@@ -60,7 +60,7 @@ function histogram(freq_per_date) {
         .on("mouseover", function (d,i) {
            var da = dates[0] + difference * i;
            var s = da + difference;
-           d3.json("http://127.0.0.1:5000/retrieve-themostrt/" + da + "/" + s, function(json){
+           d3.json("/retrieve-themostrt/" + da + "/" + s, function(json){
                var tip = d3.select("#tooltip");
                tip.style("z-index", 10000)
                .select("#user")
