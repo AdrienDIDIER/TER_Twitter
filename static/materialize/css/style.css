@@ -88,15 +88,19 @@ nav{
       -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
       box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
       pointer-events: none;
-    }
+}
 
-    #tooltip.hidden {
-      display: none;
-    }
+#tooltip.hidden {
+    display: none;
+}
 
-    #tooltip p {
-      margin: 0;
-      font-family: Futura;
-      font-size: 16px;
-      line-height: 20px;
-    }
+#tooltip p {
+    margin: 0;
+    font-family: Futura;
+    font-size: 16px;
+    line-height: 20px;
+}
+#tooltip_text{
+    color:red;
+}
+
