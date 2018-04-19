@@ -69,7 +69,7 @@ function histogram(freq_per_date) {
             console.log(difference);
             console.log(formatTime(new Date(1000*da)));
             console.log(s);
-            d3.json("http://127.0.0.1:5000/result-wordcloud/" + da + "/" + s, function (json) {
+            d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                 mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
             });
         });
