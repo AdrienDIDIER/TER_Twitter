@@ -39,6 +39,7 @@ def retrieve_all_tweets_text():
                 tweet_text = tweet_text + tweet['tweet_object']['text']
         return word_splitter(tweet_text)
 
+
 def word_splitter(tweet_text):
     #print(tweet_text)
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
@@ -80,17 +81,38 @@ def retrieve_tweet_dates(start_date = None, stop_date=None):
             d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
             buffer.append(time.mktime(d.timetuple()))
     print(buffer)
-    return date_to_int(buffer)
+    return date_to_int(buffer, start_date,stop_date)
 
 
-def date_to_int(tweet_dates):
+def date_to_int(tweet_dates,start = None,stop = None):
+    if start is None and stop is None:
+        start_date = int(min(tweet_dates))
+        stop_date = int(max(tweet_dates))
+    else:
+        start_date = start
+        stop_date = stop
+
+    if stop_date-start_date >= 172800:#intervalle de 2 jours
+        intervals = 172800
+    elif stop_date-start_date >= 86400:#intervalle de 1 jour
+        intervals = 86400
+    elif stop_date-start_date >= 43200:#intervalle de 12 heures
+        intervals = 43200
+    elif stop_date-start_date >= 3600:#intervalle de 1 heure
+        intervals = 3600
+    elif stop_date-start_date >= 600:#intervalle de 10 minutes
+        intervals = 600
+    elif stop_date-start_date >= 60:#intervalle de 1 minute
+        intervals = 60
+    elif stop_date-start_date >= 30:#intervalle de 30 secondes
+        intervals = 30
     start_date = int(min(tweet_dates))
     stop_date = int(max(tweet_dates))
     new_freq = []
-    for x in range(start_date, stop_date, 86400):
+    for x in range(start_date, stop_date, intervals):
         if x == stop_date:
             break
-        new_freq.append({'freq': count_date(tweet_dates, x, x+86400), 'start_date': x, 'stop_date': x+86400})
+        new_freq.append({'freq': count_date(tweet_dates, x, x+intervals), 'start_date': x, 'stop_date': x+intervals})
     #print(new_freq)
     return new_freq
 
@@ -115,3 +137,18 @@ def retrieve_tweets_by_date(start,stop):
             tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
     print("count : " + str(count))
     return word_splitter(tweet_text)
+
+def getTheMostRT(start, stop):
+    tweets_table = tweets_by_session_id(session['last_session'])
+    twot = []
+    max = 0
+    for tweet in tweets_table:
+        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
+            tzinfo=pytz.UTC)
+        if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
+            if tweet['tweet_object']['retweet_count'] >= max:
+                twot = tweet['tweet_object']
+    buffer = []
+    buffer.append({'user': twot['user']["name"], 'nbRt': twot['retweet_count'], 'text': twot['full_text'] })
+    print(buffer)
+    return buffer
