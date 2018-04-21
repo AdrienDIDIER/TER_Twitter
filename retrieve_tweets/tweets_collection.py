@@ -49,15 +49,13 @@ def word_splitter(tweet_text):
     words = tweet_text.split(" ")
     new_words = []
     stop_words = get_stop_words('fr') + get_stop_words('en')
-   # print(tweet_text)
-    for word in words:
-        if 'RT' == word.lower() or word in stop_words:
-            words.remove(word)
-    #print(words)
+    print(stop_words)
+    words = [word for word in words if word.lower() not in stop_words and 'RT' not in word]
+    print(words)
     word_counter = collections.Counter(words)
     for word in word_counter:
         if word_counter[word] >= 2:
-            new_words.append({'text': word, 'size': word_counter[word]})
+            new_words.append({'text': word, 'size': word_counter[word]}) 
     print(new_words)
     return new_words
 
