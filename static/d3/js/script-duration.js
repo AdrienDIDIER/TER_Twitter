@@ -27,7 +27,10 @@ function histogram(freq_per_date) {
     }
     var height = 550;
     var heightCart = 500;
-    var svg = d3.select('div.duration').append('svg')
+    if($('#histogram').find('svg')){
+        $('#histogram').find('svg').remove();
+    }
+    var svg = d3.select('#histogram').append('svg')
         .attr("transform", "translate(25,25)");
 
  //var diff = (d3.max(dates) - d3.min(dates)) / dates.length;
@@ -60,7 +63,7 @@ function histogram(freq_per_date) {
         .on("mouseover", function (d,i) {
            var da = dates[0] + difference * i;
            var s = da + difference;
-           d3.json("http://127.0.0.1:5000/retrieve-themostrt/" + da + "/" + s, function(json){
+           d3.json("/retrieve-themostrt/" + da + "/" + s, function(json){
                var tip = d3.select("#tooltip");
                tip.style("z-index", 10000)
                .select("#user")
@@ -86,7 +89,7 @@ function histogram(freq_per_date) {
             console.log(difference);
             console.log(formatTime(new Date(1000*da)));
             console.log(s);
-            d3.json("http://127.0.0.1:5000/result-wordcloud/" + da + "/" + s, function (json) {
+            d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                 mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
             });
         });

@@ -37,7 +37,7 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
             print(language)
         if language == "":
             language = "fr"
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, language=language).items(300):
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang=language).items(200):
             stock_tweets(tweet)
         print("stockage fini")
 

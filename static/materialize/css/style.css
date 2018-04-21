@@ -18,6 +18,9 @@ nav{
     vertical-align: middle;
 }
 
+.card-image img{
+    height: 150px !important;
+}
 .sessionLink{
     color: black;
 }

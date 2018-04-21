@@ -83,7 +83,7 @@
                 var startdate ={% if startdate is defined %} {{ startdate | tojson }} {% else %}"";{% endif %}
                 var stopdate  ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
             </script>
-            <div class="duration">
+            <div class="duration" id="histogram">
                 <div id="tooltip" class="hidden">
                     <p id="user"></p>
                     <p id="content"> </p>

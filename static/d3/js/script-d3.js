@@ -61,13 +61,16 @@ function ajax_wordcloud(){
         dataType: 'json',
 
         success: function (response) {
-            $('#loading_circle').hide();
             var stream_button_pressed = $('#start-stream_button').is(":disabled");
-             mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
             if(stream_button_pressed){
                 refresh_wordcloud(true);
             }
-
+            mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
+            $('#loading_circle').hide();
+            var startdated_button_pressed = $('#start-dated_tweets_button').is(":disabled");
+            if(startdated_button_pressed){
+                $('#loading_circle').show();
+            }
         },
         error: function (error) {
             /**/
@@ -76,22 +79,11 @@ function ajax_wordcloud(){
 }
 
 function ajax_freq_per_date() {
-    if((startdate != "")&&(stopdate != "")){
-        d3.json("http://127.0.0.1:5000/result-freq-per-date/" + startdate + "/" + stopdate + "/", function (json) {
-            histogram(json);
-        });
+    var url = "/result-freq-per-date/";
+    if((startdate !== "") && (stopdate !== "")){
+        url += startdate + "/" + stopdate + "/";
     }
-    else{
-        console.log("toto");
-        d3.json("http://127.0.0.1:5000/result-freq-per-date/", function (json) {
-            histogram(json);
-        });
-    }
-
+    d3.json(url, function (json) {
+        histogram(json);
+    });
 }
-
-
-$(document).ready(function () {
-    ajax_freq_per_date();
-    ajax_wordcloud();
-});

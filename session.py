@@ -9,22 +9,28 @@ from index import *
 from bson import ObjectId, Binary, Code, BSON
 from bson.json_util import dumps
 import json
+from lib.google_images_download import google_images_download
+from random import randint
+
 
 @app.route('/delete-all-tweets')
 def deleted():
     delete_many_tweets()
     return render_template('index.html')
 
+
 @app.route('/result-wordcloud/<start_date>/<stop_date>')
-def get_little_wordcloud(start_date,stop_date):
+def get_little_wordcloud(start_date, stop_date):
     words = retrieve_tweets_by_date(start_date, stop_date)
     return json.dumps(words)
+
 
 
 @app.route('/result-wordcloud/')
 def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
+
 
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')
@@ -53,10 +59,14 @@ def addSession(mode=None):
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
+            src_img = getLinkImgFromKeyWords(request.form['keywords'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(
-                     "%d-%m-%y-%H-%M-%S"), 'mode': request.form['mode'],
+                     "%d-%m-%y-%H-%M-%S"),
+                 'last_modification_date': dateOfDay.strftime(
+                     "%d-%m-%y-%H-%M-%S"),
+                 'mode': request.form['mode'], 'src_img': src_img,
                  'params': {
                      'keywords': request.form['keywords'],
                      'geocode': request.form['geocode'],
@@ -69,15 +79,28 @@ def addSession(mode=None):
 
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
-            return redirect(url_for('display_session', session_id = documentInserted))
+            return redirect(url_for('display_session', session_id=documentInserted))
+
+
+def getLinkImgFromKeyWords(keywords):
+    response = google_images_download.googleimagesdownload()  # class instantiation
+    arguments = {"keywords": keywords, "limit": 6, "usage_rights": "labeled-for-reuse", "aspect_ratio" : "wide", "size": "medium"}  # creating list of arguments
+    links = response.download(arguments)  # passing the arguments to the function
+    # return le lien random parmi les liens récupérés
+    if len(links) > 0:
+        return links[randint(0, len(links) - 1)]
+    else:
+        return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
     current_session = getSessionByObjectId(ObjectId(session_id))
     session['last_session'] = session_id
     if request.method == 'GET':
-        return render_template('session_interface.html', current_session=current_session, number_of_tweets = count_number_of_tweets(session_id))
-    if request.is_xhr: # Si la route est appelée via Ajax
+        return render_template('session_interface.html', current_session=current_session,
+                               number_of_tweets=count_number_of_tweets(session_id))
+    if request.is_xhr:  # Si la route est appelée via Ajax
         keywords = current_session['params']['keywords']
         geocode = current_session['params']['geocode']
         stream = True if current_session['mode'] == "stream" else False
@@ -129,7 +152,6 @@ def upload_file():
         session_document['exporter_user'] = exporter_user['first_name'] + exporter_user['last_name']
         mongo.db.sessions.insert_one(session_document)
         session['last_session'] = str(session_document['_id'])
-        tweet_collection = mongo.db.tweets.find_one({"session_id": "5acfa7d14f610629981feee1"})
         for tweet in imported_tweets:
             # Lier les tweets importés à notre nouvelle session
             tweet['session_id'] = session['last_session']
@@ -150,6 +172,7 @@ def download_file():
     return Response(file_data, mimetype="text/plain", headers={
         "Content-Disposition": "attachement;filename=" + current_session['session_name'] + ".json"},
                     content_type="application/json")
+
 
 def getSessionByObjectId(id):
     return mongo.db.sessions.find_one(id)
