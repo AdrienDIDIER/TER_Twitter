@@ -86,10 +86,18 @@ $(document).ready(function () {
                 first_refresh = true;
                 refresh_wordcloud(true);
             }
+
+            ajax_freq_per_date(function repeat() {
+                if(datedtweets_button_pressed) {
+                    $('#histogram').load(' #histogram', function () {
+                        console.log("ok");
+                        ajax_freq_per_date(repeat);
+                    });
+                }
+            });
         }
     }, 1000);
 });
-
 
 function refresh_download_btn() {
     var div = $('#div_download_btn'); // Ma div
@@ -125,7 +133,7 @@ $(document).ready(function () {
     $('.tooltipped').tooltip({delay: 50});
 });
 
-function refresh_wordcloud(stream = false) {
+function refresh_wordcloud(stream) {
     if (!stream) {
         $('#loading_circle').show();
         var wordcloud = $('#wordcloud');
@@ -140,12 +148,12 @@ function refresh_wordcloud(stream = false) {
 }
 
 function refresh_histogram(){
-    var histogram = $('.duration');
-    /* Si un histogramme a déjà été généré */
-    if (histogram.find('svg') !== 0) {
-        histogram.find('svg').remove();
-        /* Vide l'histogramme pour en accueillir un nouveau */
-    }
+    var histogram = $('#histogram');
+    histogram.load(' #histogram', function () {
+        target.fadeOut(1, function () {
+            target.fadeIn(500);
+        });
+    });
 
     ajax_freq_per_date();
 }
