@@ -19,8 +19,6 @@ if (document.getElementById('map') != null) {
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
     refresh_wordcloud(false);
-    ajax_freq_per_date();
-
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
@@ -66,7 +64,7 @@ $(document).ready(function () {
             success: function (response) {
                 refresh_number_tweets();
                 refresh_wordcloud(false);
-                ajax_freq_per_date();
+                refresh_histogram();
                 button_target.prop("disabled", false);
             },
             error: function (error) {
@@ -88,10 +86,18 @@ $(document).ready(function () {
                 first_refresh = true;
                 refresh_wordcloud(true);
             }
+
+            ajax_freq_per_date(function repeat() {
+                if(datedtweets_button_pressed) {
+                    $('#histogram').load(' #histogram', function () {
+                        console.log("ok");
+                        ajax_freq_per_date(repeat);
+                    });
+                }
+            });
         }
     }, 1000);
 });
-
 
 function refresh_download_btn() {
     var div = $('#div_download_btn'); // Ma div
@@ -127,7 +133,7 @@ $(document).ready(function () {
     $('.tooltipped').tooltip({delay: 50});
 });
 
-function refresh_wordcloud(stream = false) {
+function refresh_wordcloud(stream) {
     if (!stream) {
         $('#loading_circle').show();
         var wordcloud = $('#wordcloud');
@@ -139,4 +145,15 @@ function refresh_wordcloud(stream = false) {
     }
 
     ajax_wordcloud();
+}
+
+function refresh_histogram(){
+    var histogram = $('#histogram');
+    histogram.load(' #histogram', function () {
+        target.fadeOut(1, function () {
+            target.fadeIn(500);
+        });
+    });
+
+    ajax_freq_per_date();
 }

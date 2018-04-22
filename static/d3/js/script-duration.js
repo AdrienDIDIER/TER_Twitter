@@ -1,12 +1,17 @@
 function histogram(freq_per_date) {
-     var difference = freq_per_date[0].stop_date - freq_per_date[0].start_date;
+    var difference = freq_per_date[0].stop_date - freq_per_date[0].start_date;
+    if (difference == 30){
 
-     var formatTime = d3.time.format("Le %d %m - %Hh%Mmin");
-
+        var formatTime = d3.time.format("à %Hh%Mmin:%Ssec");
+    }
+    else
+    {
+        var formatTime = d3.time.format("Le %d-%m à %Hh%Mmin");
+    }
     var bins = [];
     for (var i = 0; i <= freq_per_date.length - 1; i++) {
-        bins.push(formatTime(new Date(1000*freq_per_date[i].start_date)));
-        bins.push(formatTime(new Date(1000*freq_per_date[i].stop_date)));
+        bins.push(formatTime(new Date(1000 * freq_per_date[i].start_date)));
+        bins.push(formatTime(new Date(1000 * freq_per_date[i].stop_date)));
     }
     var dates = []
 
@@ -22,7 +27,10 @@ function histogram(freq_per_date) {
     }
     var height = 550;
     var heightCart = 500;
-    var svg = d3.select('div.duration').append('svg')
+    if($('#histogram').find('svg')){
+        $('#histogram').find('svg').remove();
+    }
+    var svg = d3.select('#histogram').append('svg')
         .attr("transform", "translate(25,25)");
 
  //var diff = (d3.max(dates) - d3.min(dates)) / dates.length;
@@ -35,7 +43,6 @@ function histogram(freq_per_date) {
 
     svg.attr("width", 30*freq.length + 200)
         .attr("height", height + 200);
-
     svg.selectAll('rect').data(freq).enter().append('rect')
         .attr("width", 30)
         .attr('height', function (d) {
@@ -53,14 +60,27 @@ function histogram(freq_per_date) {
             return i;
         })
 
-        .on("mouseover", function () {
-            d3.select(this)
-                .attr("fill", "red");
+        .on("mouseover", function (d,i) {
+           var da = dates[0] + difference * i;
+           var s = da + difference;
+           d3.json("/retrieve-themostrt/" + da + "/" + s, function(json){
+               var tip = d3.select("#tooltip");
+               tip.style("z-index", 10000)
+               .select("#user")
+               .html("<span id=\"tooltip_text\">Nom d'utilisateur : </span>" + json[0]['user']);
+
+               tip.select('#content')
+                   .html("<span id=\"tooltip_text\">Contenu du tweet : </span>\"" +  json[0]['text'] + "\"");
+
+               tip.select('#nbrt')
+                   .html("<span id=\"tooltip_text\">Nombre de RT: </span>" + json[0]['nbRt']);
+
+                d3.select("#tooltip").classed("hidden", false);
+
+           })
         })
-        .on("mouseout", function (d, i) {
-            d3.select(this).attr("fill", function () {
-                return "" + color(this.id) + "";
-            });
+        .on("mouseout", function() {
+            d3.select("#tooltip").classed("hidden", true);
         })
         .on("click", function (d, i) {
             console.log(i);
@@ -69,7 +89,7 @@ function histogram(freq_per_date) {
             console.log(difference);
             console.log(formatTime(new Date(1000*da)));
             console.log(s);
-            d3.json("http://127.0.0.1:5000/result-wordcloud/" + da + "/" + s, function (json) {
+            d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                 mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
             });
         });
