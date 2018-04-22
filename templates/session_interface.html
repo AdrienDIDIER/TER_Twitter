@@ -83,9 +83,15 @@
                 var startdate ={% if startdate is defined %} {{ startdate | tojson }} {% else %}"";{% endif %}
                 var stopdate  ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
             </script>
-            <div class="duration"></div>
+            <div class="duration" id="histogram">
+                <div id="tooltip" class="hidden">
+                    <p id="user"></p>
+                    <p id="content"> </p>
+                    <p id="nbrt"></p>
+                </div>
+            </div>
             <div id="little-wordcloud"></div>
-        </div>
+        </p>
     </div>
 
     <!-- Modal Structure -->

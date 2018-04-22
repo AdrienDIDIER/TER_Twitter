@@ -79,15 +79,11 @@ function ajax_wordcloud(){
 }
 
 function ajax_freq_per_date() {
-    if((startdate != "")&&(stopdate != "")){
-        d3.json("/result-freq-per-date/" + startdate + "/" + stopdate + "/", function (json) {
-            histogram(json);
-        });
+    var url = "/result-freq-per-date/";
+    if((startdate !== "") && (stopdate !== "")){
+        url += startdate + "/" + stopdate + "/";
     }
-    else{
-        console.log("toto");
-        d3.json("/result-freq-per-date/", function (json) {
-            histogram(json);
-        });
-    }
+    d3.json(url, function (json) {
+        histogram(json);
+    });
 }
