@@ -112,20 +112,54 @@
             <div class="row center">
                 <h2>Importez votre session</h2>
             </div>
-            <div class="col s12 m4 l4 center">
+            <div class="col s12 m12 l12">
+
+                {#                    <fieldset>#}
+                {#
+                {#                        <div class="file-field input-field">#}
+                {#                            <button class="btn waves-effect waves-light blue darken-2 ">#}
+                {#                                <i class="material-icons left">attach_file</i>#}
+                {#                                Parcourir#}
+                {#                            </button>#}
+                {#                            <input type="file" name="json" required>#}
+                {#                            <div class="file-path-wrapper">#}
+                {#                                <input class="file-path validate" type="text"#}
+                {#                                       placeholder="Vous pouvez faire glisser votre fichier">#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </fieldset>#}
+                {#                </form>#}
                 <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
-                    <div class="file-field input-field">
-                        <button class="btn-large waves-effect waves-light blue darken-2" type="submit"><i
-                                class="material-icons left">attach_file</i>
+                    <fieldset>
+                        <legend>
+                            <strong>
+                                <i class="material-icons right blue-text tooltipped" data-position="right"
+                                   data-tooltip="Ne fonctionne qu'avec un fichier de session exportée">help</i>
+                                Selectionnez votre fichier
+                            </strong>
+                        </legend>
+                        <div class="file-field input-field">
+                            <div class="btn waves-effect waves-light blue darken-2 ">
+                                <i class="material-icons right">attach_file</i>
+                                <span>Parcourir</span>
+                                <input type="file" name="json" required>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text"
+                                       placeholder="Vous pouvez faire glisser votre fichier">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="row"></div>
+                    <div class="row center">
+                        <button class="btn waves-effect waves-light blue darken-2" type="submit"><i
+                                class="material-icons left">file_upload</i>
                             Importer
                         </button>
-                        <input type="file" name="json" required>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text"
-                                   placeholder="Cliquez pour choisir votre fichier">
-                        </div>
+
                     </div>
                 </form>
+
             </div>
         </div>
     {% else %}<h4>Mode non supporté</h4>
