@@ -28,6 +28,12 @@ nav{
 .sessionLink:hover {
     color : #1976d2;
 }
+
+#return_button{
+    position: absolute;
+    bottom: 5px;
+    right:5px;
+}
 .querryRecap{
     border-radius: 0px 10px 10px 0px;
 }
