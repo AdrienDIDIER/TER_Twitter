@@ -1,64 +1,93 @@
 {% extends "layout.html" %}
+
+{#On charge une nouvelle navbar pour y ajouter les boutons d'interactions#}
+{% block navbar %}
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{{ url_for('index') }}" class="brand-logo center"><img
+                        src="{{ url_for('static', filename='img/logo.png') }}"></a>
+                {% if 'email' in session %}
+                    <ul id="nav-mobile" class="left hide-on-med-and-down">
+                        {% if current_session.mode == "stream" %}
+                            <li>
+                                <button id="start-stream_button" action-target="{{ current_session._id }}"
+                                        class="btn waves-effect waves-light green navbar_btn">Start
+                                </button>
+                            </li>
+                            <li>
+                                <button id="stop-stream_button" class="btn waves-effect waves-light red navbar_btn"
+                                        disabled>Stop
+                                </button>
+                            </li>
+                        {% else %}
+                            <li>
+                                <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
+                                        class="btn waves-effect waves-light green navbar_btn">
+                                    Récupérer {{ current_session.tweets_batch }}
+                                    tweets
+                                </button>
+                            </li>
+                        {% endif %}
+                        <li>
+                            {% if number_of_tweets != 0 %}
+                                <a class="waves-effect waves-light  grey darken-3 btn modal-trigger navbar_btn"
+                                   id="download_btn"
+                                   href="{{ url_for('download_file') }}"><i
+                                        class="material-icons right">file_download</i>Exporter</a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            <a class="btn waves-effect waves-light orange darken-2 navbar_btn"
+                               href="{{ url_for('close_session') }}"><i
+                                    class="material-icons right">close</i>Fermer</a>
+                        </li>
+                    </ul>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href={{ url_for('logout') }}>Se
+                            déconnecter</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+{% endblock %}
+
 {% block body %}
     <div class="row">
-        <div class="querryRecap col m3 l3 s6 grey lighten-4 z-depth-3">
+        {#        Bandeau recap sur le côté #}
+        <div class="querryRecap col m2 l2 s12 grey lighten-4 z-depth-3">
             <h4>{{ current_session.session_name }}</h4>
             <div class="divider"></div>
             <div class="section">
-                <h5><i>Date de création</i></h5>
+                <strong><i>Date de création</i></strong>
                 <p>{{ current_session.start_date }}</p>
             </div>
             <div class="divider"></div>
             {% if current_session.exporter_user %}
                 <div class="section">
-                    <h5><i>Session exportée par</i></h5>
+                    <strong><i>Session exportée par</i></strong>
                     <p>{{ current_session.exporter_user }}</p>
                 </div>
                 <div class="divider"></div>
             {% endif %}
             <div class="section">
-                <h5><i>Mode</i></h5>
+                <strong><i>Mode</i></strong>
                 <p> {{ current_session.mode }}</p>
                 <div class="divider"></div>
                 {% for param in current_session.params %}
                     {% if current_session.params[param] and param!='geocode' %}
                         <div class="section">
-                            <h5><i>{{ param }}</i></h5>
+                            <strong><i>{{ param }}</i></strong>
                             <p>{{ current_session.params[param] }}</p>
                         </div>
                         <div class="divider"></div>
                     {% endif %}
                 {% endfor %}
             </div>
-            <div class="row center">
-                {% if current_session.mode == "stream" %}
-                    <button id="start-stream_button" action-target="{{ current_session._id }}"
-                            class="btn waves-effect waves-light green">Start
-                    </button>
-                    <button id="stop-stream_button" class="btn waves-effect waves-light red" disabled>Stop</button>
-                {% else %}
-                    <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
-                            class="btn waves-effect waves-light green">Start
-                    </button>
-                {% endif %}
-            </div>
-            <div class="row center" id="div_download_btn">
-                {% if number_of_tweets != 0 %}
-                    <a class="waves-effect waves-light  blue darken-2 btn modal-trigger" id="download_btn"
-                       href="{{ url_for('download_file') }}"><i
-                            class="material-icons right">file_download</i>Exporter</a>
-                {% endif %}
-            </div>
+            {#        Fin du bandeau#}
         </div>
-        <div class="col m9 l9 s6">
-            <a class="btn waves-effect waves-light orange right btnSession "
-               href="{{ url_for('close_session') }}"><i
-                    class="material-icons right">close</i>Fermer la session</a>
-            <!-- Modal Trigger -->
-            <a class="right waves-effect waves-light red btn modal-trigger btnSession" href="#modal1"><i
-                    class="material-icons right">delete</i>Supprimer la session</a>
-        </div>
-        <div class="col m4 l4 s6 center">
+        <div class="col m10 l10 s12 center">
             <h5>
                 <span id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></span> tweets récupérés.
             </h5>
@@ -78,36 +107,66 @@
                     </div>
                 </div>
             </div>
+            {#                Wordcloud général#}
             <div id="wordcloud"></div>
             <script>
                 var startdate ={% if startdate is defined %} {{ startdate | tojson }} {% else %}"";{% endif %}
-                var stopdate  ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
+                var stopdate ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
             </script>
-            <div class="duration" id="histogram">
-                <div id="tooltip" class="hidden">
-                    <p id="user"></p>
-                    <p id="content"> </p>
-                    <p id="nbrt"></p>
+            <i class="flow-text">Nuage de mots général</i>
+            {#                Fin Wordcloud général#}
+        </div>
+    </div>
+    <hr class="style-four">
+    {#    Partie Interactive de l'interface#}
+    <div class="container">
+        <div class="row">
+            <div class="col m2 l2 s12">
+                <strong><i>Intervalle de temps</i></strong>
+                <form action="#">
+                    <p>
+                        <input name="time_interval" type="radio" id="interval1"/>
+                        <label for="interval1">2 jours</label>
+                    </p>
+                    <p>
+                        <input name="time_interval" type="radio" id="interval2"/>
+                        <label for="interval2">1 jour</label>
+                    </p>
+                    <p>
+                        <input name="time_interval" type="radio" id="interval3"/>
+                        <label for="interval3">12 heures</label>
+                    </p>
+                    <p>
+                        <input name="time_interval" type="radio" id="interval4" "/>
+                        <label for="interval4">1 heure</label>
+                    </p>
+                       <p>
+                        <input name="time_interval" type="radio" id="interval4"/>
+                        <label for="interval4">10 minutes</label>
+                    </p>
+                       <p>
+                        <input name="time_interval" type="radio" id="interval4" />
+                        <label for="interval4">1 minute</label>
+                    </p>
+                       <p>
+                        <input name="time_interval" type="radio" id="interval4" />
+                        <label for="interval4">30 secondes</label>
+                    </p>
+                </form>
+            </div>
+            <div class="col m6 l6 s12">
+                {#                    Histogram#}
+                <div class="duration" id="histogram">
+                    <div id="tooltip" class="hidden">
+                        <p id="user"></p>
+                        <p id="content"></p>
+                        <p id="nbrt"></p>
+                    </div>
                 </div>
+                {#                    Fin Histogram#}
             </div>
             <div id="little-wordcloud"></div>
-        </p>
-    </div>
-
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Supprimer votre session ?</h4>
-            <p>Vous êtes sur le point de supprimer votre session, toutes les données seront perdues. Confirmez-vous
-                sa
-                suppression ?</p>
         </div>
-        <div class="modal-footer">
-            <a href="{{ url_for('delete_session') }}"
-               class="modal-action modal-close waves-effect waves-green btn-flat">Supprimer</a>
-            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
-        </div>
-    </div>
     </div>
 {% endblock %}
 

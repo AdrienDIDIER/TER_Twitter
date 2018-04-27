@@ -1,13 +1,15 @@
 body {
-    background-color: #f5f5f5 ;
-}
-nav{
-    background-color:#1976d2;
+    background-color: #f5f5f5;
 }
 
-.icon-block i{
-    color : #1976d2;
+nav {
+    background-color: #1976d2;
 }
+
+.icon-block i {
+    color: #1976d2;
+}
+
 .input-field label {
     color: #1976d2;
 }
@@ -18,25 +20,28 @@ nav{
     vertical-align: middle;
 }
 
-.card-image img{
+.card-image img {
     height: 150px !important;
 }
-.sessionLink{
+
+.sessionLink {
     color: black;
 }
 
 .sessionLink:hover {
-    color : #1976d2;
+    color: #1976d2;
 }
 
-#return_button{
+#return_button {
     position: absolute;
     bottom: 5px;
-    right:5px;
+    right: 5px;
 }
-.querryRecap{
+
+.querryRecap {
     border-radius: 0px 10px 10px 0px;
 }
+
 .input-field .prefix.active {
     color: #1976d2;
 }
@@ -51,9 +56,10 @@ nav{
     color: #1976d2 !important;
 }
 
-.btnSession{
+.btnSession {
     margin: 8px;
 }
+
 .part {
     border-style: solid;
     border-width: medium;
@@ -64,39 +70,38 @@ nav{
 }
 
 #map {
-  height: 250px;
-  width: 250px;
+    height: 250px;
+    width: 250px;
 }
 
-.icon-block i{
+.icon-block i {
     color: #1976d2;
 }
 
 /* Liens de la map */
-#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div{
+#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div {
     background-color: #eeeeeeb0;
     display: inline-grid;
 }
 
-.input-field{
+.input-field {
     margin-top: 0;
 }
 
-
 /* CSS pour le diagramme */
 #tooltip {
-      position: absolute;
-      width: 200px;
-      height: auto;
-      padding: 10px;
-      background-color: white;
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      border-radius: 10px;
-      -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-      -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
-      pointer-events: none;
+    position: absolute;
+    width: 200px;
+    height: auto;
+    padding: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
 }
 
 #tooltip.hidden {
@@ -109,7 +114,21 @@ nav{
     font-size: 16px;
     line-height: 20px;
 }
-#tooltip_text{
-    color:red;
+
+#tooltip_text {
+    color: red;
 }
 
+.navbar_btn {
+    margin-left: 10px;
+}
+
+hr.style-four {
+    height: 12px;
+    border: 0;
+    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+
+#delete_session_btn{
+    bottom: 5px;
+}

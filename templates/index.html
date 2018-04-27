@@ -33,6 +33,7 @@
                             </div>
                             <div class="card-content">
                                 <span class="card-title">{{ s.session_name }}</span>
+                            <hr>
                                 <p>
                                     {% if s.last_modification_date != s.start_date %}
                                         <i>dernière modification le <br> {{ s.last_modification_date }}</i>
@@ -40,10 +41,27 @@
                                         <i>créée le <br> {{ s.start_date }}</i>
                                     {% endif %}
                                 </p>
+                                <a class="modal-trigger red-text" href="#modal1"><i>Supprimer</i></a>
                             </div>
+
                         </div>
                     </div>
                 {% endfor %}
+                <!-- Modal Structure -->
+                <div id="modal1" class="modal">
+                    <div class="modal-content">
+                        <h4>Supprimer votre session ?</h4>
+                        <p>Vous êtes sur le point de supprimer votre session, toutes les données seront perdues.
+                            Confirmez-vous
+                            sa
+                            suppression ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ url_for('delete_session') }}"
+                           class="modal-action modal-close waves-effect waves-green btn-flat">Supprimer</a>
+                        <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
+                    </div>
+                </div>
             {% endif %}
         </div>
         {% if page_number > 1 %}
@@ -112,6 +130,7 @@
                 <div class="col l6"><a class="waves-effect waves-light btn  blue darken-2"
                                        href={{ url_for('register') }}>S'inscrire</a></div>
             </div>
+        </div>
         </div>
     {% endif %}
 {% endblock %}

@@ -24,20 +24,23 @@
 </head>
 
 <body>
-<div class="navbar-fixed">
-    <nav>
-        <div class="nav-wrapper">
-            <a href="{{ url_for('index') }}" class="brand-logo center"><img
-                    src="{{ url_for('static', filename='img/logo.png') }}"></a>
-            {% if 'email' in session %}
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href={{ url_for('logout') }}>Se
-                        déconnecter</a></li>
-                </ul>
-            {% endif %}
-        </div>
-    </nav>
-</div>
+{% block navbar %}
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="{{ url_for('index') }}" class="brand-logo center"><img
+                        src="{{ url_for('static', filename='img/logo.png') }}"></a>
+                {% if 'email' in session %}
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href={{ url_for('logout') }}>Se
+                            déconnecter</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+{% endblock %}
+
 {% block body %}{% endblock %}
 
 <!--Import jQuery before materialize.js-->
