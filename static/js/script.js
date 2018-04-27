@@ -182,3 +182,7 @@ function refresh_histogram(){
 
     ajax_freq_per_date();
 }
+
+$(document).ready(function() {
+    $('select').material_select();
+  });

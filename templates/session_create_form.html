@@ -96,10 +96,30 @@
                                 <label for="region">Régions</label>
                                 <div id="map"></div>
                             </div>
+                            {#                              #}
+                            {#                                <input placeholder="fr" name="language" id="language" type="text" class="validate">#}
+                            {#                                <label for="language">Langue</label>#}
                             <div class="input-field col s12 l6 m6">
                                 <i class="material-icons prefix">language</i>
-                                <input placeholder="fr" name="language" id="language" type="text" class="validate">
-                                <label for="language">Langue</label>
+                                <select class="icons" name="language">
+                                    <option value="" disabled selected>Sélectionnez la langue</option>
+                                    <option value="en" data-icon="{{ url_for('static', filename='img/englishflag.png') }}" class="left circle">Anglais (en)
+                                    </option>
+                                    <option value="fr" data-icon="{{ url_for('static', filename='img/frenchflag.png') }}" class="left circle">Français (fr)
+                                    </option>
+                                    <option value="de" data-icon="{{ url_for('static', filename='img/germanflag.png') }}" class="left circle">Allemand (de)
+                                    </option>
+                                    <option value="es" data-icon="{{ url_for('static', filename='img/spainflag.png') }}" class="left circle">Espagnol (es)
+                                    </option>
+                                    <option value="it" data-icon="{{ url_for('static', filename='img/italianflag.png') }}" class="left circle">Italien (it)
+                                    </option>
+                                    <option value="tr" data-icon="{{ url_for('static', filename='img/turkishflag.png') }}" class="left circle">Turc (tr)
+                                    </option>
+                                    <option value="pl" data-icon="{{ url_for('static', filename='img/polishflag.png') }}" class="left circle">Polonais (pl)
+                                    </option>
+
+                                </select>
+                                <label>Langue</label>
                             </div>
                         </div>
                     </fieldset>

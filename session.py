@@ -60,6 +60,7 @@ def addSession(mode=None):
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
             src_img = getLinkImgFromKeyWords(request.form['keywords'])
+            print("Language :",request.form['language'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(

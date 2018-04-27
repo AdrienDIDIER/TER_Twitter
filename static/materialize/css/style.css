@@ -132,3 +132,7 @@ hr.style-four {
 #delete_session_btn{
     bottom: 5px;
 }
+
+ul.dropdown-content.select-dropdown li span {
+    color: #1976d2; /* no need for !important :) */
+}
