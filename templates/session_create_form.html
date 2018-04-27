@@ -30,11 +30,9 @@
         </div>
     {% elif mode == 'stream' or mode == 'dated_tweets' %}
         <div class="container">
-
             <div class="row center">
                 <h2>Créez votre session</h2>
             </div>
-
             <div class="row">
                 <form method="POST" action="{{ url_for('addSession') }}" class="col s12">
                     <div class="row">
@@ -44,6 +42,14 @@
                                    name="session_name" required>
                             <label for="session_name">Nom de la session</label>
                         </div>
+                        {% if mode == 'dated_tweets' %}
+                            <div class="input-field col s12 l6 m6">
+                                <i class="material-icons prefix">forward_10</i>
+                                <input placeholder="100" id="tweets_batch" type="number" class="validate"
+                                       name="tweets_batch" required>
+                                <label for="tweets_batch">Nombre de tweets récupérés par lancement</label>
+                            </div>
+                        {% endif %}
                     </div>
                     <fieldset>
                         <div class="row"></div>

@@ -59,7 +59,6 @@ def addSession(mode=None):
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
-            print(request.form['keywords'])
             src_img = getLinkImgFromKeyWords(request.form['keywords'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
@@ -68,6 +67,7 @@ def addSession(mode=None):
                  'last_modification_date': dateOfDay.strftime(
                      "%d-%m-%y-%H-%M-%S"),
                  'mode': request.form['mode'], 'src_img': src_img,
+                 'tweets_batch': request.form['tweets_batch'] if request.form['mode'] == "dated_tweets" else None,
                  'params': {
                      'keywords': request.form['keywords'],
                      'geocode': request.form['geocode'],
@@ -110,7 +110,8 @@ def display_session(session_id=None):
         stopdate = current_session['params']['stop_date']
         user = current_session['params']['twitter_user']
         language = current_session['params']['language']
-        filter(keywords, geocode, stream, startdate, stopdate, user, language)
+        tweets_batch = current_session['tweets_batch']
+        filter(keywords, geocode, stream, startdate, stopdate, user, language,tweets_batch)
         if startdate is not None and stopdate is not None:
             print(startdate)
             return render_template('session_interface.html', current_session = current_session, startdate = startdate, stopdate = stopdate)
