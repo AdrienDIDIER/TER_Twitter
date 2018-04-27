@@ -129,10 +129,10 @@ def close_session():
     return redirect(url_for('index'))
 
 
-@app.route('/session/delete/')
-def delete_session():
-    result = mongo.db.tweets.delete_many({'session_id': session['last_session']})
-    mongo.db.sessions.delete_one({'_id': ObjectId(session['last_session'])})
+@app.route('/session/delete/<session_id>',methods=['POST', 'GET'])
+def delete_session(session_id=None):
+    result = mongo.db.tweets.delete_many({'session_id': session_id})
+    mongo.db.sessions.delete_one({'_id': ObjectId(session_id)})
     return redirect(url_for('index'))
 
 

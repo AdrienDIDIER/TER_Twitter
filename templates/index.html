@@ -33,7 +33,7 @@
                             </div>
                             <div class="card-content">
                                 <span class="card-title">{{ s.session_name }}</span>
-                            <hr>
+                                <hr>
                                 <p>
                                     {% if s.last_modification_date != s.start_date %}
                                         <i>dernière modification le <br> {{ s.last_modification_date }}</i>
@@ -46,22 +46,22 @@
 
                         </div>
                     </div>
+                    <!-- Modal Structure -->
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4>Supprimer votre session ?</h4>
+                            <p>Vous êtes sur le point de supprimer votre session, toutes les données seront perdues.
+                                Confirmez-vous
+                                sa
+                                suppression ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ url_for('delete_session',session_id=s._id) }}"
+                               class="modal-action modal-close waves-effect waves-green btn-flat">Supprimer</a>
+                            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
+                        </div>
+                    </div>
                 {% endfor %}
-                <!-- Modal Structure -->
-                <div id="modal1" class="modal">
-                    <div class="modal-content">
-                        <h4>Supprimer votre session ?</h4>
-                        <p>Vous êtes sur le point de supprimer votre session, toutes les données seront perdues.
-                            Confirmez-vous
-                            sa
-                            suppression ?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{ url_for('delete_session') }}"
-                           class="modal-action modal-close waves-effect waves-green btn-flat">Supprimer</a>
-                        <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Annuler</a>
-                    </div>
-                </div>
             {% endif %}
         </div>
         {% if page_number > 1 %}
