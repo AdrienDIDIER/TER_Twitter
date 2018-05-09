@@ -19,6 +19,7 @@ if (document.getElementById('map') != null) {
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
     refresh_wordcloud(false);
+    refresh_histogram(true);
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
@@ -64,7 +65,7 @@ $(document).ready(function () {
             success: function (response) {
                 refresh_number_tweets();
                 refresh_wordcloud(false);
-                refresh_histogram();
+                refresh_histogram(false);
                 button_target.prop("disabled", false);
             },
             error: function (error) {
@@ -168,21 +169,20 @@ $('.datepicker').pickadate({
     }
 });
 
-$(document).ready(function () {
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
-});
-function refresh_histogram(){
-    var histogram = $('#histogram');
-    histogram.load(' #histogram', function () {
-        target.fadeOut(1, function () {
-            target.fadeIn(500);
+function refresh_histogram(first_load){
+    if(!first_load){
+        var histogram = $('#histogram');
+        histogram.load(' #histogram', function () {
+            histogram.fadeOut(1, function () {
+                histogram.fadeIn(500);
+            });
         });
-    });
+    }
 
     ajax_freq_per_date();
 }
 
 $(document).ready(function() {
+    $('.modal').modal();
     $('select').material_select();
   });
