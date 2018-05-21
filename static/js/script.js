@@ -19,6 +19,7 @@ if (document.getElementById('map') != null) {
 /* Ajax Bouton start/stop */
 $(document).ready(function () {
     refresh_wordcloud(false);
+    refresh_histogram();
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
@@ -53,6 +54,7 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
+        console.log("toto");
         var button_target = $(this);
         button_target.attr("disabled", "disabled");
         $('#loading_circle').show();
@@ -184,5 +186,4 @@ function refresh_histogram(){
 }
 
 $(document).ready(function() {
-    $('select').material_select();
-  });
+    $('select').material_select();});

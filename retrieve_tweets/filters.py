@@ -29,14 +29,14 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
         stream_o.filter(locations=geocode, track=[keywords], languages=[language], follow=[user])
     else:
         geocode = None # TODO: FIX (Filtrer par geocode) et fix language
-        query = keywords
+        query = keywords + ' -filter:retweets'
         if startdate != "" and stopdate != "":
             query = query + " since:" + startdate + " until:" + stopdate
         if user != "":
             query = query + " from:@" + user
-        if language == "":
-            language = "fr"
+        print(query)
         for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang=language).items(int(tweets_batch)):
+            print("text")
             stock_tweets(tweet)
 
 @app.route('/session/stream/stop')

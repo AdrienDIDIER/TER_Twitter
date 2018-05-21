@@ -136,3 +136,9 @@ hr.style-four {
 ul.dropdown-content.select-dropdown li span {
     color: #1976d2; /* no need for !important :) */
 }
+
+.tweets{
+    overflow-y: auto;
+    max-height: 400px;
+    position: relative;
+}

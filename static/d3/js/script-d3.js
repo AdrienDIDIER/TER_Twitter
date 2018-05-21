@@ -5,7 +5,7 @@ d3.select("#little-wordcloud").append("svg")
     .attr("width", 600)
     .attr("height", 600);
 
-var fontsize = d3.scale.log().range([10, 50]);
+var fontsize = d3.scale.log().range([10, 20]);
 
 var mycloud = d3.layout.cloud().size([600, 600])
     .words([])
@@ -36,7 +36,7 @@ function draw(words, divElement) {
         .style("font-family", "Impact")
         .attr("text-anchor", "middle")
         .style("font-size", function (d) {
-            return d.size * 1 + "px";
+            return d.size+ "px";
         })
         .style("fill", function (d, i) {
             return fill(i);

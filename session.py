@@ -35,18 +35,16 @@ def wordcloud():
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')
 def histogram(startdate = None,stopdate = None):
-    print(startdate)
     if startdate is None and stopdate is None:
         freq_per_date = retrieve_tweet_dates()
     else:
         freq_per_date = retrieve_tweet_dates(startdate,stopdate)
-    print(freq_per_date)
     return json.dumps(freq_per_date)
 
-@app.route('/retrieve-themostrt/<start>/<stop>')
-def retrieveTheMostRt(start, stop):
-    most_rt = getTheMostRT(start, stop)
-    return json.dumps(most_rt)
+@app.route('/get-tweets/<start>/<stop>')
+def retrieveTweets(start, stop):
+    tweets = getTweets(start, stop)
+    return json.dumps(tweets)
 
 
 @app.route('/session/add/', methods=['POST', 'GET'])
@@ -59,8 +57,9 @@ def addSession(mode=None):
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
-            src_img = getLinkImgFromKeyWords(request.form['keywords'])
-            print("Language :",request.form['language'])
+            #src_img = getLinkImgFromKeyWords(request.form['keywords'])
+            src_img = ""
+            print("Language :", request.form['language'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(
@@ -112,9 +111,9 @@ def display_session(session_id=None):
         user = current_session['params']['twitter_user']
         language = current_session['params']['language']
         tweets_batch = current_session['tweets_batch']
-        filter(keywords, geocode, stream, startdate, stopdate, user, language,tweets_batch)
+        print("user", user)
+        filter(keywords, geocode, stream, startdate, stopdate, user, language, tweets_batch)
         if startdate is not None and stopdate is not None:
-            print(startdate)
             return render_template('session_interface.html', current_session = current_session, startdate = startdate, stopdate = stopdate)
         else:
             return render_template('session_interface.html', current_session=current_session)

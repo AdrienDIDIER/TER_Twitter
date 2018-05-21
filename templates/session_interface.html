@@ -88,6 +88,15 @@
             {#        Fin du bandeau#}
         </div>
         <div class="col m10 l10 s12 center">
+        <div class="col m9 l9 s6">
+            <a class="btn waves-effect waves-light orange right btnSession "
+               href="{{ url_for('close_session') }}"><i
+                    class="material-icons right">close</i>Fermer la session</a>
+            <!-- Modal Trigger -->
+            <a class="right waves-effect waves-light red btn modal-trigger btnSession" href="#modal1"><i
+                    class="material-icons right">delete</i>Supprimer la session</a>
+        </div>
+        <div class="col m4 l4 s6 center">
             <h5>
                 <span id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></span> tweets récupérés.
             </h5>
@@ -165,7 +174,14 @@
                 </div>
                 {#                    Fin Histogram#}
             </div>
-            <div id="little-wordcloud"></div>
+
+        </div>
+        <div class="row">
+            <div class="col m6 l6 s6">
+                <div id="little-wordcloud"></div>
+            </div>
+            <div class="col m6 l6 s6 graphs">
+            </div>
         </div>
     </div>
 {% endblock %}
