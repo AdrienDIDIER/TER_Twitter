@@ -59,7 +59,11 @@ def addSession(mode=None):
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
-            src_img = getLinkImgFromKeyWords(request.form['keywords'])
+            src_img = None
+            if request.form['keywords']:
+                src_img = getLinkImgFromKeyWords(request.form['keywords'])
+            else:
+                src_img = getLinkImgFromKeyWords(request.form['session_name'])
             print("Language :",request.form['language'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
