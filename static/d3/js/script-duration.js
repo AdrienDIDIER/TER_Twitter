@@ -10,17 +10,15 @@ function histogram(freq_per_date) {
     }
     var bins = [];
     for (var i = 0; i <= freq_per_date.length - 1; i++) {
-        bins.push(formatTime(new Date(1000 * freq_per_date[i].start_date)));
-        bins.push(formatTime(new Date(1000 * freq_per_date[i].stop_date)));
+        bins.push(formatTime(new Date(1000*freq_per_date[i].start_date)));
+        bins.push(formatTime(new Date(1000*freq_per_date[i].stop_date)));
     }
-    var dates = []
+    var dates = [];
 
     for (var i = 0; i <= freq_per_date.length - 1; i++) {
         dates.push(freq_per_date[i].start_date);
         dates.push(freq_per_date[i].stop_date);
     }
-
-    console.log(freq_per_date);
     var freq = [];
     for (var i = 0; i <= freq_per_date.length - 1; i++) {
         freq.push(freq_per_date[i].freq);
@@ -59,38 +57,14 @@ function histogram(freq_per_date) {
         .attr('id', function (d, i) {
             return i;
         })
-
-        .on("mouseover", function (d,i) {
-           var da = dates[0] + difference * i;
-           var s = da + difference;
-           d3.json("/retrieve-themostrt/" + da + "/" + s, function(json){
-               var tip = d3.select("#tooltip");
-               tip.style("z-index", 10000)
-               .select("#user")
-               .html("<span id=\"tooltip_text\">Nom d'utilisateur : </span>" + json[0]['user']);
-
-               tip.select('#content')
-                   .html("<span id=\"tooltip_text\">Contenu du tweet : </span>\"" +  json[0]['text'] + "\"");
-
-               tip.select('#nbrt')
-                   .html("<span id=\"tooltip_text\">Nombre de RT: </span>" + json[0]['nbRt']);
-
-                d3.select("#tooltip").classed("hidden", false);
-
-           })
-        })
-        .on("mouseout", function() {
-            d3.select("#tooltip").classed("hidden", true);
-        })
         .on("click", function (d, i) {
-            console.log(i);
             var da = dates[0] + difference * i;
             var s = da + difference;
-            console.log(difference);
-            console.log(formatTime(new Date(1000*da)));
-            console.log(s);
             d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                 mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
+            });
+            d3.json("/get-tweets/"+da + "/" + s, function (json) {
+                displayTweets(json);
             });
         });
 
@@ -117,4 +91,41 @@ function histogram(freq_per_date) {
       .attr("dy", "0.71em")
       .attr("text-anchor", "end");
 
+}
+function displayTweets(json){
+    ($('.graphs').has(".tweets").length ? console.log("yes") :  $('.graphs').append("<div class=\"tweets\"></div>"));
+    if ($('.tweets').children.length > 0){
+        $('.tweets').empty();
+    }
+    var i;
+    for(i=0; i < json.length; i++) {
+        console.log(json[i].user);
+        $('.tweets').append("<div class=\"tweet\" id=" + json[i].id+"></div>");
+    }
+    $('.tweets').children().each( function(t, tweet){
+        var id = $(this).attr('id');
+        twttr.widgets.createTweet(
+            id, tweet,
+            {
+                conversation : 'none',    // or all
+                cards        : 'hidden',  // or visible
+                linkColor    : '#cc0000', // default is blue
+                theme        : 'light'    // or dark
+            }
+        );
+    });
+    scrollIfNeeded($('.tweet'), $('.tweets'));
+
+
+}
+function scrollIfNeeded(element, container) {
+  if (element.offsetTop < container.scrollTop) {
+    container.scrollTop = element.offsetTop;
+  } else {
+    const offsetBottom = element.offsetTop + element.offsetHeight;
+    const scrollBottom = container.scrollTop + container.offsetHeight;
+    if (offsetBottom > scrollBottom) {
+      container.scrollTop = offsetBottom - container.offsetHeight;
+    }
+  }
 }
