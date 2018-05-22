@@ -59,7 +59,7 @@ def word_splitter(tweet_text):
     print(new_words)
     return new_words
 
-def retrieve_tweet_dates(start_date = None, stop_date=None):
+def retrieve_tweet_dates(start_date = None, stop_date=None, intervalle = None):
     tweets_table = mongo.db.tweets
     buffer = []
     if start_date is not None and stop_date is not None:
@@ -78,10 +78,10 @@ def retrieve_tweet_dates(start_date = None, stop_date=None):
             d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
             buffer.append(time.mktime(d.timetuple()))
     print(buffer)
-    return date_to_int(buffer, start_date,stop_date)
+    return date_to_int(buffer, start_date, stop_date, intervalle)
 
 
-def date_to_int(tweet_dates,start = None,stop = None):
+def date_to_int(tweet_dates,start = None,stop = None, new_intervalle = None):
     if tweet_dates:
         if start is None and stop is None:
             start_date = int(min(tweet_dates))
@@ -90,25 +90,30 @@ def date_to_int(tweet_dates,start = None,stop = None):
             start_date = start
             stop_date = stop
 
-        if stop_date-start_date >= 172800:#intervalle de 2 jours
-            intervals = 172800
-        elif stop_date-start_date >= 86400:#intervalle de 1 jour
-            intervals = 86400
-        elif stop_date-start_date >= 43200:#intervalle de 12 heures
-            intervals = 43200
-        elif stop_date-start_date >= 3600:#intervalle de 1 heure
-            intervals = 3600
-        elif stop_date-start_date >= 600:#intervalle de 10 minutes
-            intervals = 600
-        elif stop_date-start_date >= 60:#intervalle de 1 minute
-            intervals = 60
-        elif stop_date-start_date >= 30:#intervalle de 30 secondes
-            intervals = 30
+        if new_intervalle is None:
+            if stop_date-start_date >= 172800:#intervalle de 2 jours
+                intervals = 172800
+            elif stop_date-start_date >= 86400:#intervalle de 1 jour
+                intervals = 86400
+            elif stop_date-start_date >= 43200:#intervalle de 12 heures
+                intervals = 43200
+            elif stop_date-start_date >= 3600:#intervalle de 1 heure
+                intervals = 3600
+            elif stop_date-start_date >= 600:#intervalle de 10 minutes
+                intervals = 600
+            elif stop_date-start_date >= 60:#intervalle de 1 minute
+                intervals = 60
+            elif stop_date-start_date >= 30:#intervalle de 30 secondes
+                intervals = 30
+            else:
+                intervals = 10
         else:
-            intervals = 10
+            intervals = int(new_intervalle)
+
         start_date = int(min(tweet_dates))
         stop_date = int(max(tweet_dates))
         new_freq = []
+
         for x in range(start_date, stop_date, intervals):
             if x == stop_date:
                 break

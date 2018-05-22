@@ -92,12 +92,17 @@ $(document).ready(function () {
                 if(datedtweets_button_pressed) {
                     $('#histogram').load(' #histogram', function () {
                         console.log("ok");
-                        ajax_freq_per_date(repeat);
+                        ajax_freq_per_date(repeat, null);
                     });
                 }
-            });
+            }, null);
         }
     }, 1000);
+
+    /* A l'appui d'un intervalle pour l'histogramme */
+    $('input[type=radio][name=time_interval]').change(function() {
+        refresh_histogram(false, this.value);
+    });
 });
 
 function refresh_download_btn() {
@@ -169,7 +174,7 @@ $('.datepicker').pickadate({
     }
 });
 
-function refresh_histogram(first_load){
+function refresh_histogram(first_load, value){
     if(!first_load){
         var histogram = $('#histogram');
         histogram.load(' #histogram', function () {
@@ -179,7 +184,7 @@ function refresh_histogram(first_load){
         });
     }
 
-    ajax_freq_per_date();
+    ajax_freq_per_date(null, value);
 }
 
 $(document).ready(function() {

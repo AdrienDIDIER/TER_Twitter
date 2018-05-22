@@ -28,7 +28,7 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
         stream_o = tweepy.Stream(auth=api.auth, listener=Stream())
         stream_o.filter(locations=geocode, track=[keywords], languages=[language], follow=[user])
     else:
-        geocode = None # TODO: FIX (Filtrer par geocode) et fix language
+        geocode = None # TODO: FIX (Filtrer par geocode)
         query = keywords
         if startdate != "" and stopdate != "":
             query = query + " since:" + startdate + " until:" + stopdate

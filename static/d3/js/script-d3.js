@@ -78,12 +78,23 @@ function ajax_wordcloud(){
     });
 }
 
-function ajax_freq_per_date() {
+function ajax_freq_per_date(callback, value) {
     var url = "/result-freq-per-date/";
     if((startdate !== "") && (stopdate !== "")){
         url += startdate + "/" + stopdate + "/";
     }
+    if(value !== undefined){
+        url += "?intervalle=" + value;
+    }
     d3.json(url, function (json) {
+        if(value !== undefined){
+            for(var i = 0; i < json.length; i++){
+                json[i].stop_date = json[i].start_date + parseInt(value);
+                if(i !== json.length - 1){
+                    json[i+1].start_date = json[i].stop_date;
+                }
+            }
+        }
         histogram(json);
     });
 }

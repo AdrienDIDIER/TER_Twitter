@@ -34,13 +34,13 @@ def wordcloud():
 
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')
-def histogram(startdate = None,stopdate = None):
-    print(startdate)
+def histogram(startdate = None, stopdate = None):
+    # print(startdate)
     if startdate is None and stopdate is None:
-        freq_per_date = retrieve_tweet_dates()
+        freq_per_date = retrieve_tweet_dates(intervalle=request.args.get('intervalle'))
     else:
-        freq_per_date = retrieve_tweet_dates(startdate,stopdate)
-    print(freq_per_date)
+        freq_per_date = retrieve_tweet_dates(startdate, stopdate, request.args.get('intervalle'))
+    # print(freq_per_date)
     return json.dumps(freq_per_date)
 
 @app.route('/retrieve-themostrt/<start>/<stop>')
