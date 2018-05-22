@@ -136,3 +136,10 @@ hr.style-four {
 ul.dropdown-content.select-dropdown li span {
     color: #1976d2; /* no need for !important :) */
 }
+
+#histogram{
+    width: 60em;
+    overflow-x: auto;
+    white-space: nowrap;
+    overflow-y: hidden;
+}
