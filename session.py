@@ -77,6 +77,8 @@ def addSession(mode=None):
                      'geocode': request.form['geocode'],
                      'start_date': request.form['start_date'] if request.form['mode'] == "dated_tweets" else None,
                      'stop_date': request.form['stop_date'] if request.form['mode'] == "dated_tweets" else None,
+                     'start_time': request.form['start_time'] if request.form['mode'] == "dated_tweets" else None,
+                     'stop_time': request.form['stop_time'] if request.form['mode'] == "dated_tweets" else None,
                      'twitter_user': request.form['twitter_user'],
                      'language': request.form['language']
                  }
