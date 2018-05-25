@@ -54,7 +54,6 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
-        console.log("toto");
         var button_target = $(this);
         button_target.attr("disabled", "disabled");
         $('#loading_circle').show();
@@ -92,7 +91,6 @@ $(document).ready(function () {
             ajax_freq_per_date(function repeat() {
                 if (datedtweets_button_pressed) {
                     $('#histogram').load(' #histogram', function () {
-                        console.log("ok");
                         ajax_freq_per_date(repeat, null);
                     });
                 }

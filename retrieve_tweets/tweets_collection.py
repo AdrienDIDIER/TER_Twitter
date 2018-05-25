@@ -19,7 +19,6 @@ def delete_many_tweets(key = None, value = None):
         results = tweets_table.delete_many({key: value})
     else:
         results = tweets_table.delete_many({})# Delete all from the collection
-    # print(results.deleted_count)
 
 def tweets_by_session_id(session_id):
     return mongo.db.tweets.find({'session_id': session_id})
@@ -82,7 +81,6 @@ def date_to_int(tweet_dates,start = None,stop = None, new_intervalle = None):
             start_date = start
             stop_date = stop
 
-        #print(new_intervalle)
         if new_intervalle is None:
             if stop_date-start_date >= 172800:#intervalle de 2 jours
                 intervals = 172800
@@ -140,6 +138,5 @@ def getTweets(start, stop):
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
             tzinfo=pytz.UTC)
         if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
-            print( tweet['tweet_object']['id_str'])
             buffer.append({'id': tweet['tweet_object']['id_str']})
     return buffer
