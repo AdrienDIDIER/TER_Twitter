@@ -62,6 +62,7 @@ function histogram(freq_per_date) {
             .on("click", function (d, i) {
                 var da = dates[0] + difference * i;
                 var s = da + difference;
+                $('#lw_tw').show();
                 d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                     mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
                 });

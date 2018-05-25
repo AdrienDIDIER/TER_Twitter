@@ -114,3 +114,10 @@ $(document).ready(function () {
     $('.modal').modal();
     $('select').material_select();
 });
+
+function load_containers(){
+    $('#wordcloud_container').show();
+    $('hr').show();
+    $('.flow-text').show();
+    $('#interaction_container').show();
+}

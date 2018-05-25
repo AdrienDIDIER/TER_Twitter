@@ -1,22 +1,23 @@
 $(document).ready(function () {
     refresh_wordcloud(false);
     refresh_histogram(true);
+    /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
+        load_containers();
+
         $.ajax({
             url: '/session/' + $(this).attr('action-target'),
             data: $('form').serialize(),
             type: 'POST',
 
-            success: function (response) {
-                /**/
-            },
-            error: function (error) {
-                /**/
-            }
+            success: function (response) {/**/},
+            error: function (error) {/**/}
         });
     });
+
+    /* Si l'on stop le stream */
     $(document).on("click", '#stop-stream_button', function () {
         $(this).attr("disabled", "disabled");
         $('#start-stream_button').prop("disabled", false);
@@ -29,16 +30,17 @@ $(document).ready(function () {
             success: function (response) {
                 first_refresh = false;
             },
-            error: function (error) {
-                /**/
-            }
+            error: function (error) {/**/}
         });
     });
 
+    /* Si l'on démarre un batch de tweets passés */
     $(document).on("click", '#start-dated_tweets_button', function () {
         var button_target = $(this);
         button_target.attr("disabled", "disabled");
+        load_containers();
         $('#loading_circle').show();
+
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
             data: '',
@@ -50,9 +52,7 @@ $(document).ready(function () {
                 refresh_histogram(false);
                 button_target.prop("disabled", false);
             },
-            error: function (error) {
-                /**/
-            }
+            error: function (error) {/**/}
         });
     });
 
