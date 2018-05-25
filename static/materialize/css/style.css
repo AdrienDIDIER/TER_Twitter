@@ -149,3 +149,7 @@ ul.dropdown-content.select-dropdown li span {
     max-height: 400px;
     position: relative;
 }
+
+rect{
+    cursor: pointer;
+}

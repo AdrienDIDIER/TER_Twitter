@@ -36,7 +36,7 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
             query = query + " from:@" + user
         print(query)
         for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang=language).items(int(tweets_batch)):
-            print("text")
+            # print("text")
             stock_tweets(tweet)
 
 @app.route('/session/stream/stop')
