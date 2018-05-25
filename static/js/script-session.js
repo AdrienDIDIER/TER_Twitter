@@ -50,6 +50,7 @@ $(document).ready(function () {
                 refresh_number_tweets();
                 refresh_wordcloud(false);
                 refresh_histogram(false);
+                $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
             },
             error: function (error) {/**/}
@@ -76,6 +77,12 @@ $(document).ready(function () {
                     });
                 }
             }, null);
+
+            if(datedtweets_button_pressed){
+                var nb_tweets = $('#div_number_of_tweets').text();
+                var batch = $('#start-dated_tweets_button').attr('data-batch');
+                $('#barre_progression').width((((nb_tweets % batch) / batch)* 100) + "%");
+            }
         }
     }, 1000);
 

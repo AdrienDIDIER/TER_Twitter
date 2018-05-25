@@ -22,7 +22,7 @@
                             </li>
                         {% else %}
                             <li>
-                                <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
+                                <button data-batch="{{ current_session.tweets_batch }}" id="start-dated_tweets_button" action-target="{{ current_session._id }}"
                                         class="btn waves-effect waves-light green navbar_btn">
                                     Récupérer {{ current_session.tweets_batch }}
                                     tweets
@@ -114,14 +114,13 @@
             récupérés
         </div>
     </div>
-    {% if current_session.mode == "stream" %}
-        <div class="progress">
-            <div class="indeterminate"></div>
-        </div>
-    {% else %}
-        <div class="progress">
-            <div class="determinate" style="width: 70%"></div>
-        </div>
+    {% if current_session.mode == "dated_tweets" %}
+        {% if number_of_tweets is number %}
+            <div class="progress">
+                {% set batch = current_session.tweets_batch | int %}
+                <div class="determinate" id="barre_progression" style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
+            </div>
+        {% endif %}
     {% endif %}
 
     <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
