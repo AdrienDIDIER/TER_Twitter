@@ -24,8 +24,6 @@ def index():
         starting_session = mongo.db.sessions.find({'user_id': user['_id']}).sort(
             [("last_modification_date", pymongo.DESCENDING), ("start_date", pymongo.DESCENDING)])
         page_number = ceil(starting_session.count() / limit)  # ceil arrondit à la valeur entière supérieure
-        print("page number",page_number)
-        print("current page :",current_page)
         if current_page > page_number and page_number>0:
             return "Page inexistante"
         if starting_session.count() != 0:

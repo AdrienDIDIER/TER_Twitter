@@ -34,7 +34,6 @@ def wordcloud():
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')
 def histogram(startdate=None, stopdate=None):
-    # print(startdate)
     if startdate is None and stopdate is None:
         freq_per_date = retrieve_tweet_dates(intervalle=request.args.get('intervalle'))
     else:
@@ -93,7 +92,6 @@ def getLinkImgFromKeyWords(keywords):
     arguments = {"keywords": keywords, "limit": 6, "usage_rights": "labeled-for-reuse", "aspect_ratio": "wide",
                  "size": "medium"}  # creating list of arguments
     links = response.download(arguments)  # passing the arguments to the function
-    print(response.download(arguments))
     # return le lien random parmi les liens récupérés
     if len(links) > 0:
         return links[randint(0, len(links) - 1)]
@@ -117,7 +115,6 @@ def display_session(session_id=None):
         user = current_session['params']['twitter_user']
         language = current_session['params']['language']
         tweets_batch = current_session['tweets_batch']
-        print("user", user)
         filter(keywords, geocode, stream, startdate, stopdate, user, language, tweets_batch)
         if startdate is not None and stopdate is not None:
             return render_template('session_interface.html', current_session=current_session, startdate=startdate,

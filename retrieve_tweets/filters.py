@@ -9,7 +9,6 @@ stream_stop = False  # Variable globale pour permettre le partage de la variable
 class Stream(tweepy.StreamListener):
     def on_status(self, status):
         if not stream_stop:
-            # print(status)
             stock_tweets(status)
         else:
             return False
@@ -34,9 +33,7 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
             query = query + " since:" + startdate + " until:" + stopdate
         if user != "":
             query = query + " from:@" + user
-        print(query)
         for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang=language).items(int(tweets_batch)):
-            print("text")
             stock_tweets(tweet)
 
 @app.route('/session/stream/stop')

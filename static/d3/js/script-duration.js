@@ -99,7 +99,6 @@ function displayTweets(json){
     }
     var i;
     for(i=0; i < json.length; i++) {
-        console.log(json[i].user);
         $('.tweets').append("<div class=\"tweet\" id=" + json[i].id+"></div>");
     }
     $('.tweets').children().each( function(t, tweet){

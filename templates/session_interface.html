@@ -172,10 +172,12 @@
             <div class="col m6 l6 s6">
                 <div id="little-wordcloud"></div>
             </div>
-            <div class="col m6 l6 s6 graphs">
-            </div>
+            <div class="col m6 l6 s6 graphs" id ="twitterwidget"></div>
         </div>
     </div>
 {% endblock %}
 
-{# Pour obtenir l'index on utilise object.index .Pour avoir la value on fait object[index] #}
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
+{% endblock %}
