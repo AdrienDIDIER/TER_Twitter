@@ -59,29 +59,6 @@ function histogram(freq_per_date) {
         .attr('id', function (d, i) {
             return i;
         })
-
-        .on("mouseover", function (d,i) {
-           var da = dates[0] + difference * i;
-           var s = da + difference;
-           d3.json("/retrieve-themostrt/" + da + "/" + s, function(json){
-               var tip = d3.select("#tooltip");
-               tip.style("z-index", 10000)
-               .select("#user")
-               .html("<span id=\"tooltip_text\">Nom d'utilisateur : </span>" + json[0]['user']);
-
-               tip.select('#content')
-                   .html("<span id=\"tooltip_text\">Contenu du tweet : </span>\"" +  json[0]['text'] + "\"");
-
-               tip.select('#nbrt')
-                   .html("<span id=\"tooltip_text\">Nombre de RT: </span>" + json[0]['nbRt']);
-
-                d3.select("#tooltip").classed("hidden", false);
-
-           })
-        })
-        .on("mouseout", function() {
-            d3.select("#tooltip").classed("hidden", true);
-        })
         .on("click", function (d, i) {
             console.log(i);
             var da = dates[0] + difference * i;

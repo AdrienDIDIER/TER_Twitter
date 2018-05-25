@@ -83,11 +83,11 @@ function ajax_freq_per_date(callback, value) {
     if((startdate !== "") && (stopdate !== "")){
         url += startdate + "/" + stopdate + "/";
     }
-    if(value !== undefined){
+    if(value !== undefined && value !== null){
         url += "?intervalle=" + value;
     }
     d3.json(url, function (json) {
-        if(value !== undefined){
+        if(value !== undefined && value !== null){
             for(var i = 0; i < json.length; i++){
                 json[i].stop_date = json[i].start_date + parseInt(value);
                 if(i !== json.length - 1){
