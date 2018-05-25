@@ -129,7 +129,7 @@ hr.style-four {
     box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 }
 
-#delete_session_btn{
+#delete_session_btn {
     bottom: 5px;
 }
 
@@ -144,7 +144,7 @@ ul.dropdown-content.select-dropdown li span {
     overflow-y: hidden;
 }
 
-.tweets{
+.tweets {
     overflow-y: auto;
     max-height: 400px;
     position: relative;
@@ -152,4 +152,10 @@ ul.dropdown-content.select-dropdown li span {
 
 rect{
     cursor: pointer;
+}
+
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
+    background-color: #1976d2 !important;
+    border : #1976d2 !important;
+>>>>>>> appInterface
 }
