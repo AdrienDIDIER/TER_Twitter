@@ -128,7 +128,10 @@ def retrieve_tweets_by_date(start,stop):
         count = count +1
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
         if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
-            tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
+            if "full_text" in tweet['tweet_object']:
+                tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
+            else:
+                tweet_text = tweet_text + " " + tweet['tweet_object']["text"]
     return word_splitter(tweet_text)
 
 def getTweets(start, stop):
