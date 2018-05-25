@@ -42,10 +42,6 @@
                                href="{{ url_for('close_session') }}"><i
                                     class="material-icons right">close</i>Fermer</a>
                         </li>
-                        <li>
-                            <span id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></span> tweets
-                            récupérés
-                        </li>
                     </ul>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
                         <li><a href={{ url_for('logout') }}>Se
@@ -91,7 +87,7 @@
             </div>
             {#        Fin du bandeau#}
         </div>
-        <div class="col m10 l10 s12 center">
+        <div class="col m9 l9 s12 center">
             <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
                 style="display: none" {% endif %}
                 class="preloader-wrapper big active"
@@ -117,7 +113,21 @@
             <i class="flow-text">Nuage de mots général</i>
             {#                Fin Wordcloud général#}
         </div>
+        <div class="querryRecap col m1 l1 s12 right grey lighten-4 z-depth-3">
+            <h4 class="center" id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></h4> tweets
+            récupérés
+        </div>
     </div>
+    {% if current_session.mode == "stream" %}
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    {% else %}
+        <div class="progress">
+            <div class="determinate" style="width: 70%"></div>
+        </div>
+    {% endif %}
+
     <hr class="style-four">
     {#    Partie Interactive de l'interface#}
     <div class="container">
@@ -172,12 +182,12 @@
             <div class="col m6 l6 s6">
                 <div id="little-wordcloud"></div>
             </div>
-            <div class="col m6 l6 s6 graphs" id ="twitterwidget"></div>
+            <div class="col m6 l6 s6 graphs" id="twitterwidget"></div>
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-<script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
 {% endblock %}
