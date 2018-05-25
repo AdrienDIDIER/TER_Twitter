@@ -87,6 +87,18 @@
                                     <label for="stop_date">Date de fin</label>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="input-field col s12 l6 m6">
+                                    <i class="material-icons prefix">access_time</i>
+                                    <input id="start_time" type="text" name="start_time" class="timepicker" value="00:00"required>
+                                    <label for="start_time">Heure de début</label>
+                                </div>
+                                <div class="input-field col s12 l6 m6">
+                                    <i class="material-icons prefix">access_time</i>
+                                    <input id="stop_time" type="text" name="stop_time" class="timepicker" value="00:00"required>
+                                    <label for="stop_time">Heure de fin</label>
+                                </div>
+                            </div>
                         {% endif %}
                         <div class="row">
                             <div class="input-field col s12 l6 m6">
@@ -96,23 +108,30 @@
                                 <label for="region">Régions</label>
                                 <div id="map"></div>
                             </div>
-                            {#                              #}
-                            {#                                <input placeholder="fr" name="language" id="language" type="text" class="validate">#}
-                            {#                                <label for="language">Langue</label>#}
                             <div class="input-field col s12 l6 m6">
                                 <i class="material-icons prefix">language</i>
                                 <select class="icons" name="language">
-                                    <option value="" data-icon="{{ url_for('static', filename='img/worldflag.png') }}" class="left circle">Toutes
+                                    <option value="" data-icon="{{ url_for('static', filename='img/worldflag.png') }}"
+                                            class="left circle">Toutes
                                     </option>
-                                    <option value="en" data-icon="{{ url_for('static', filename='img/englishflag.png') }}" class="left circle">Anglais (en)
+                                    <option value="en"
+                                            data-icon="{{ url_for('static', filename='img/englishflag.png') }}"
+                                            class="left circle">Anglais (en)
                                     </option>
-                                    <option value="fr" data-icon="{{ url_for('static', filename='img/frenchflag.png') }}" class="left circle">Français (fr)
+                                    <option value="fr"
+                                            data-icon="{{ url_for('static', filename='img/frenchflag.png') }}"
+                                            class="left circle">Français (fr)
                                     </option>
-                                    <option value="de" data-icon="{{ url_for('static', filename='img/germanflag.png') }}" class="left circle">Allemand (de)
+                                    <option value="de"
+                                            data-icon="{{ url_for('static', filename='img/germanflag.png') }}"
+                                            class="left circle">Allemand (de)
                                     </option>
-                                    <option value="es" data-icon="{{ url_for('static', filename='img/spainflag.png') }}" class="left circle">Espagnol (es)
+                                    <option value="es" data-icon="{{ url_for('static', filename='img/spainflag.png') }}"
+                                            class="left circle">Espagnol (es)
                                     </option>
-                                    <option value="it" data-icon="{{ url_for('static', filename='img/italianflag.png') }}" class="left circle">Italien (it)
+                                    <option value="it"
+                                            data-icon="{{ url_for('static', filename='img/italianflag.png') }}"
+                                            class="left circle">Italien (it)
                                     </option>
                                 </select>
                                 <label>Langue</label>

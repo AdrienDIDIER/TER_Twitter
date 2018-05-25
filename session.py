@@ -25,7 +25,6 @@ def get_little_wordcloud(start_date, stop_date):
     return json.dumps(words)
 
 
-
 @app.route('/result-wordcloud/')
 def wordcloud():
     words = retrieve_all_tweets_text()
@@ -34,13 +33,14 @@ def wordcloud():
 
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')
-def histogram(startdate = None, stopdate = None):
+def histogram(startdate=None, stopdate=None):
     # print(startdate)
     if startdate is None and stopdate is None:
         freq_per_date = retrieve_tweet_dates(intervalle=request.args.get('intervalle'))
     else:
         freq_per_date = retrieve_tweet_dates(startdate, stopdate, request.args.get('intervalle'))
     return json.dumps(freq_per_date)
+
 
 @app.route('/get-tweets/<start>/<stop>')
 def retrieveTweets(start, stop):
@@ -58,9 +58,11 @@ def addSession(mode=None):
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
-            #src_img = getLinkImgFromKeyWords(request.form['keywords'])
-            src_img = ""
-            print("Language :", request.form['language'])
+            src_img = None
+            if request.form['keywords']:
+                src_img = getLinkImgFromKeyWords(request.form['keywords'])
+            else:
+                src_img = getLinkImgFromKeyWords(request.form['session_name'])
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(
@@ -74,6 +76,8 @@ def addSession(mode=None):
                      'geocode': request.form['geocode'],
                      'start_date': request.form['start_date'] if request.form['mode'] == "dated_tweets" else None,
                      'stop_date': request.form['stop_date'] if request.form['mode'] == "dated_tweets" else None,
+                     'start_time': request.form['start_time'] if request.form['mode'] == "dated_tweets" else None,
+                     'stop_time': request.form['stop_time'] if request.form['mode'] == "dated_tweets" else None,
                      'twitter_user': request.form['twitter_user'],
                      'language': request.form['language']
                  }
@@ -86,7 +90,8 @@ def addSession(mode=None):
 
 def getLinkImgFromKeyWords(keywords):
     response = google_images_download.googleimagesdownload()  # class instantiation
-    arguments = {"keywords": keywords, "limit": 6, "usage_rights": "labeled-for-reuse", "aspect_ratio" : "wide", "size": "medium"}  # creating list of arguments
+    arguments = {"keywords": keywords, "limit": 6, "usage_rights": "labeled-for-reuse", "aspect_ratio": "wide",
+                 "size": "medium"}  # creating list of arguments
     links = response.download(arguments)  # passing the arguments to the function
     print(response.download(arguments))
     # return le lien random parmi les liens récupérés
@@ -115,7 +120,8 @@ def display_session(session_id=None):
         print("user", user)
         filter(keywords, geocode, stream, startdate, stopdate, user, language, tweets_batch)
         if startdate is not None and stopdate is not None:
-            return render_template('session_interface.html', current_session = current_session, startdate = startdate, stopdate = stopdate)
+            return render_template('session_interface.html', current_session=current_session, startdate=startdate,
+                                   stopdate=stopdate)
         else:
             return render_template('session_interface.html', current_session=current_session)
 
@@ -130,7 +136,7 @@ def close_session():
     return redirect(url_for('index'))
 
 
-@app.route('/session/delete/<session_id>',methods=['POST', 'GET'])
+@app.route('/session/delete/<session_id>', methods=['POST', 'GET'])
 def delete_session(session_id=None):
     result = mongo.db.tweets.delete_many({'session_id': session_id})
     mongo.db.sessions.delete_one({'_id': ObjectId(session_id)})

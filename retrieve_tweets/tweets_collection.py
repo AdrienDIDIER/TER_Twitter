@@ -10,7 +10,6 @@ from stop_words import get_stop_words
 import datetime, pytz, time
 
 def stock_tweets(tweet):
-    #print(tweet)
     tweets_table = mongo.db.tweets
     tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
 
