@@ -87,11 +87,7 @@
             </div>
             {#        Fin du bandeau#}
         </div>
-<<<<<<< HEAD
         <div id="wordcloud_container" class="col m10 l10 s12 center" {% if number_of_tweets == 0 %} style="display: none" {% endif %}>
-=======
-        <div class="col m9 l9 s12 center">
->>>>>>> develop
             <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
                 style="display: none" {% endif %}
                 class="preloader-wrapper big active"
@@ -118,9 +114,6 @@
             récupérés
         </div>
     </div>
-<<<<<<< HEAD
-    <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
-=======
     {% if current_session.mode == "stream" %}
         <div class="progress">
             <div class="indeterminate"></div>
@@ -131,8 +124,8 @@
         </div>
     {% endif %}
 
-    <hr class="style-four">
->>>>>>> develop
+    <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+
     {#    Partie Interactive de l'interface#}
     <div id="interaction_container" class="container" {% if number_of_tweets == 0 %} style="display: none" {% endif %}>
         <div class="row">
