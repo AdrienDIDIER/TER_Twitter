@@ -41,13 +41,13 @@
                                         <i>créée le <br> {{ s.start_date }}</i>
                                     {% endif %}
                                 </p>
-                                <a class="modal-trigger red-text" href="#modal1"><i>Supprimer</i></a>
+                                <a class="modal-trigger red-text" href="#modal{{ s._id }}"><i>Supprimer</i></a>
                             </div>
 
                         </div>
                     </div>
                     <!-- Modal Structure -->
-                    <div id="modal1" class="modal">
+                    <div id="modal{{ s._id }}" class="modal">
                         <div class="modal-content">
                             <h4>Supprimer votre session ?</h4>
                             <p>Vous êtes sur le point de supprimer votre session, toutes les données seront perdues.
