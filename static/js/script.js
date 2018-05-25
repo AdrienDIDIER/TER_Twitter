@@ -54,6 +54,7 @@ $(document).ready(function () {
         });
     });
     $(document).on("click", '#start-dated_tweets_button', function () {
+        console.log("toto");
         var button_target = $(this);
         button_target.attr("disabled", "disabled");
         $('#loading_circle').show();
@@ -190,4 +191,4 @@ function refresh_histogram(first_load, value){
 $(document).ready(function() {
     $('.modal').modal();
     $('select').material_select();
-  });
+});

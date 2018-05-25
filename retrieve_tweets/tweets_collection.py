@@ -41,7 +41,6 @@ def retrieve_all_tweets_text():
 
 
 def word_splitter(tweet_text):
-    #print(tweet_text)
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
     tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
     pattern = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
@@ -49,14 +48,11 @@ def word_splitter(tweet_text):
     words = tweet_text.split(" ")
     new_words = []
     stop_words = get_stop_words('fr') + get_stop_words('en')
-    print(stop_words)
     words = [word for word in words if word.lower() not in stop_words and 'RT' not in word]
-    print(words)
     word_counter = collections.Counter(words)
     for word in word_counter:
         if word_counter[word] >= 2:
             new_words.append({'text': word, 'size': word_counter[word]}) 
-    print(new_words)
     return new_words
 
 def retrieve_tweet_dates(start_date = None, stop_date=None, intervalle = None):
@@ -71,15 +67,12 @@ def retrieve_tweet_dates(start_date = None, stop_date=None, intervalle = None):
             d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
                 tzinfo=pytz.UTC)
             if time.mktime(d.timetuple()) >= float(start_date) and time.mktime(d.timetuple()) <= float(stop_date):
-                print(time.mktime(d.timetuple()))
                 buffer.append(time.mktime(d.timetuple()))
     else:
         for tweet in tweets_table.find({"session_id": session['last_session']}):
             d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
             buffer.append(time.mktime(d.timetuple()))
-    print(buffer)
     return date_to_int(buffer, start_date, stop_date, intervalle)
-
 
 def date_to_int(tweet_dates,start = None,stop = None, new_intervalle = None):
     if tweet_dates:
@@ -113,19 +106,17 @@ def date_to_int(tweet_dates,start = None,stop = None, new_intervalle = None):
         start_date = int(min(tweet_dates))
         stop_date = int(max(tweet_dates))
         new_freq = []
-
+        if start_date == stop_date:
+            new_freq.append({'freq': 1, 'start_date': start_date, 'stop_date': start_date + intervals})
         for x in range(start_date, stop_date, intervals):
             if x == stop_date:
                 break
             new_freq.append({'freq': count_date(tweet_dates, x, x+intervals), 'start_date': x, 'stop_date': x+intervals})
-        #print(new_freq)
         return new_freq
-
 
 def count_date(buffer, d, f):
     count = 0
     for i in range(len(buffer)):
-        # print("tweet : " + str(buffer[i]) + " debut : " + str(d) + " fin : " + str(f))
         if buffer[i] >= d and buffer[i] <= f:
             count = count + 1
     return count
@@ -140,20 +131,15 @@ def retrieve_tweets_by_date(start,stop):
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
         if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
             tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
-    print("count : " + str(count))
     return word_splitter(tweet_text)
 
-def getTheMostRT(start, stop):
+def getTweets(start, stop):
     tweets_table = tweets_by_session_id(session['last_session'])
-    twot = []
-    max = 0
+    buffer = []
     for tweet in tweets_table:
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
             tzinfo=pytz.UTC)
         if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
-            if tweet['tweet_object']['retweet_count'] >= max:
-                twot = tweet['tweet_object']
-    buffer = []
-    buffer.append({'user': twot['user']["name"], 'nbRt': twot['retweet_count'], 'text': twot['full_text'] })
-    print(buffer)
+            print( tweet['tweet_object']['id_str'])
+            buffer.append({'id': tweet['tweet_object']['id_str']})
     return buffer
