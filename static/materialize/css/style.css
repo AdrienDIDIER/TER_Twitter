@@ -159,7 +159,6 @@ rect {
 [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
     background-color: #1976d2 !important;
     border: #1976d2 !important;
-> > > > > > > appInterface
 }
 
 .card_interface {
