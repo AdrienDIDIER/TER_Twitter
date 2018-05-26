@@ -55,8 +55,12 @@
                         <div class="row"></div>
                         <legend>
                             <strong>
+                                {% if mode =='stream' %}
                                 <i class="material-icons right blue-text tooltipped" data-position="right"
-                                   data-tooltip="Les filtres ne s'additionnent pas ! (Sauf pour la langue)">help</i>
+                                   data-tooltip="Les filtres ne s'additionnent pas ! (Sauf pour la langue).">help</i>
+                                {% endif %}
+                                <i class="material-icons right blue-text tooltipped" data-position="right"
+                                   data-tooltip='Pour mettre plusieurs mots clés, les séparer des mots AND ou OR. Par exemple, "trump AND NRA"'>help</i>
                                 Filtres
                             </strong>
                         </legend>
