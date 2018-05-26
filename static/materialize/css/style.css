@@ -148,6 +148,7 @@ ul.dropdown-content.select-dropdown li span {
     overflow-y: auto;
     max-height: 400px;
     position: relative;
+    width: 400px;
 }
 
 rect{
