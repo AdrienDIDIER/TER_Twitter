@@ -127,6 +127,7 @@ $(document).ready(function () {
 function load_containers(){
     $('#no_tweet_div').remove();
     $('#wordcloud_container').show();
+    $('.progress').show();
     $('hr').show();
     $('.flow-text').show();
     $('#interaction_container').show();
