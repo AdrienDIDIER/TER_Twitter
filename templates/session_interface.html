@@ -23,7 +23,8 @@
                         {% else %}
                             <li>
 
-                                <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
+                                <button id="start-dated_tweets_button" data-batch="{{ current_session.tweets_batch }}"
+                                        action-target="{{ current_session._id }}"
                                         class="btn waves-effect waves-light green navbar_btn pulse">
                                     Récupérer {{ current_session.tweets_batch }}
                                     tweets
