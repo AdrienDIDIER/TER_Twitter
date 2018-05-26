@@ -22,8 +22,9 @@
                             </li>
                         {% else %}
                             <li>
-                                <button data-batch="{{ current_session.tweets_batch }}" id="start-dated_tweets_button" action-target="{{ current_session._id }}"
-                                        class="btn waves-effect waves-light green navbar_btn">
+
+                                <button id="start-dated_tweets_button" action-target="{{ current_session._id }}"
+                                        class="btn waves-effect waves-light green navbar_btn pulse">
                                     Récupérer {{ current_session.tweets_batch }}
                                     tweets
                                 </button>
@@ -55,89 +56,139 @@
 
 {% block body %}
     <div class="row">
-        {#        Bandeau recap sur le côté #}
-        <div class="querryRecap col m2 l2 s12 grey lighten-4 z-depth-3">
-            <h4>{{ current_session.session_name }}</h4>
-            <div class="divider"></div>
-            <div class="section">
-                <strong><i>Date de création</i></strong>
-                <p>{{ current_session.start_date }}</p>
-            </div>
-            <div class="divider"></div>
-            {% if current_session.exporter_user %}
-                <div class="section">
-                    <strong><i>Session exportée par</i></strong>
-                    <p>{{ current_session.exporter_user }}</p>
+        {#    debut card #}
+        <div class="col m2 l2 s12 ">
+            <div class="card z-depth-3 grey lighten-4 fixed card_interface interface_element">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="{{ current_session.src_img }}">
                 </div>
-                <div class="divider"></div>
-            {% endif %}
-            <div class="section">
-                <strong><i>Mode</i></strong>
-                <p> {{ current_session.mode }}</p>
-                <div class="divider"></div>
-                {% for param in current_session.params %}
-                    {% if current_session.params[param] and param!='geocode' %}
+                <div class="card-content">
+                    <h4>{{ current_session.session_name }}</h4>
+                    <div class="divider"></div>
+                    <div class="section">
+                        <strong><i>Date de création</i></strong>
+                        <p>{{ current_session.start_date }}</p>
+                    </div>
+                    <div class="divider"></div>
+                    {% if current_session.exporter_user %}
                         <div class="section">
-                            <strong><i>{{ param }}</i></strong>
-                            <p>{{ current_session.params[param] }}</p>
+                            <strong><i>Session exportée par</i></strong>
+                            <p>{{ current_session.exporter_user }}</p>
                         </div>
                         <div class="divider"></div>
                     {% endif %}
-                {% endfor %}
+                    <div class="section">
+                        <strong><i>Mode</i></strong>
+                        <p> {{ current_session.mode }}</p>
+                        <div class="divider"></div>
+                        {% for param in current_session.params %}
+                            {% if current_session.params[param] and param!='geocode' %}
+                                <div class="section">
+                                    <strong><i>{{ param }}</i></strong>
+                                    <p>{{ current_session.params[param] }}</p>
+                                </div>
+                                <div class="divider"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>
             </div>
-            {#        Fin du bandeau#}
         </div>
-        {% if number_of_tweets == 0 %}
-            <div id="no_tweet_div" class="col m6 l6 s6">
-                <img src="{{ url_for('static', filename='img/arrow.png') }}">
-                <blockquote style="margin: 20px 0;padding-left: 1.5rem;border-left: 5px solid #4CAF50;">
-                    <h4>Vous n'avez toujours pas récupéré de tweets !</h4>
-                    <blockquote style="margin: 20px 0;padding-left: 1.5rem;border-left: 5px solid #1976d2;">Commencez maintenant en appuyant sur "Récupérer" ou "Start" !</blockquote>
-                </blockquote>
+        {#    fin card#}
+        {#    word cloud general#}
+        <div class="col m8 l8 s12 center interface_element">
+            {% if number_of_tweets == 0 %}
+                <div id="no_tweet_div" class="col m6 l6 s6">
+                    <img src="{{ url_for('static', filename='img/arrow.png') }}">
+                    <blockquote style="margin: 20px 0;padding-left: 1.5rem;border-left: 5px solid #4CAF50;">
+                        <h4>Vous n'avez toujours pas récupéré de tweets !</h4>
+                        <blockquote style="margin: 20px 0;padding-left: 1.5rem;border-left: 5px solid #1976d2;">
+                            Commencez
+                            maintenant en appuyant sur "Récupérer" ou "Start" !
+                        </blockquote>
+                    </blockquote>
+                </div>
+            {% endif %}
+            <div id="wordcloud_container" {% if number_of_tweets == 0 %}
+                 style="display: none" {% endif %}>
+                <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
+                    style="display: none" {% endif %}
+                    class="preloader-wrapper big active loader_wordcloud"
+                    id="loading_circle">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                {#                Wordcloud général#}
+                <div id="wordcloud"></div>
+                <i {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Nuage de mots
+                    général</i>
+                {#                Fin Wordcloud général#}
             </div>
-        {% endif %}
-        <div id="wordcloud_container" class="col m10 l10 s12 center" {% if number_of_tweets == 0 %} style="display: none" {% endif %}>
-            <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
-                style="display: none" {% endif %}
-                class="preloader-wrapper big active"
-                id="loading_circle">
-                <div class="spinner-layer spinner-blue-only">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
+        </div>
+        {#    fin word cloud general#}
+        {#    debut side nav#}
+        <div class="col s2 m2 l2">
+            <div class="card z-depth-3 grey lighten-4 card_interface">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator center" id="logo_bleu" src="../static/img/logo_bleu.png">
+                </div>
+                <div class="card-content">
+                    <h5 class="center">
+                        <i class="small material-icons right">archive</i> <strong
+                            id="div_number_of_tweets">{{ number_of_tweets }}</strong> tweets</h5>
+                    <div class="divider"></div>
+                    <div class=" section center">
+                        <a class="waves-effect waves-light btn green smooth_scroll_btn" data_id="general_wc">
+                            <i class="material-icons right">cloud</i>Nuage
+                            de mots</a>
                     </div>
-                    <div class="gap-patch">
-                        <div class="circle"></div>
+                    <div class="divider"></div>
+                    <div class=" section center">
+                        <a class="waves-effect waves-light btn blue accent-1 smooth_scroll_btn" data_id="histogram"><i
+                                class="material-icons right">insert_chart</i>Histogramme</a>
                     </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
+                    <div class="divider"></div>
+                    <div class=" section center">
+                        <a class="waves-effect waves-light btn deep-purple lighten-1 smooth_scroll_btn"
+                           data_id="periode"><i class="material-icons right">search</i>Zoom
+                            periode</a>
                     </div>
                 </div>
             </div>
-            {#                Wordcloud général#}
-            <div id="wordcloud"></div>
-            <i {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Nuage de mots général</i>
-            {#                Fin Wordcloud général#}
         </div>
-        <div class="querryRecap col m1 l1 s12 right grey lighten-4 z-depth-3">
-            <h4 class="center" id="div_number_of_tweets"><strong>{{ number_of_tweets }}</strong></h4> tweets
-            récupérés
-        </div>
+        {#    fin side nav#}
     </div>
-    {% if current_session.mode == "dated_tweets" %}
-        {% if number_of_tweets is number %}
-            <div class="progress">
-                {% set batch = current_session.tweets_batch | int %}
-                <div class="determinate" id="barre_progression" style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
-            </div>
-        {% endif %}
-    {% endif %}
-
-    <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
     {#    Partie Interactive de l'interface#}
-    <div id="interaction_container" class="container" {% if number_of_tweets == 0 %} style="display: none" {% endif %}>
-        <div class="row">
-            <div class="col m2 l2 s12">
+    <div class="row center" id="interaction_container" {% if number_of_tweets == 0 %} style="display: none" {% endif %}>
+    <div class="col m2 s2 l2"></div>
+    <div class="col m8 l8 s8">
+        {#    loader#}
+        {% if current_session.mode == "dated_tweets" %}
+            {% if number_of_tweets is number %}
+                <div class="progress">
+                    {% set batch = current_session.tweets_batch | int %}
+                    <div class="determinate" id="barre_progression"
+                         style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
+                </div>
+            {% endif %}
+        {% endif %}
+        {#    fin loader#}
+        <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+
+        {#    debut intervalles#}
+        <div class="row parent_div">
+            <div class="col s3 m3 l3 child_div">
                 <strong><i>Intervalle de temps</i></strong>
                 <form action="#">
                     <p>
@@ -170,7 +221,8 @@
                     </p>
                 </form>
             </div>
-            <div class="col m6 l6 s12">
+            {#    fin intervalles#}
+            <div class="col s9 m9 l9 left child_div">
                 {#                    Histogram#}
                 <div class="duration" id="histogram">
                     <div id="tooltip" class="hidden">
@@ -181,21 +233,23 @@
                 </div>
                 {#                    Fin Histogram#}
             </div>
-
         </div>
+{#    debut zoom periode#}
         <div class="row" style="display: none" id="lw_tw">
             <i id="periode_selected" class="flow-text"></i>
             <div class="col m6 l6 s6">
                 <div class="preloader-wrapper big active" id="loading_circle_little_wordcloud">
                     <div class="spinner-layer spinner-blue-only">
-                      <div class="circle-clipper left">
-                        <div class="circle"></div>
-                      </div><div class="gap-patch">
-                        <div class="circle"></div>
-                      </div><div class="circle-clipper right">
-                        <div class="circle"></div>
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
                     </div>
-                  </div>
                 </div>
                 <div id="little-wordcloud"></div>
             </div>
@@ -213,17 +267,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col m6 l6 s6 graphs" id="twitterwidget"></div>
+                <div class="col m6 l5 s6 graphs right" id="twitterwidget"></div>
             </div>
         </div>
+{#    fin zoom periode#}
     </div>
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-<script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
-<script>
-    var startdate ={% if startdate is defined %} {{ startdate | tojson }} {% else %}"";{% endif %}
-    var stopdate ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
-</script>
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
+    <script>
+        var startdate ={% if startdate is defined %} {{ startdate | tojson }} {% else %}"";{% endif %}
+        var stopdate ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
+    </script>
 {% endblock %}
