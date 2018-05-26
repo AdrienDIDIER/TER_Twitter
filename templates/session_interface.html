@@ -173,7 +173,7 @@
         {#    loader#}
         {% if current_session.mode == "dated_tweets" %}
             {% if number_of_tweets is number %}
-                <div class="progress">
+                <div class="progress" style="display: none">
                     {% set batch = current_session.tweets_batch | int %}
                     <div class="determinate" id="barre_progression"
                          style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
