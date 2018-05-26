@@ -186,9 +186,35 @@
         <div class="row" style="display: none" id="lw_tw">
             <i id="periode_selected" class="flow-text"></i>
             <div class="col m6 l6 s6">
+                <div class="preloader-wrapper big active" id="loading_circle_little_wordcloud">
+                    <div class="spinner-layer spinner-blue-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                  </div>
+                </div>
                 <div id="little-wordcloud"></div>
             </div>
-            <div class="col m6 l6 s6 graphs" id="twitterwidget"></div>
+            <div>
+                <div class="preloader-wrapper big active" id="loading_circle_tweets">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col m6 l6 s6 graphs" id="twitterwidget"></div>
+            </div>
         </div>
     </div>
 {% endblock %}

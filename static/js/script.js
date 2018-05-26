@@ -122,3 +122,9 @@ function load_containers(){
     $('.flow-text').show();
     $('#interaction_container').show();
 }
+
+/* On vide le mini wordcloud et la liste des tweets */
+function refresh_lw_tw(){
+    $('#little-wordcloud').empty();
+    $('#twitterwidget').empty();
+}

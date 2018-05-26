@@ -89,8 +89,6 @@ $(document).ready(function () {
     /* A l'appui d'un intervalle pour l'histogramme */
     $('input[type=radio][name=time_interval]').change(function () {
         refresh_histogram(false, this.value);
-        /* On vide le mini wordcloud et la liste des tweets */
-        $('#little-wordcloud').empty();
-        $('#twitterwidget').empty();
+        refresh_lw_tw();
     });
 });

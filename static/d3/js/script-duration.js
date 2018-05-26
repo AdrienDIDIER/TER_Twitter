@@ -62,7 +62,12 @@ function histogram(freq_per_date) {
             .on("click", function (d, i) {
                 var da = dates[0] + difference * i;
                 var s = da + difference;
+
+                $('#little-wordcloud').hide();
+                $('#twitterwidget').empty();
                 $('#lw_tw').show();
+                $('#loading_circle_little_wordcloud').show();
+                $('#loading_circle_tweets').show();
 
                 var formatDate1 = d3.time.format("%d/%m/%y à %Hh%Mm%Ss");
                 var formatDate2 = d3.time.format("au %d/%m/%y à %Hh%Mm%Ss");
@@ -72,9 +77,13 @@ function histogram(freq_per_date) {
                 $('#periode_selected').text("Période du " + debut + " " + fin);
                 d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                     mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
+                    $('#loading_circle_little_wordcloud').hide();
+                    $('#little-wordcloud').show();
                 });
+
                 d3.json("/get-tweets/" + da + "/" + s, function (json) {
                     displayTweets(json);
+                    $('#loading_circle_tweets').hide();
                 });
             });
 
@@ -125,9 +134,8 @@ function displayTweets(json){
         );
     });
     scrollIfNeeded($('.tweet'), $('.tweets'));
-
-
 }
+
 function scrollIfNeeded(element, container) {
   if (element.offsetTop < container.scrollTop) {
     container.scrollTop = element.offsetTop;
