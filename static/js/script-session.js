@@ -50,6 +50,7 @@ $(document).ready(function () {
                 refresh_number_tweets();
                 refresh_wordcloud(false);
                 refresh_histogram(false);
+                $('.progress').hide();
                 $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
             },
