@@ -63,6 +63,13 @@ function histogram(freq_per_date) {
                 var da = dates[0] + difference * i;
                 var s = da + difference;
                 $('#lw_tw').show();
+
+                var formatDate1 = d3.time.format("%d/%m/%y à %Hh%Mm%Ss");
+                var formatDate2 = d3.time.format("au %d/%m/%y à %Hh%Mm%Ss");
+                var debut = formatDate1(new Date(1000 * da));
+                var fin = formatDate2(new Date(1000 * s));
+
+                $('#periode_selected').text("Période du " + debut + " " + fin);
                 d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                     mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
                 });
