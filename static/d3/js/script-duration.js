@@ -68,6 +68,7 @@ function histogram(freq_per_date) {
                 $('#lw_tw').show();
                 $('#loading_circle_little_wordcloud').show();
                 $('#loading_circle_tweets').show();
+                $('#periode_scroll').removeClass("disabled");
 
                 var formatDate1 = d3.time.format("%d/%m/%y à %Hh%Mm%Ss");
                 var formatDate2 = d3.time.format("au %d/%m/%y à %Hh%Mm%Ss");

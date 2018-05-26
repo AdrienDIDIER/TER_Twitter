@@ -6,6 +6,8 @@ $(document).ready(function () {
         $(this).prop("disabled", true);
         $('#stop-stream_button').prop("disabled", false);
         load_containers();
+        $('#general_wc_scroll').removeClass("disabled");
+        $('#histogram_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + $(this).attr('action-target'),
@@ -41,6 +43,8 @@ $(document).ready(function () {
         button_target.removeClass("pulse");
         load_containers();
         $('#loading_circle').show();
+        $('#general_wc_scroll').removeClass("disabled");
+        $('#histogram_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
