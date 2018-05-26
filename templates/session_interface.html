@@ -143,18 +143,19 @@
                         <i class="small material-icons right">archive</i> <strong
                             id="div_number_of_tweets">{{ number_of_tweets }}</strong> tweets</h5>
                     <div class="divider"></div>
-                    <div class=" section center">
-                        <a class="waves-effect waves-light btn green smooth_scroll_btn" data_id="general_wc">
-                            <i class="material-icons right">cloud</i>Word cloud</a>
+                    <div class="section center">
+                        <a id="general_wc_scroll" class="waves-effect waves-light btn green smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}" data_id="general_wc">
+                            <i class="material-icons right">cloud</i>Nuage
+                            de mots</a>
                     </div>
                     <div class="divider"></div>
-                    <div class=" section center">
-                        <a class="waves-effect waves-light btn blue accent-1 smooth_scroll_btn" data_id="histogram"><i
+                    <div class="section center">
+                        <a id="histogram_scroll" class="waves-effect waves-light btn blue accent-1 smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}" data_id="histogram"><i
                                 class="material-icons right">insert_chart</i>Histogramme</a>
                     </div>
                     <div class="divider"></div>
-                    <div class=" section center">
-                        <a class="waves-effect waves-light btn deep-purple lighten-1 smooth_scroll_btn"
+                    <div class="section center">
+                        <a id="periode_scroll" class="waves-effect waves-light btn deep-purple lighten-1 smooth_scroll_btn disabled"
                            data_id="periode"><i class="material-icons right">search</i>Zoom
                             periode</a>
                     </div>
@@ -171,7 +172,7 @@
         {#    loader#}
         {% if current_session.mode == "dated_tweets" %}
             {% if number_of_tweets is number %}
-                <div class="progress">
+                <div class="progress" style="display: none">
                     {% set batch = current_session.tweets_batch | int %}
                     <div class="determinate" id="barre_progression"
                          style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
