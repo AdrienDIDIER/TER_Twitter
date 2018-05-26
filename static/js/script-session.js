@@ -38,6 +38,7 @@ $(document).ready(function () {
     $(document).on("click", '#start-dated_tweets_button', function () {
         var button_target = $(this);
         button_target.attr("disabled", "disabled");
+        button_target.removeClass("pulse");
         load_containers();
         $('#loading_circle').show();
 
@@ -53,6 +54,7 @@ $(document).ready(function () {
                 $('.progress').hide();
                 $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
+                button_target.addClass("pulse");
             },
             error: function (error) {/**/}
         });
