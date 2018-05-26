@@ -147,12 +147,12 @@ $(document).on("click", '.smooth_scroll_btn', function () {
             });
             break;
         case"histogram":
-            document.getElementById('interaction_container').scrollIntoView({
+            document.getElementById('histogram').scrollIntoView({
                 behavior: 'smooth'
             });
             break;
         case "periode":
-            document.getElementById('periode_container').scrollIntoView({
+            document.getElementById('periode_selected').scrollIntoView({
                 behavior: 'smooth'
             });
             break;
