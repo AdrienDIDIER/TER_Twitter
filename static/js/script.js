@@ -38,7 +38,16 @@ function refresh_number_tweets() {
 }
 
 $(function () {
-    $('.card').matchHeight({
+    $('.session_card').matchHeight({
+        byRow: true,
+        property: 'height',
+        target: null,
+        remove: false
+    });
+});
+
+$(function () {
+    $('.card_interface').matchHeight({
         byRow: true,
         property: 'height',
         target: null,
@@ -114,3 +123,27 @@ $(document).ready(function () {
     $('.modal').modal();
     $('select').material_select();
 });
+
+$(document).on("click", '.smooth_scroll_btn', function () {
+    switch ($(this).attr('data_id')) {
+        case "general_wc":
+            document.getElementById('general_wordcloud').scrollIntoView({
+                behavior: 'smooth'
+            });
+            break;
+        case"histogram":
+            document.getElementById('histogram_container').scrollIntoView({
+                behavior: 'smooth'
+            });
+            break;
+        case "periode":
+            document.getElementById('periode_container').scrollIntoView({
+                behavior: 'smooth'
+            });
+            break;
+    }
+
+});
+
+
+

@@ -150,12 +150,25 @@ ul.dropdown-content.select-dropdown li span {
     position: relative;
 }
 
-rect{
+rect {
     cursor: pointer;
+
 }
+
 
 [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
     background-color: #1976d2 !important;
-    border : #1976d2 !important;
->>>>>>> appInterface
+    border: #1976d2 !important;
+> > > > > > > appInterface
+}
+
+.card_interface {
+    position: fixed;
+    width: inherit !important;
+}
+
+#logo_bleu {
+    margin: auto;
+    width: auto;
+    max-height: 100px;
 }
