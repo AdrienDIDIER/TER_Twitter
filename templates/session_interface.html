@@ -99,15 +99,11 @@
         {#    word cloud general#}
         <div class="col m8 l8 s12 center interface_element">
             {% if number_of_tweets == 0 %}
-                <div id="no_tweet_div" class="col m6 l6 s6">
+                <div id="no_tweet_div" class="center">
                     <img src="{{ url_for('static', filename='img/arrow.png') }}">
-                    <blockquote style="margin: 20px 0;padding-left: 1.5rem;border-left: 5px solid #4CAF50;">
                         <h4>Vous n'avez toujours pas récupéré de tweets !</h4>
-                        <blockquote style="margin: 20px 0;padding-left: 1.5rem;border-left: 5px solid #1976d2;">
                             Commencez
                             maintenant en appuyant sur "Récupérer" ou "Start" !
-                        </blockquote>
-                    </blockquote>
                 </div>
             {% endif %}
             <div id="wordcloud_container" {% if number_of_tweets == 0 %}
