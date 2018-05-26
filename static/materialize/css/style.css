@@ -165,10 +165,20 @@ rect {
 .card_interface {
     position: fixed;
     width: inherit !important;
+    height: 100%!important;
+    overflow: scroll;
 }
 
 #logo_bleu {
     margin: auto;
     width: auto;
     max-height: 100px;
+}
+
+.parent_div{
+    display: flex;
+}
+
+.child_div{
+    margin: auto;
 }
