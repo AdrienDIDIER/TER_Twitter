@@ -164,11 +164,6 @@
             <div class="col m6 l6 s12">
                 {#                    Histogram#}
                 <div class="duration" id="histogram">
-                    <div id="tooltip" class="hidden">
-                        <p id="user"></p>
-                        <p id="content"></p>
-                        <p id="nbrt"></p>
-                    </div>
                 </div>
                 {#                    Fin Histogram#}
             </div>
@@ -176,7 +171,7 @@
         </div>
         <div class="row" style="display: none" id="lw_tw">
             <div class="col m6 l6 s6">
-                <div id="little-wordcloud"></div>
+                <div id="little-wordcloud "></div>
             </div>
             <div class="col m6 l6 s6 graphs" id="twitterwidget"></div>
         </div>
@@ -186,8 +181,4 @@
 {% block scripts %}
 {{ super() }}
 <script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
-<script>
-    var startdate ={% if startdate is defined %} {{ startdate | tojson }} {% else %}"";{% endif %}
-    var stopdate ={% if stopdate is defined %} {{ stopdate | tojson }}{% else %}""; {% endif %}
-</script>
 {% endblock %}

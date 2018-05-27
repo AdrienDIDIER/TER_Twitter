@@ -112,15 +112,13 @@ def display_session(session_id=None):
         stream = True if current_session['mode'] == "stream" else False
         startdate = current_session['params']['start_date']
         stopdate = current_session['params']['stop_date']
+        starttime = current_session['params']['start_time']
+        stoptime = current_session['params']['stop_time']
         user = current_session['params']['twitter_user']
         language = current_session['params']['language']
         tweets_batch = current_session['tweets_batch']
-        filter(keywords, geocode, stream, startdate, stopdate, user, language, tweets_batch)
-        if startdate is not None and stopdate is not None:
-            return render_template('session_interface.html', current_session=current_session, startdate=startdate,
-                                   stopdate=stopdate)
-        else:
-            return render_template('session_interface.html', current_session=current_session)
+        filter(keywords, geocode, stream, startdate, stopdate, user, starttime, stoptime, language, tweets_batch)
+        return render_template('session_interface.html', current_session=current_session)
 
 
 @app.route('/session/close/')

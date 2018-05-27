@@ -11,7 +11,17 @@ import datetime, pytz, time
 
 def stock_tweets(tweet):
     tweets_table = mongo.db.tweets
-    tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
+    print(tweets_by_session_id(session['last_session']).count())
+    if tweets_by_session_id(session['last_session']).count() > 0:
+        for tw in tweets_by_session_id(session['last_session']):
+            if tweet._json['id_str'] == tw['tweet_object']['id_str']:
+                return 0
+        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
+        return 1
+    else:
+        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
+        return 1
+
 
 def delete_many_tweets(key = None, value = None):
     tweets_table = mongo.db.tweets
@@ -53,33 +63,17 @@ def word_splitter(tweet_text):
             new_words.append({'text': word, 'size': word_counter[word]}) 
     return new_words
 
-def retrieve_tweet_dates(start_date = None, stop_date=None, intervalle = None):
+def retrieve_tweet_dates(intervalle = None):
     tweets_table = mongo.db.tweets
     buffer = []
-    if start_date is not None and stop_date is not None:
-        start_date = datetime.datetime.strptime(start_date, '%a %b %d %H:%M:%S +0000 %Y').replace(
-            tzinfo=pytz.UTC)
-        stop_date = datetime.datetime.strptime(stop_date, '%a %b %d %H:%M:%S +0000 %Y').replace(
-            tzinfo=pytz.UTC)
-        for tweet in tweets_table.find({"session_id": session['last_session']}):
-            d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
-                tzinfo=pytz.UTC)
-            if time.mktime(d.timetuple()) >= float(start_date) and time.mktime(d.timetuple()) <= float(stop_date):
-                buffer.append(time.mktime(d.timetuple()))
-    else:
-        for tweet in tweets_table.find({"session_id": session['last_session']}):
-            d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
-            buffer.append(time.mktime(d.timetuple()))
-    return date_to_int(buffer, start_date, stop_date, intervalle)
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
+        buffer.append(time.mktime(datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple()))
+    return date_to_int(buffer, intervalle)
 
-def date_to_int(tweet_dates,start = None,stop = None, new_intervalle = None):
+def date_to_int(tweet_dates, new_intervalle = None):
     if tweet_dates:
-        if start is None and stop is None:
-            start_date = int(min(tweet_dates))
-            stop_date = int(max(tweet_dates))
-        else:
-            start_date = start
-            stop_date = stop
+        start_date = int(min(tweet_dates))
+        stop_date = int(max(tweet_dates))
 
         if new_intervalle is None:
             if stop_date-start_date >= 172800:#intervalle de 2 jours
@@ -100,9 +94,6 @@ def date_to_int(tweet_dates,start = None,stop = None, new_intervalle = None):
                 intervals = 10
         else:
             intervals = int(new_intervalle)
-
-        start_date = int(min(tweet_dates))
-        stop_date = int(max(tweet_dates))
         new_freq = []
         if start_date == stop_date:
             new_freq.append({'freq': 1, 'start_date': start_date, 'stop_date': start_date + intervals})
@@ -126,7 +117,7 @@ def retrieve_tweets_by_date(start,stop):
     count = 0
     for tweet in tweets_table.find({"session_id": session['last_session']}):
         count = count +1
-        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(tzinfo=pytz.UTC)
+        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
         if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
             if "full_text" in tweet['tweet_object']:
                 tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
@@ -138,8 +129,7 @@ def getTweets(start, stop):
     tweets_table = tweets_by_session_id(session['last_session'])
     buffer = []
     for tweet in tweets_table:
-        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').replace(
-            tzinfo=pytz.UTC)
+        d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
         if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
             buffer.append({'id': tweet['tweet_object']['id_str']})
     return buffer
