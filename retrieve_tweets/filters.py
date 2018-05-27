@@ -40,7 +40,7 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
 
             start_d = time.mktime(datetime.datetime.strptime(start, '%Y-%m-%d %H:%M').timetuple())
             stop_d = time.mktime(datetime.datetime.strptime(stop, '%Y-%m-%d %H:%M').timetuple())
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended",since=startdate, until=stopdate, geocode=geocode, lang=language).items(int(tweets_batch)):
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended",since=startdate, until=stopdate, count=int(tweets_batch),geocode=geocode, lang=language).items(int(tweets_batch)):
             tweet_date = time.mktime(datetime.datetime.strptime(tweet._json['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple())
             if startdate != '' and stopdate != '':
                 if (tweet_date >= start_d) and (tweet_date <= stop_d):

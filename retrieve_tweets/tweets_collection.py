@@ -66,7 +66,7 @@ def retrieve_tweet_dates(intervalle = None):
     tweets_table = mongo.db.tweets
     buffer = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
-        buffer.append(time.mktime(datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple()))
+        buffer.append(time.mktime(datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple()) - 7200)
     return date_to_int(buffer, intervalle)
 
 def date_to_int(tweet_dates, new_intervalle = None):
@@ -117,7 +117,7 @@ def retrieve_tweets_by_date(start,stop):
     for tweet in tweets_table.find({"session_id": session['last_session']}):
         count = count +1
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-        if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
+        if time.mktime(d.timetuple())-7200 >= float(start) and time.mktime(d.timetuple())-7200 <= float(stop):
             if "full_text" in tweet['tweet_object']:
                 tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
             else:
@@ -129,6 +129,6 @@ def getTweets(start, stop):
     buffer = []
     for tweet in tweets_table:
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-        if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
+        if time.mktime(d.timetuple())-7200 >= float(start) and time.mktime(d.timetuple())-7200 <= float(stop):
             buffer.append({'id': tweet['tweet_object']['id_str']})
     return buffer
