@@ -66,7 +66,7 @@ def retrieve_tweet_dates(intervalle = None):
     tweets_table = mongo.db.tweets
     buffer = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
-        buffer.append(time.mktime(datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple()))
+        buffer.append(time.mktime(datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple())-7200)
     return date_to_int(buffer, intervalle)
 
 def date_to_int(tweet_dates, new_intervalle = None):
