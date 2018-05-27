@@ -36,7 +36,7 @@
                                 <hr>
                                 <p>
                                     {% if s.last_modification_date != s.start_date %}
-                                        <i>dernière modification le <br> {{ s.last_modification_date }}</i>
+                                        <i>dernière modification le <br> {{  datetime.strptime(s.last_modification_date,('%d-%m-%y-%H-%M-%S')).strftime('le %d/%m/%y à %H:%M') }}</i>
                                     {% else %}
                                         <i>créée le <br> {{ s.start_date }}</i>
                                     {% endif %}
