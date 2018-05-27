@@ -3,7 +3,7 @@ from auth import isLogged
 from myapp import app, mongo
 from flask_pymongo import PyMongo, pymongo
 from math import ceil
-from datetime import datetime
+import datetime
 
 @app.route('/', methods=['GET'])
 def index():
@@ -33,5 +33,6 @@ def index():
                 [("last_modification_date", pymongo.DESCENDING), ("star_date", pymongo.DESCENDING)]).limit(limit)
         else:
             sessionAmount = 0
-    return render_template('index.html', userLogged=userLogged, user=user, user_sessions=user_sessions,datetime=datetime,
+
+    return render_template('index.html', userLogged=userLogged, user=user, user_sessions=user_sessions,datetime=datetime.datetime,
                            sessionAmount=sessionAmount, page_number=page_number, current_page=current_page)
