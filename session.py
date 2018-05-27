@@ -60,6 +60,8 @@ def addSession(mode=None):
             src_img = None
             if request.form['keywords']:
                 src_img = getLinkImgFromKeyWords(request.form['keywords'])
+                if src_img == -1:
+                    src_img = getLinkImgFromKeyWords(request.form['session_name'])
             else:
                 src_img = getLinkImgFromKeyWords(request.form['session_name'])
             documentInserted = session_collection.insert(
@@ -96,7 +98,7 @@ def getLinkImgFromKeyWords(keywords):
     if len(links) > 0:
         return links[randint(0, len(links) - 1)]
     else:
-        return "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
+        return -1
 
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
