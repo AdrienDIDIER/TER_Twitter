@@ -13,7 +13,7 @@ class Stream(tweepy.StreamListener):
         else:
             return False
 
-def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=None, user=None, language=None, tweets_batch=None):
+def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=None, user=None, starttime=None, stoptime=None, language=None, tweets_batch=None):
     if geocode is not "":
         # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
         geocode = [float(s) for s in geocode.split(",")]
@@ -29,12 +29,24 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
     else:
         geocode = None # TODO: FIX (Filtrer par geocode) et fix language
         query = keywords + ' -filter:retweets'
-        if startdate != "" and stopdate != "":
-            query = query + " since:" + startdate + " until:" + stopdate
         if user != "":
             query = query + " from:@" + user
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended", geocode=geocode, lang=language).items(int(tweets_batch)):
-            stock_tweets(tweet)
+        start = startdate + ' ' + starttime
+        stop = stopdate + ' ' + stoptime
+        if startdate != '' and stopdate != '':
+            if startdate == stopdate:
+                stop_1 = datetime.datetime.strptime(stopdate, "%Y-%m-%d")
+                stopdate = stop_1 + datetime.timedelta(days=1)
+
+            start_d = time.mktime(datetime.datetime.strptime(start, '%Y-%m-%d %H:%M').timetuple())
+            stop_d = time.mktime(datetime.datetime.strptime(stop, '%Y-%m-%d %H:%M').timetuple())
+        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended",since=startdate, until=stopdate, geocode=geocode, lang=language).items(int(tweets_batch)):
+            tweet_date = time.mktime(datetime.datetime.strptime(tweet._json['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple())
+            if startdate != '' and stopdate != '':
+                if (tweet_date >= start_d) and (tweet_date <= stop_d):
+                    stock_tweets(tweet)
+            else:
+                stock_tweets(tweet)
 
 @app.route('/session/stream/stop')
 def stopStream():

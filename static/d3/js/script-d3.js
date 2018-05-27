@@ -80,9 +80,6 @@ function ajax_wordcloud(){
 
 function ajax_freq_per_date(callback, value) {
     var url = "/result-freq-per-date/";
-    if((startdate !== "") && (stopdate !== "")){
-        url += startdate + "/" + stopdate + "/";
-    }
     if(value !== undefined && value !== null){
         url += "?intervalle=" + value;
     }

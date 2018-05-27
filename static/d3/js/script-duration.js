@@ -10,8 +10,8 @@ function histogram(freq_per_date) {
         }
         var bins = [];
         for (var i = 0; i <= freq_per_date.length - 1; i++) {
-            bins.push(formatTime(new Date(1000 * freq_per_date[i].start_date)));
-            bins.push(formatTime(new Date(1000 * freq_per_date[i].stop_date)));
+            bins.push(formatTime(new Date((1000 * freq_per_date[i].start_date))));
+            bins.push(formatTime(new Date((1000 * freq_per_date[i].stop_date))));
         }
         var dates = [];
 
