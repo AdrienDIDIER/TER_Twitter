@@ -248,7 +248,7 @@
     <div class="row interface_element" style="display: none" id="lw_tw">
         <div class="col m2 s2 l2"></div>
         <div class="col m8 l8 s8 center ">
-            <div class="col m6 l6  interface_content zoom_periode">
+            <div class="col m6 l6  interface_content">
                 <div class="preloader-wrapper big active" id="loading_circle_little_wordcloud">
                     <div class="spinner-layer spinner-blue-only">
                         <div class="circle-clipper left">
@@ -264,7 +264,7 @@
                 </div>
                 <div id="little-wordcloud"></div>
             </div>
-            <div class="col m6 l5 s6 graphs right interface_content " id="twitterwidget">
+            <div class="col m6 l5 s6 graphs right interface_content ">
                 <div class="preloader-wrapper big active" id="loading_circle_tweets">
                     <div class="spinner-layer spinner-blue-only">
                         <div class="circle-clipper left">
@@ -277,14 +277,15 @@
                             <div class="circle"></div>
                         </div>
                     </div>
+                    <div id="little-wordcloud"></div>
                 </div>
             </div>
-        </div>
 
-        <div class="col m2 s2 l2"></div>
+            <div class="col m2 s2 l2"></div>
+        </div>
     </div>
     <div class="row center">
-    <i id="periode_selected" class="flow-text center"></i>
+        <i id="periode_selected" class="flow-text center"></i>
     </div>
     <hr id="bottom" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
