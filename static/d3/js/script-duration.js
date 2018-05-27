@@ -1,5 +1,5 @@
 function histogram(freq_per_date) {
-    if(freq_per_date !== null) {
+    if (freq_per_date !== null) {
         var difference = freq_per_date[0].stop_date - freq_per_date[0].start_date;
         if (difference == 30) {
 
@@ -25,6 +25,8 @@ function histogram(freq_per_date) {
         }
         var height = 550;
         var heightCart = 500;
+        $('#histogram_area').addClass('interface_element');
+
         if ($('#histogram').find('svg')) {
             $('#histogram').find('svg').remove();
         }
@@ -39,10 +41,13 @@ function histogram(freq_per_date) {
 
         var color = d3.scale.category20c();
 
+
         svg.attr("width", 30 * freq.length + 200)
             .attr("height", height + 200);
         svg.selectAll('rect').data(freq).enter().append('rect')
             .attr("width", 30)
+            .attr("class", "smooth_scroll_btn")
+            .attr("data_id", "periode")
             .attr('height', function (d) {
                 return ((d / d3.max(freq)) * heightCart);
             })
@@ -86,6 +91,7 @@ function histogram(freq_per_date) {
                     displayTweets(json);
                     $('#loading_circle_tweets').hide();
                 });
+
             });
 
         svg.append("g")
@@ -109,28 +115,29 @@ function histogram(freq_per_date) {
             .append("text")
             .attr("y", 2)
             .attr("dy", "0.71em")
-            .attr("text-anchor", "end");
+            .attr("text-anchor", "end")
+
     }
 }
 
-function displayTweets(json){
-    ($('.graphs').has(".tweets").length ? console.log("yes") :  $('.graphs').append("<div class=\"tweets\"></div>"));
-    if ($('.tweets').children.length > 0){
+function displayTweets(json) {
+    ($('.graphs').has(".tweets").length ? console.log("yes") : $('.graphs').append("<div class=\"tweets zoom_periode\"></div>"));
+    if ($('.tweets').children.length > 0) {
         $('.tweets').empty();
     }
     var i;
-    for(i=0; i < json.length; i++) {
-        $('.tweets').append("<div class=\"tweet\" id=" + json[i].id+"></div>");
+    for (i = 0; i < json.length; i++) {
+        $('.tweets').append("<div class=\"tweet\" id=" + json[i].id + "></div>");
     }
-    $('.tweets').children().each( function(t, tweet){
+    $('.tweets').children().each(function (t, tweet) {
         var id = $(this).attr('id');
         twttr.widgets.createTweet(
             id, tweet,
             {
-                conversation : 'none',    // or all
-                cards        : 'hidden',  // or visible
-                linkColor    : '#cc0000', // default is blue
-                theme        : 'light'    // or dark
+                conversation: 'none',    // or all
+                cards: 'hidden',  // or visible
+                linkColor: '#cc0000', // default is blue
+                theme: 'light'    // or dark
             }
         );
     });
@@ -138,13 +145,13 @@ function displayTweets(json){
 }
 
 function scrollIfNeeded(element, container) {
-  if (element.offsetTop < container.scrollTop) {
-    container.scrollTop = element.offsetTop;
-  } else {
-    const offsetBottom = element.offsetTop + element.offsetHeight;
-    const scrollBottom = container.scrollTop + container.offsetHeight;
-    if (offsetBottom > scrollBottom) {
-      container.scrollTop = offsetBottom - container.offsetHeight;
+    if (element.offsetTop < container.scrollTop) {
+        container.scrollTop = element.offsetTop;
+    } else {
+        const offsetBottom = element.offsetTop + element.offsetHeight;
+        const scrollBottom = container.scrollTop + container.offsetHeight;
+        if (offsetBottom > scrollBottom) {
+            container.scrollTop = offsetBottom - container.offsetHeight;
+        }
     }
-  }
 }

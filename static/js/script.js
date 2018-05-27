@@ -53,7 +53,7 @@ $(function () {
         target: null,
         remove: false
     });
-});
+})
 
 $(document).ready(function () {
     $('.tooltipped').tooltip({delay: 50});
@@ -124,7 +124,7 @@ $(document).ready(function () {
     $('select').material_select();
 });
 
-function load_containers(){
+function load_containers() {
     $('#no_tweet_div').remove();
     $('#wordcloud_container').show();
     $('.progress').show();
@@ -134,7 +134,7 @@ function load_containers(){
 }
 
 /* On vide le mini wordcloud et la liste des tweets */
-function refresh_lw_tw(){
+function refresh_lw_tw() {
     $('#little-wordcloud').empty();
     $('#twitterwidget').empty();
 }
@@ -152,7 +152,7 @@ $(document).on("click", '.smooth_scroll_btn', function () {
             });
             break;
         case "periode":
-            document.getElementById('periode_selected').scrollIntoView({
+            document.getElementById('bottom').scrollIntoView({
                 behavior: 'smooth'
             });
             break;
