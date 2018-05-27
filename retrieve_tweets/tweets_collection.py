@@ -51,8 +51,7 @@ def retrieve_all_tweets_text():
 def word_splitter(tweet_text):
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
     tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
-    pattern = re.compile('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
-    pattern.sub('', tweet_text)
+    tweet_text = re.sub(r"http\S+", "", tweet_text)
     words = tweet_text.split(" ")
     new_words = []
     stop_words = get_stop_words('fr') + get_stop_words('en')
