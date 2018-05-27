@@ -91,7 +91,7 @@ def addSession(mode=None):
 
 def getLinkImgFromKeyWords(keywords):
     response = google_images_download.googleimagesdownload()  # class instantiation
-    arguments = {"keywords": keywords, "limit": 6, "usage_rights": "labeled-for-reuse", "aspect_ratio": "wide",
+    arguments = {"keywords": keywords, "limit": 6, "aspect_ratio": "wide",
                  "size": "medium"}  # creating list of arguments
     links = response.download(arguments)  # passing the arguments to the function
     # return le lien random parmi les liens récupérés
