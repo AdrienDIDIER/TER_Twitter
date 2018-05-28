@@ -14,12 +14,12 @@ def stock_tweets(tweet):
     print(tweets_by_session_id(session['last_session']).count())
     if tweets_by_session_id(session['last_session']).count() > 0:
         for tw in tweets_by_session_id(session['last_session']):
-            if tweet._json['id_str'] == tw['tweet_object']['id_str']:
+            if tweet['id_str'] == tw['tweet_object']['id_str']:
                 return 0
-        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
+        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
         return 1
     else:
-        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
+        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
         return 1
 
 
@@ -66,7 +66,7 @@ def retrieve_tweet_dates(intervalle = None):
     tweets_table = mongo.db.tweets
     buffer = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
-        buffer.append(time.mktime(datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple())-7200)
+        buffer.append(time.mktime(datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple()))
     return date_to_int(buffer, intervalle)
 
 def date_to_int(tweet_dates, new_intervalle = None):
@@ -101,7 +101,6 @@ def date_to_int(tweet_dates, new_intervalle = None):
                 break
             new_freq.append({'freq': count_date(tweet_dates, x, x+intervals), 'start_date': x, 'stop_date': x+intervals})
         return new_freq
-
 def count_date(buffer, d, f):
     count = 0
     for i in range(len(buffer)):
@@ -117,7 +116,7 @@ def retrieve_tweets_by_date(start,stop):
     for tweet in tweets_table.find({"session_id": session['last_session']}):
         count = count +1
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-        if time.mktime(d.timetuple())-7200 >= float(start) and time.mktime(d.timetuple())-7200 <= float(stop):
+        if time.mktime(d.timetuple())>= float(start) and time.mktime(d.timetuple())<= float(stop):
             if "full_text" in tweet['tweet_object']:
                 tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
             else:
@@ -129,6 +128,6 @@ def getTweets(start, stop):
     buffer = []
     for tweet in tweets_table:
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-        if time.mktime(d.timetuple())-7200 >= float(start) and time.mktime(d.timetuple())-7200 <= float(stop):
+        if time.mktime(d.timetuple()) >= float(start) and time.mktime(d.timetuple()) <= float(stop):
             buffer.append({'id': tweet['tweet_object']['id_str']})
     return buffer
