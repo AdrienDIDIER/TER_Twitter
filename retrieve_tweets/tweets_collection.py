@@ -11,7 +11,6 @@ import datetime, pytz, time
 
 def stock_tweets(tweet):
     tweets_table = mongo.db.tweets
-    print(tweets_by_session_id(session['last_session']).count())
     if tweets_by_session_id(session['last_session']).count() > 0:
         for tw in tweets_by_session_id(session['last_session']):
             if tweet['id_str'] == tw['tweet_object']['id_str']:
@@ -59,7 +58,8 @@ def word_splitter(tweet_text):
     word_counter = collections.Counter(words)
     for word in word_counter:
         if word_counter[word] >= 2:
-            new_words.append({'text': word, 'size': word_counter[word]}) 
+            if word != '':
+                new_words.append({'text': word, 'size': word_counter[word]})
     return new_words
 
 def retrieve_tweet_dates(intervalle = None):
