@@ -9,17 +9,21 @@ from flask import session
 from stop_words import get_stop_words
 import datetime, pytz, time
 
-def stock_tweets(tweet):
-    tweets_table = mongo.db.tweets
-    if tweets_by_session_id(session['last_session']).count() > 0:
-        for tw in tweets_by_session_id(session['last_session']):
-            if tweet['id_str'] == tw['tweet_object']['id_str']:
-                return 0
-        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
-        return 1
+def stock_tweets(tweet, stream):
+    if stream:
+        tweets_table = mongo.db.tweets
+        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
     else:
-        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
-        return 1
+        tweets_table = mongo.db.tweets
+        if tweets_by_session_id(session['last_session']).count() > 0:
+            for tw in tweets_by_session_id(session['last_session']):
+                if tweet['id_str'] == tw['tweet_object']['id_str']:
+                    return 0
+            tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
+            return 1
+        else:
+            tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
+            return 1
 
 
 def delete_many_tweets(key = None, value = None):
