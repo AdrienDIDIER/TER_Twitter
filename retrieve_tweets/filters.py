@@ -37,16 +37,27 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
             if startdate == stopdate:
                 stop_1 = datetime.datetime.strptime(stopdate, "%Y-%m-%d")
                 stopdate = stop_1 + datetime.timedelta(days=1)
-
+            print(query)
             start_d = time.mktime(datetime.datetime.strptime(start, '%Y-%m-%d %H:%M').timetuple())
             stop_d = time.mktime(datetime.datetime.strptime(stop, '%Y-%m-%d %H:%M').timetuple())
-        for tweet in tweepy.Cursor(api.search, q=query, tweet_mode="extended",since=startdate, until=stopdate, count=int(tweets_batch),geocode=geocode, lang=language).items(int(tweets_batch)):
-            tweet_date = time.mktime(datetime.datetime.strptime(tweet._json['created_at'], '%a %b %d %H:%M:%S +0000 %Y').timetuple())
-            if startdate != '' and stopdate != '':
-                if (tweet_date >= start_d) and (tweet_date <= stop_d):
-                    stock_tweets(tweet)
-            else:
-                stock_tweets(tweet)
+        searched_tweets = []
+        last_id = -1
+
+        while(len(searched_tweets) < int(tweets_batch)):
+            try:
+                new_tweets = api.search(q=query, tweet_mode="extended", count=100, lang=language, until=stopdate, since=startdate)
+                if not new_tweets:
+                    break
+                searched_tweets.extend(new_tweets)
+            except tweepy.TweepError as e:
+                print(e)
+                break
+        for i in searched_tweets:
+            created_at = time.mktime(datetime.datetime.strptime(str(i.created_at), '%Y-%m-%d %H:%M:%S').timetuple())
+            if created_at >= start_d and created_at <= stop_d:
+                tweets = dict(i._json)
+                print(tweets['created_at'])
+                stock_tweets(tweets)
 
 @app.route('/session/stream/stop')
 def stopStream():
