@@ -1,8 +1,5 @@
 from myapp import mongo, app
-import json, bson
 import re, collections
-
-from flask import session, jsonify
 
 
 from flask import session

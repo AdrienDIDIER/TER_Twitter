@@ -47,7 +47,6 @@ function draw(words, divElement) {
         })
         .transition()
         .style("opacity", 1)
-        .duration(1000)
         .text(function (d) {
             return d.text;
         });
@@ -78,20 +77,3 @@ function ajax_wordcloud(){
     });
 }
 
-function ajax_freq_per_date(callback, value) {
-    var url = "/result-freq-per-date/";
-    if(value !== undefined && value !== null){
-        url += "?intervalle=" + value;
-    }
-    d3.json(url, function (json) {
-        if(value !== undefined && value !== null){
-            for(var i = 0; i < json.length; i++){
-                json[i].stop_date = json[i].start_date + parseInt(value);
-                if(i !== json.length - 1){
-                    json[i+1].start_date = json[i].stop_date;
-                }
-            }
-        }
-        histogram(json);
-    });
-}
