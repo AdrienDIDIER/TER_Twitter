@@ -18,7 +18,7 @@ Lors du développement de ce projet, l'equipe a utilisé plusieurs modules que v
 
 Pour installer ce projet: 
 
-le clonage depuis github : 
+le clonage depuis github :
 `git clone https://github.com/Haytu/app-python-analyse-tweets.git`
 
 `cd app-python-analyse-tweets`

@@ -91,7 +91,6 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-
                 </div>
             </div>
         </div>
@@ -139,160 +138,163 @@
                              style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
                     </div>
                 {% endif %}
-                </div>
+            {% endif %}
+        </div>
+
                 {#    fin word cloud general#}
                 {#    debut side nav#}
-                <div class="col s2 m2 l2">
-                    <div class="card z-depth-3 grey lighten-4 card_interface">
-                        <div class="card-image waves-effect waves-block waves-light">
-                            <img class="activator center" id="logo_bleu" src="../static/img/logo_bleu.png">
-                        </div>
-                        <div class="card-content">
-                            <h5 class="center">
-                                <i class="small material-icons right">archive</i> <strong
-                                    id="div_number_of_tweets">{{ number_of_tweets }}</strong> tweets</h5>
-                            <div class="divider"></div>
-                            <div class="section center">
-                                <a id="general_wc_scroll"
-                                   class="waves-effect waves-light btn green smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}"
-                                   data_id="general_wc">
-                                    <i class="material-icons right">cloud</i>Word cloud</a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="section center">
-                                <a id="histogram_scroll"
-                                   class="waves-effect waves-light btn blue accent-1 smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}"
-                                   data_id="histogram"><i
-                                        class="material-icons right">insert_chart</i>Histogramme</a>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="section center">
-                                <a id="periode_scroll"
-                                   class="waves-effect waves-light btn deep-purple lighten-1 smooth_scroll_btn disabled"
-                                   data_id="periode"><i class="material-icons right">search</i>Zoom
-                                    periode</a>
-                            </div>
-                        </div>
+        <div class="col s2 m2 l2">
+            <div class="card z-depth-3 grey lighten-4 card_interface">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator center" id="logo_bleu" src="../static/img/logo_bleu.png">
+                </div>
+                <div class="card-content">
+                    <h5 class="center">
+                        <i class="small material-icons right">archive</i> <strong
+                            id="div_number_of_tweets">{{ number_of_tweets }}</strong> tweets</h5>
+                    <div class="divider"></div>
+                    <div class="section center">
+                        <a id="general_wc_scroll"
+                           class="waves-effect waves-light btn green smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}"
+                           data_id="general_wc">
+                            <i class="material-icons right">cloud</i>Word cloud</a>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="section center">
+                        <a id="histogram_scroll"
+                           class="waves-effect waves-light btn blue accent-1 smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}"
+                           data_id="histogram"><i
+                                class="material-icons right">insert_chart</i>Histogramme
+                        </a>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="section center">
+                        <a id="periode_scroll"
+                           class="waves-effect waves-light btn deep-purple lighten-1 smooth_scroll_btn disabled"
+                           data_id="periode"><i class="material-icons right">search</i>Zoom periode
+                        </a>
                     </div>
                 </div>
-                {#    fin side nav#}
-                </div>
+            </div>
+        </div>
+        {#    fin side nav#}
 
-                {#    Partie Interactive de l'interface#}
-                <div class="row interface_elements" id="interaction_container" {% if number_of_tweets == 0 %}
+
+        {#    Partie Interactive de l'interface#}
+
+
+        <div class="row interface_elements" id="interaction_container" {% if number_of_tweets == 0 %}
                      style="display: none" {% endif %}>
-            {% endif %}
-            {#    fin loader#}
-            <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        </div>
+        {#    fin loader#}
+        <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
-            <div class="col m2 s2 l2"></div>
-            <div class="col m8 l8 s8" id="histogram_area">
-
-                {#    debut intervalles#}
-                <div class="row parent_div">
-                    <div class="col s2 m2 l2"></div>
-                    <div class="col s4 m4 l4 tw child_div">
-                        <strong><i>Intervalle de temps</i></strong>
-                        <form action="#">
-                            <p>
-                                <input value="172800" name="time_interval" type="radio" id="interval1"/>
-                                <label for="interval1">2 jours</label>
-                            </p>
-                            <p>
-                                <input value="86400" name="time_interval" type="radio" id="interval2"/>
-                                <label for="interval2">1 jour</label>
-                            </p>
-                            <p>
-                                <input value="43200" name="time_interval" type="radio" id="interval3"/>
-                                <label for="interval3">12 heures</label>
-                            </p>
-                            <p>
-                                <input value="3600" name="time_interval" type="radio" id="interval4"/>
-                                <label for="interval4">1 heure</label>
-                            </p>
-                            <p>
-                                <input value="600" name="time_interval" type="radio" id="interval5"/>
-                                <label for="interval5">10 minutes</label>
-                            </p>
-                            <p>
-                                <input value="60" name="time_interval" type="radio" id="interval6"/>
-                                <label for="interval6">1 minute</label>
-                            </p>
-                            <p>
-                                <input value="30" name="time_interval" type="radio" id="interval7"/>
-                                <label for="interval7">30 secondes</label>
-                            </p>
-                        </form>
-                    </div>
-                    {#    fin intervalles#}
-                    <div class="col s4 m4 l4 tw child_div">
-                        {#                    Histogram#}
-                        <div class="duration" id="histogram">
-                            <div id="tooltip" class="hidden">
-                                <p id="user"></p>
-                                <p id="content"></p>
-                                <p id="nbrt"></p>
-                            </div>
+        <div class="col m2 s2 l2"></div>
+        <div class="col m8 l8 s8" id="histogram_area">
+            {#    debut intervalles#}
+            <div class="row parent_div">
+                <div class="col s2 m2 l2"></div>
+                <div class="col s4 m4 l2 tw child_div">
+                    <strong><i>Intervalle de temps</i></strong>
+                    <form action="#">
+                        <p>
+                            <input value="172800" name="time_interval" type="radio" id="interval1"/>
+                            <label for="interval1">2 jours</label>
+                        </p>
+                        <p>
+                            <input value="86400" name="time_interval" type="radio" id="interval2"/>
+                            <label for="interval2">1 jour</label>
+                        </p>
+                        <p>
+                            <input value="43200" name="time_interval" type="radio" id="interval3"/>
+                            <label for="interval3">12 heures</label>
+                        </p>
+                        <p>
+                            <input value="3600" name="time_interval" type="radio" id="interval4"/>
+                            <label for="interval4">1 heure</label>
+                        </p>
+                        <p>
+                            <input value="600" name="time_interval" type="radio" id="interval5"/>
+                            <label for="interval5">10 minutes</label>
+                        </p>
+                        <p>
+                            <input value="60" name="time_interval" type="radio" id="interval6"/>
+                            <label for="interval6">1 minute</label>
+                        </p>
+                        <p>
+                            <input value="30" name="time_interval" type="radio" id="interval7"/>
+                            <label for="interval7">30 secondes</label>
+                        </p>
+                    </form>
+                </div>
+                {#    fin intervalles#}
+                <div class="col s4 m4 l4 tw child_div">
+                    {#                    Histogram#}
+                    <div class="duration" id="histogram">
+                        <div id="tooltip" class="hidden">
+                            <p id="user"></p>
+                            <p id="content"></p>
+                            <p id="nbrt"></p>
                         </div>
-                        {#                    Fin Histogram#}
                     </div>
-                    <div class="col s2 m2 l2"></div>
+                        {#                    Fin Histogram#}
                 </div>
-                <div class="center">
-                    <i {% if number_of_tweets == 0 %} style="display: none" {% endif %}
-                                                      class="flow-text center">Histogramme</i>
-                </div>
+                <div class="col s2 m2 l2"></div>
             </div>
+            <div class="center">
+                <i {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                        class="flow-text center">Histogramme</i>
             </div>
+        </div>
+    </div>
     {#    debut zoom periode#}
     <div class="row interface_element" style="display: none" id="lw_tw">
-        <div class="col m2 s2 l2"></div>
-        <div class="col m8 l8 s8 center ">
-            <div class="col m6 l6  interface_content">
-                <div class="preloader-wrapper big active" id="loading_circle_little_wordcloud">
-                    <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="little-wordcloud"></div>
-            </div>
-            <div class="col m6 l5 s6 graphs right interface_content ">
-                <div class="preloader-wrapper big active" id="loading_circle_tweets">
-                    <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
+        <div class="col m8 l12 center ">
+            <div class="row">
+                <div class="col m6 l6 interface_content">
+                    <div class="preloader-wrapper big active" id="loading_circle_little_wordcloud">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
                         </div>
                     </div>
                     <div id="little-wordcloud"></div>
                 </div>
+                <div class="col m6 l5 s6 graphs right interface_content ">
+                    <div class="preloader-wrapper big active" id="loading_circle_tweets">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                        <div id="little-wordcloud"></div>
+                    </div>
+                </div>
             </div>
-
-            <div class="col m2 s2 l2"></div>
         </div>
+        <div class="col m2 s2 l2"></div>
     </div>
     <div class="row center">
         <i id="periode_selected" class="flow-text center"></i>
     </div>
     <hr id="bottom" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
-
     {#    fin zoom periode#}
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-<script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script-session.js') }}"></script>
 {% endblock %}
