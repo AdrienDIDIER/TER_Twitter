@@ -1,3 +1,22 @@
+function ajax_freq_per_date(callback, value) {
+    var url = "/result-freq-per-date/";
+    if(value !== undefined && value !== null){
+        url += "?intervalle=" + value;
+    }
+    d3.json(url, function (json) {
+        if(value !== undefined && value !== null){
+            for(var i = 0; i < json.length; i++){
+                json[i].stop_date = json[i].start_date + parseInt(value);
+                if(i !== json.length - 1){
+                    json[i+1].start_date = json[i].stop_date;
+                }
+            }
+        }
+        histogram(json);
+    });
+}
+
+
 function histogram(freq_per_date) {
     if (freq_per_date !== null) {
         var difference = freq_per_date[0].stop_date - freq_per_date[0].start_date;
