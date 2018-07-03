@@ -1,6 +1,6 @@
 from retrieve_tweets.tweets_collection import *
 from myapp import *
-from tweepy_auth import *
+import tweepy
 from retrieve_tweets.tweets_collection import *
 from flask import render_template
 

@@ -8,13 +8,13 @@ Clément Tassart
 Solal Vernier
 Et sous le tutorat de Mr Pascal Poncelet au cours de l'année 2017-2018.
 
-Ce projet est une plateforme d'analyse de tweets. Les tweets sont filtrès par l'utilisateurs et sont présentés sous forme de nuage de mots dynamique et de graphiques statistiques.
+Ce projet est une plateforme d'analyse de tweets. Les tweets sont filtrès par l'utilisateur et sont présentés sous forme de nuage de mots dynamique et de graphiques statistiques.
 
-Un lien vers la vidéo de présentation : 
-Un lien vers le site hébérgé : 
+Un lien vers la vidéo de présentation : [lien youtube](https://www.youtube.com/watch?v=tZ1IKJi-IQg)
 
-Lors du développement de ce projet, l'equipe a utilisé plusieurs modules que vous retrouverez dans le fichier requirements.txt.
+Lors du développement de ce projet, l'équipe a utilisé plusieurs modules que vous retrouverez dans le fichier "requirements.txt".
 
+Dans ce dossier, vous avez à disposition le rapport de projet ainsi que le diaporama de la présentation.
 
 Pour installer ce projet: 
 
