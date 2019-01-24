@@ -1,13 +1,11 @@
 # app-python-analyse-tweets
-
-TEST
-
 Tweetostats
 
 Ceci est un projet réalisé par 3 élèves de la licence 3 informatique à Montpellier:
 Mourad Inan
 Clément Tassart
 Solal Vernier
+Adrien DIDIER
 Et sous le tutorat de Mr Pascal Poncelet au cours de l'année 2017-2018.
 
 Ce projet est une plateforme d'analyse de tweets. Les tweets sont filtrès par l'utilisateur et sont présentés sous forme de nuage de mots dynamique et de graphiques statistiques.
