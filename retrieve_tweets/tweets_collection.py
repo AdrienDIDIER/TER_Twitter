@@ -4,7 +4,7 @@ import re, collections
 
 from flask import session
 from stop_words import get_stop_words
-import datetime, pytz, time
+import datetime, time
 
 def stock_tweets(tweet, stream):
     if stream:
