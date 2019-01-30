@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, session, redirect
 from myapp import app, mongo
 import bcrypt
-from tweepy_auth import *
+import tweepy
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
