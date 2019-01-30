@@ -9,7 +9,7 @@ from index import *
 from bson import ObjectId, Binary, Code, BSON
 from bson.json_util import dumps
 import json
-from lib.google_images_download import google_images_download
+from lib import google_images_download
 from random import randint
 
 
@@ -67,9 +67,9 @@ def addSession(mode=None):
             documentInserted = session_collection.insert(
                 {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
                  'start_date': dateOfDay.strftime(
-                     "%d-%m-%y-%H-%M-%S"),
+                     "%d-%m-%y %H:%M:%S"),
                  'last_modification_date': dateOfDay.strftime(
-                     "%d-%m-%y-%H-%M-%S"),
+                     "%d-%m-%y %H:%M:%S"),
                  'mode': request.form['mode'], 'src_img': src_img,
                  'tweets_batch': request.form['tweets_batch'] if request.form['mode'] == "dated_tweets" else None,
                  'params': {
@@ -95,8 +95,9 @@ def getLinkImgFromKeyWords(keywords):
                  "size": "medium"}  # creating list of arguments
     links = response.download(arguments)  # passing the arguments to the function
     # return le lien random parmi les liens récupérés
+
     if len(links) > 0:
-        return links[randint(0, len(links) - 1)]
+        return links[randint(0,len(links) -1)]
     else:
         return -1
 
@@ -120,6 +121,7 @@ def display_session(session_id=None):
         language = current_session['params']['language']
         tweets_batch = current_session['tweets_batch']
         filter(keywords, geocode, stream, startdate, stopdate, user, starttime, stoptime, language, tweets_batch)
+
         return render_template('session_interface.html', current_session=current_session)
 
 
@@ -153,7 +155,7 @@ def upload_file():
         imported_tweets = data[1]  # Un tableau de documents tweets
         exporter_user = getUserByObjectId(ObjectId(session_document['user_id']['$oid']))
         user_logged = getUser()
-        # On remplace l'user id par celui de l'utilisateur courrant
+        # On remplace l'user id par celui de l'utilisateur courant
         session_document['user_id'] = user_logged['_id']
         # On ajoute le nom et prenom de l'utilisateur qui a exporté la session
         session_document['exporter_user'] = exporter_user['first_name'] + exporter_user['last_name']

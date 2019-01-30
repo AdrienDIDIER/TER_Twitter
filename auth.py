@@ -16,10 +16,10 @@ def register():
                 return render_template('register.html', error=True)
             #hashing password and API parameters
             hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-            hash_consumer_key = bcrypt.hashpw(consumer_key.encode('utf-8'), bcrypt.gensalt())
-            hash_consumer_secret = bcrypt.hashpw(consumer_secret.encode('utf-8'), bcrypt.gensalt())
-            hash_access_token = bcrypt.hashpw(access_token.encode('utf-8'), bcrypt.gensalt())
-            hash_access_token_secret = bcrypt.hashpw(access_token_secret.encode('utf-8'), bcrypt.gensalt())
+            hash_consumer_key = bcrypt.hashpw(request.form['consumer_key'].encode('utf-8'), bcrypt.gensalt())
+            hash_consumer_secret = bcrypt.hashpw(request.form['consumer_secret'].encode('utf-8'), bcrypt.gensalt())
+            hash_access_token = bcrypt.hashpw(request.form['access_token'].encode('utf-8'), bcrypt.gensalt())
+            hash_access_token_secret = bcrypt.hashpw(request.form['access_token_secret'].encode('utf-8'), bcrypt.gensalt())
             #inserting user in the database
             users.insert_one({'first_name': request.form['first_name'], 'last_name': request.form['last_name'],
                               'email': request.form['email'], 'password': hashpass,
