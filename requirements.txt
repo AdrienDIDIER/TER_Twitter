@@ -19,6 +19,7 @@ configglue==1.1.2
 configobj==5.0.6
 cryptography==1.2.3
 cycler==0.9.0
+DateTime==4.3
 decorator==4.3.0
 defer==1.0.6
 dirspec==13.10
@@ -30,6 +31,7 @@ Flask==1.0.2
 Flask-PyMongo==2.1.0
 geographiclib==1.49
 geopy==1.13.0
+google-images-download==2.5.0
 graphviz==0.9
 h5py==2.8.0
 html5lib==1.0.1
@@ -51,6 +53,7 @@ jupyter==1.0.0
 jupyter-client==5.2.3
 jupyter-console==5.2.0
 jupyter-core==4.4.0
+lib==3.0.0
 lockfile==0.12.2
 louis==2.6.4
 lxml==3.5.0
@@ -107,6 +110,7 @@ python-apt==1.1.0b1+ubuntu0.16.4.2
 python-dateutil==2.7.3
 python-debian==0.1.27
 python-xapp==1.0.0
+python-xlib==0.24
 pytz==2018.4
 pyxdg==0.25
 pyzmq==17.0.0

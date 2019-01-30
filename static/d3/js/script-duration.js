@@ -20,13 +20,7 @@ function ajax_freq_per_date(callback, value) {
 function histogram(freq_per_date) {
     if (freq_per_date !== null) {
         var difference = freq_per_date[0].stop_date - freq_per_date[0].start_date;
-        if (difference == 30) {
-
-            var formatTime = d3.time.format("à %Hh%Mmin:%Ssec");
-        }
-        else {
-            var formatTime = d3.time.format("Le %d-%m à %Hh%Mmin");
-        }
+        var formatTime = difference ===30 ? d3.time.format("à %Hh%Mmin:%Ssec") : d3.time.format("Le %d-%m à %Hh%Mmin");
         var bins = [];
         for (var i = 0; i <= freq_per_date.length - 1; i++) {
             bins.push(formatTime(new Date((1000 * freq_per_date[i].start_date))));
@@ -102,6 +96,7 @@ function histogram(freq_per_date) {
                 $('#periode_selected').text("Période du " + debut + " " + fin);
                 d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                     mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
+                    console.log(json);
                     $('#loading_circle_little_wordcloud').hide();
                     $('#little-wordcloud').show();
                 });

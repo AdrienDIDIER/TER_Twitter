@@ -5,8 +5,6 @@
 
 # Import Libraries
 import sys
-import sys,os
-sys.path.insert(0, os.path.dirname(__file__))
 version = (3, 0)
 cur_version = sys.version_info
 if cur_version >= version:  # If the Current Version of Python is 3.0 or above
@@ -14,12 +12,6 @@ if cur_version >= version:  # If the Current Version of Python is 3.0 or above
     from urllib.request import Request, urlopen
     from urllib.request import URLError, HTTPError
     from urllib.parse import quote
-    import html
-else:  # If the Current Version of Python is 2.x
-    import urllib2
-    from urllib2 import Request, urlopen
-    from urllib2 import URLError, HTTPError
-    from urllib import quote
 import time  # Importing the time library to check the time of code execution
 import os
 import argparse

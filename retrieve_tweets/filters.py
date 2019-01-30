@@ -50,8 +50,10 @@ def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=N
                     if created_at >= start_d and created_at <= stop_d:
                         stock_tweets(tweet._json, False)
             else:
-                for tweet in tweepy.Cursor(api.search, q=query, lang=language, tweet_mode="extended", since=startdate).items(int(tweets_batch)):
-                    created_at = time.mktime(datetime.datetime.strptime(str(tweet.created_at), '%Y-%m-%d %H:%M:%S').timetuple())
+                print("start ", start_d)
+                for tweet in tweepy.Cursor(api.search, q=query, lang=language, tweet_mode="extended",until= stopdate, since=startdate, wait_on_rate_limit=True).items(int(tweets_batch)):
+                    created_at = time.mktime(
+                        datetime.datetime.strptime(str(tweet.created_at), '%Y-%m-%d %H:%M:%S').timetuple())
                     if created_at >= start_d and created_at <= stop_d:
                         stock_tweets(tweet._json, False)
         else: # si il n'y a pas de dates alors nous stockons les premiers tweets venus sans comparer
