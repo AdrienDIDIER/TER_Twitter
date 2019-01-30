@@ -155,7 +155,7 @@ def upload_file():
         imported_tweets = data[1]  # Un tableau de documents tweets
         exporter_user = getUserByObjectId(ObjectId(session_document['user_id']['$oid']))
         user_logged = getUser()
-        # On remplace l'user id par celui de l'utilisateur courrant
+        # On remplace l'user id par celui de l'utilisateur courant
         session_document['user_id'] = user_logged['_id']
         # On ajoute le nom et prenom de l'utilisateur qui a exporté la session
         session_document['exporter_user'] = exporter_user['first_name'] + exporter_user['last_name']
