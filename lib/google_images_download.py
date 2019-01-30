@@ -5,7 +5,8 @@
 
 # Import Libraries
 import sys
-
+import sys,os
+sys.path.insert(0, os.path.dirname(__file__))
 version = (3, 0)
 cur_version = sys.version_info
 if cur_version >= version:  # If the Current Version of Python is 3.0 or above
