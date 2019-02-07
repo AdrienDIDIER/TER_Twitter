@@ -38,8 +38,14 @@ nav {
     border-radius: 0px 10px 10px 0px;
 }
 
+
+.input-field label {
+  pointer-events: auto;
+}
+
 .input-field .prefix.active {
     color: #1976d2;
+      pointer-events: auto;
 }
 
 /* label underline focus color */
