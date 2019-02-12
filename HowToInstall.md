@@ -21,12 +21,12 @@ English
 Windows / Linux/ OS X
 
 Install the 3.5 version of python
-Not a oldes version and not a newest !
+Not an older version and not a newest !
 
-Clone/Import the project from github to your favorit IDE.
+Clone/Import the project from github to your favorite IDE.
 Make sure to use the 3.5 python interpreter.
 
 Your IDE will ask you to install requirements.
-Intall everythings it need.
+Install everything it needs.
 
 Then build and run the project.
