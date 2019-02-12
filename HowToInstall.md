@@ -1,6 +1,6 @@
-French
+#French
 
-Windows / Linux / OS X
+##Windows / Linux / OS X
 
 Installez la version 3.5 de python.
 Pas de versions inférieures à la 3.5 ou supérieur !
@@ -13,12 +13,14 @@ Installez tout ce que votre IDE demande.
 
 Compilez et lancez le projet.
 
+Si vous avez un problème durant l'installation, contactez-nous avec l'adresse suivante
+aurelien.trouche@etu.umontpellier.fr
 
 ------------------------------------------------------------------------------------
 
-English
+#English
 
-Windows / Linux/ OS X
+##Windows / Linux/ OS X
 
 Install the 3.5 version of python
 Not an older version and not a newest !
@@ -30,3 +32,5 @@ Your IDE will ask you to install requirements.
 Install everything it needs.
 
 Then build and run the project.
+
+If you have a problem during the installation, please contact us at aurelien.trouche@etu.umontpellier.fr
