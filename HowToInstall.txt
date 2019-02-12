@@ -2,14 +2,14 @@ French
 
 Windows / Linux / OS X
 
-Intaller la version 3.5 de python.
-Pas de version inférieur à la 3.5 ou supérieur !
+Installez la version 3.5 de python.
+Pas de versions infÃ©rieures Ã  la 3.5 ou supÃ©rieur !
 
-Cloner/Importer le projet de github dans votre IDE favoris.
+Clonez/Importez le projet de github dans votre IDE favoris.
 Assurez-vous d'avoir l'interpreteur python 3.5 pour ce projet.
 
-Votre IDE, va demander d'intaller des requirements.
-Installez tous ce que votre IDE demande.
+Votre IDE, va demander d'installer des requirements.
+Installez tout ce que votre IDE demande.
 
 Compilez et lancez le projet.
 
