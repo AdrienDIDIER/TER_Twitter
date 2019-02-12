@@ -193,3 +193,33 @@ rect {
     margin-top: 16vh;
 }
 
+#mapid {
+    height: 700px;
+    width: 1000px;
+    border: 1px solid #AAA;
+    margin-left: 10%;
+}
+
+.map-responsive {
+overflow:hidden;
+padding-bottom:56.25%;
+position:relative;>
+height:0;
+}
+
+.map-responsive div {
+left:0;
+top:0;
+height:100%;
+width:100%;
+position:absolute;
+}
+
+
+/*
+#test{
+    position: relative;
+    left: 16.5%;
+    right: auto;
+}
+*/

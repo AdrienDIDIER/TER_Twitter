@@ -16,6 +16,24 @@ if (document.getElementById('map') != null) {
     });
 }
 
+/* Cartographie */
+if (document.getElementById('mapid') != null) {
+    var map = L.map('mapid');
+    map.setView([45.5, 2], 4);
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        id: 'mapbox.streets'
+    }).addTo(map);
+
+    var locationFilter = new L.LocationFilter().addTo(map);
+    var region_input = document.getElementById("region");
+
+    locationFilter.on("change", function (e) {
+        region_input.value = locationFilter.getBounds().toBBoxString();
+    });
+}
+
 function refresh_download_btn() {
     var div = $('#div_download_btn'); // Ma div
     var btn = $('#download_btn'); // Mon bouton
