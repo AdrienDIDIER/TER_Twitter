@@ -1,6 +1,6 @@
-#French
+# French
 
-##Windows / Linux / OS X
+## Windows / Linux / OS X
 
 Installez la version 3.5 de python.
 Pas de versions inférieures à la 3.5 ou supérieur !
@@ -18,9 +18,9 @@ aurelien.trouche@etu.umontpellier.fr
 
 ------------------------------------------------------------------------------------
 
-#English
+# English
 
-##Windows / Linux/ OS X
+## Windows / Linux/ OS X
 
 Install the 3.5 version of python
 Not an older version and not a newest !
