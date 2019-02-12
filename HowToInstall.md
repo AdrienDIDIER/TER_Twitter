@@ -16,7 +16,8 @@ Compilez et lancez le projet.
 Si vous avez un problème durant l'installation, contactez-nous avec l'adresse suivante
 aurelien.trouche@etu.umontpellier.fr
 
-------------------------------------------------------------------------------------
+
+
 
 # English
 
