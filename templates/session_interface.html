@@ -250,7 +250,7 @@
                                                   class="flow-text center">Histogramme</i>
             </div>
         </div>
- </div>
+
         {#    debut zoom periode#}
         <div class="row interface_element" style="display: none" id="lw_tw">
             <div class="col m8 l12 center ">
@@ -298,8 +298,7 @@
         {#    fin zoom periode#}
 
         {#    cartographie general#}
-        <div class="col m8 l8 s12 center interface_element" id="test">
-
+        <div class="col m8 l8 s12 center interface_element" id="container_carte">
             {% if number_of_tweets == 0 %}
                 <div id="no_tweet_div" class="center">
                     <img src="{{ url_for('static', filename='img/arrow.png') }}">
@@ -319,6 +318,8 @@
             {#Fin cartographie général#}
 
         </div>
+     </div>
+     <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
 
 {% endblock %}
