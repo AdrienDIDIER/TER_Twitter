@@ -1,6 +1,6 @@
 from retrieve_tweets.tweets_collection import *
 from myapp import *
-from tweepy_auth import *
+from auth import api, auth
 from retrieve_tweets.tweets_collection import *
 from flask import render_template
 
@@ -14,6 +14,9 @@ class Stream(tweepy.StreamListener):
             return False
 
 def filter(keywords=None, geocode=None, stream=False, startdate=None, stopdate=None, user=None, starttime=None, stoptime=None, language=None, tweets_batch=None):
+    public_tweets = api.home_timeline()
+    for tweets in public_tweets:
+        print(tweets.text)
     if geocode is not "":
         # Passe d'une chaîne de caractère en un tableau de floats (chaque élément séparé d'une virgule)
         geocode = [float(s) for s in geocode.split(",")]

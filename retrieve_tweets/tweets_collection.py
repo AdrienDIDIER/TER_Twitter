@@ -1,7 +1,5 @@
 from myapp import mongo, app
 import re, collections
-
-
 from flask import session
 from stop_words import get_stop_words
 import datetime, time

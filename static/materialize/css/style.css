@@ -185,19 +185,12 @@ rect {
     margin: auto;
 }
 
-.interface_element {
-    height: 89vh;
-}
-
-.interface_content{
-    margin-top: 16vh;
-}
 
 #mapid {
-    height: 700px;
-    width: 1000px;
+    height: 15%;
+    width: 60%;
     border: 1px solid #AAA;
-    margin-left: 10%;
+    margin-left: 20%;
 }
 
 .map-responsive {
@@ -216,10 +209,3 @@ position:absolute;
 }
 
 
-/*
-#test{
-    position: relative;
-    left: 16.5%;
-    right: auto;
-}
-*/

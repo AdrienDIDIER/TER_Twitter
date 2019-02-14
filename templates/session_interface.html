@@ -250,7 +250,7 @@
                                                   class="flow-text center">Histogramme</i>
             </div>
         </div>
-
+ </div>
         {#    debut zoom periode#}
         <div class="row interface_element" style="display: none" id="lw_tw">
             <div class="col m8 l12 center ">
@@ -294,7 +294,7 @@
         <div class="row center">
             <i id="periode_selected" class="flow-text center"></i>
         </div>
-        <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
         {#    fin zoom periode#}
 
         {#    cartographie general#}
@@ -319,7 +319,7 @@
             {#Fin cartographie général#}
 
         </div>
-    </div>
+
 
 {% endblock %}
 
