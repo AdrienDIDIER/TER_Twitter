@@ -299,21 +299,14 @@
 
         {#    cartographie general#}
         <div class="col m8 l8 s12 center interface_element" id="container_carte">
-            {% if number_of_tweets == 0 %}
-                <div id="no_tweet_div" class="center">
-                    <img src="{{ url_for('static', filename='img/arrow.png') }}">
-                    <h4>Vous n'avez toujours pas récupéré de tweets !</h4>
-                    Commencez
-                    maintenant en appuyant sur "Récupérer" ou "Start" !
-                </div>
-            {% endif %}
+
 
             <div id="mapid" class="map-responsive"></div>
 
             {#cartographie général#}
             <div id="cartographie" class="interface_content"></div>
 
-            <i {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Cartographie</i>
+
 
             {#Fin cartographie général#}
 

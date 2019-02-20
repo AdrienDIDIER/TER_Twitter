@@ -39,9 +39,6 @@ nav {
 }
 
 
-.input-field label {
-  pointer-events: auto;
-}
 
 .input-field .prefix.active {
     color: #1976d2;
@@ -201,10 +198,6 @@ height:0;
 }
 
 .map-responsive div {
-left:0;
-top:0;
-height:100%;
-width:100%;
 position:absolute;
 }
 

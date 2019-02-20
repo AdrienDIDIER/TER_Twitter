@@ -95,28 +95,32 @@
                             <div class="row">
                                 <div class="input-field col s12 l6 m6">
                                     <i class="material-icons prefix">access_time</i>
-                                    <input id="start_time" type="text" name="start_time" class="timepicker" value="00:00"required>
+                                    <input id="start_time" type="text" name="start_time" class="timepicker"
+                                           value="00:00" required>
                                     <label for="start_time">Heure de début</label>
                                 </div>
                                 <div class="input-field col s12 l6 m6">
                                     <i class="material-icons prefix">access_time</i>
-                                    <input id="stop_time" type="text" name="stop_time" class="timepicker" value="00:00"required>
+                                    <input id="stop_time" type="text" name="stop_time" class="timepicker" value="00:00"
+                                           required>
                                     <label for="stop_time">Heure de fin</label>
                                 </div>
                             </div>
                         {% endif %}
                         <div class="row">
-                            <div class="input-field col s12 l6 m6">
+                            <div class="input-field col s6 l6 m6">
                                 <i class="material-icons prefix">add_location</i>
                                 <input placeholder="3.78300108, 43.54854151, 3.97065725, 43.67333749 " name="geocode"
                                        id="region" type="text" class="validate">
                                 <label for="region">Régions</label>
                                 <div id="map"></div>
                             </div>
+
                             <div class="input-field col s12 l6 m6">
                                 <i class="material-icons prefix">language</i>
                                 <select class="icons" name="language">
-                                    <option value="" data-icon="{{ url_for('static', filename='img/worldflag.png') }}"
+                                    <option value=""
+                                            data-icon="{{ url_for('static', filename='img/worldflag.png') }}"
                                             class="left circle">Toutes
                                     </option>
                                     <option value="en"
@@ -131,7 +135,8 @@
                                             data-icon="{{ url_for('static', filename='img/germanflag.png') }}"
                                             class="left circle">Allemand (de)
                                     </option>
-                                    <option value="es" data-icon="{{ url_for('static', filename='img/spainflag.png') }}"
+                                    <option value="es"
+                                            data-icon="{{ url_for('static', filename='img/spainflag.png') }}"
                                             class="left circle">Espagnol (es)
                                     </option>
                                     <option value="it"
@@ -142,25 +147,19 @@
                                 <label>Langue</label>
                             </div>
 
-{#
-                            <div class="row">
+                            {#<div class="row">
                                 <div class="input-field col s12 l6 m6" style=" pointer-events: auto;">
                                     <i class="material-icons prefix">check_circle</i>
-                                    <label  class="active">Préférence de features</label>
+                                    <label class="active">Préférence de features</label>
 
                                     <input type="checkbox" id="adri" style="pointer-events: auto;">
                                     <label for="adri">Words Cloud</label>
 
                                     <input type="checkbox" id="adri1" style="pointer-events: auto;">
                                     <label for="adri1">Musique</label>
-
-
                                 </div>
                             </div>#}
                         </div>
-
-
-
                     </fieldset>
 
                     <input name="mode" value="{{ mode }}" type="hidden">

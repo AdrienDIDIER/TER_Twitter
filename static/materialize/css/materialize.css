@@ -7087,7 +7087,9 @@ select:disabled {
 }
 
 .prefix ~ .select-wrapper {
-  margin-left: 3rem;
+  position: absolute;
+  width: 3rem;
+  font-size: 2rem;
   width: 92%;
   width: calc(100% - 3rem);
 }
@@ -7095,6 +7097,7 @@ select:disabled {
 .prefix ~ label {
   margin-left: 3rem;
 }
+
 
 .select-dropdown li img {
   height: 40px;

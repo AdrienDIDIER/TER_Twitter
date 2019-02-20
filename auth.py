@@ -6,7 +6,7 @@ import bcrypt
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
-#declaration API Keys
+# declaration API Keys
 
 consumer_key = "DT4qrp9j1ttwfsoXWtbhYlwOl"
 consumer_secret = "g8X2I3cTbqv5A44zuz5UWa2s7nRUXPfWWRZpUwWOGSahy3tIoU"
@@ -35,7 +35,7 @@ def register():
             except tweepy.error.TweepError:
                 return render_template('register.html', error=True)
 
-            #crypt password and API parameters
+            # crypt password and API parameters
             hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
             hash_consumer_key = public_key.encrypt(
                 consumer_k.encode('utf-8'),
@@ -69,7 +69,7 @@ def register():
                     label=None
                 )
             )
-            #inserting user in the database
+            # inserting user in the database
             users.insert_one({'first_name': request.form['first_name'], 'last_name': request.form['last_name'],
                               'email': request.form['email'], 'password': hash_password,
                               'consumer_key': hash_consumer_key,
@@ -149,10 +149,8 @@ def api_auth(consumer_k, consumer_s, access_t, access_t_s):
     access_token_secret = access_t_s
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-    public_tweets = api.home_timeline()
-    for tweets in public_tweets:
-        print(tweets.text)
+    api = tweepy.API(auth)
+
 
 @app.route('/logout')
 def logout():
@@ -168,6 +166,6 @@ def getUser():
     if isLogged():
         return mongo.db.users.find_one({'email': session['email']})
 
+
 def getUserByObjectId(object_id):
     return mongo.db.users.find_one(object_id)
-
