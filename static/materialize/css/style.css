@@ -197,10 +197,6 @@ position:relative;>
 height:0;
 }
 
-.map-responsive div {
-position:absolute;
-}
-
 #container_carte{
     margin-left: 19%;
 }

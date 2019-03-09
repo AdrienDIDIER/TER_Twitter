@@ -30,6 +30,10 @@ def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
 
+@app.route('/result-geolocalisation/')
+def geolocalisation():
+    geos = tweet_by_geo()
+    return json.dumps(geos)
 
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')

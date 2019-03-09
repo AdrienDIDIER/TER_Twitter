@@ -1,6 +1,8 @@
 $(document).ready(function () {
     refresh_wordcloud(false);
     refresh_histogram(true);
+    refresh_geo();
+
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);

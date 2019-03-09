@@ -15,31 +15,19 @@ if (document.getElementById('map') != null) {
         region_input.value = locationFilter.getBounds().toBBoxString();
     });
 }
-
 /* Cartographie */
 if (document.getElementById('mapid') != null) {
-    var map2 = L.map('mapid');
-    map2.setView([51.505, -0.09], 3);
-
+    map2 = L.map('mapid');
+    map2.setView([51.505, -0.09], 2);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
         id: 'mapbox.streets'
     }).addTo(map2);
-    var marker = L.marker([51.5, -0.09]).addTo(map2);
-    var circle = L.circle([51.508, -0.11], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 500
-    }).addTo(map2);
-    var polygon = L.polygon([
-        [51.509, -0.08],
-        [51.503, -0.06],
-        [51.51, -0.047]
-    ]).addTo(map2);
-    marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-    circle.bindPopup("I am a circle.");
-    polygon.bindPopup("I am a polygon.");
+}
+
+function addMarker(marker){
+    var latlng = L.latLng(marker.coordinates[0],marker.coordinates[1]);
+    L.marker(latlng).addTo(map2);
 }
 
 function refresh_download_btn() {
@@ -120,6 +108,9 @@ $('.datepicker').pickadate({
     }
 });
 
+function refresh_geo(){
+    ajax_geolocalisation();
+}
 function refresh_histogram(first_load, value) {
     if (!first_load) {
         var histogram = $('#histogram');

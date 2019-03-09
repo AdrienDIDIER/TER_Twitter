@@ -34,6 +34,16 @@ def tweets_by_session_id(session_id):
 def count_number_of_tweets(session_id):
     return tweets_by_session_id(session_id).count()
 
+def tweet_by_geo():
+    tweets_table = mongo.db.tweets
+    tweets_geo_table = []
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
+        if 'coordinates' in tweet['tweet_object']:
+            if tweet['tweet_object']['coordinates'] is not None:
+                tweets_geo_table.append(tweet['tweet_object']['coordinates'])
+
+    return tweets_geo_table
+
 def retrieve_all_tweets_text():
     if 'last_session' in session:
         tweets_table = tweets_by_session_id(session['last_session'])
