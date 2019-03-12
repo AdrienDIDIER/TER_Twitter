@@ -77,14 +77,14 @@ function ajax_wordcloud(){
     });
 }
 
-    function ajax_geolocalisation(){
+function ajax_geolocalisation(){
     $.ajax({
         url: '/result-geolocalisation/',
         type: 'GET',
         dataType: 'json',
 
         success: function (response) {
-           for(var i=0;i<response.length;i++){
+            for(var i=0;i<response.length;i++){
                 addMarker(response[i]);
             }
         },
@@ -94,3 +94,22 @@ function ajax_wordcloud(){
     });
 }
 
+
+function ajax_geolocalisation(){
+    $.ajax({
+        url: '/result-geolocalisation/',
+        type: 'GET',
+        dataType: 'json',
+
+        success: function (response) {
+            for(var i=0;i<response.length;i++){
+                addMarker(response[i]);
+                console.log(response[i]);
+                console.log("ajout num"+ i);
+            }
+        },
+        error: function (error) {
+            console.log("ERROR");
+        }
+    });
+}

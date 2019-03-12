@@ -2,7 +2,6 @@ $(document).ready(function () {
     refresh_wordcloud(false);
     refresh_histogram(true);
     refresh_geo();
-
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
@@ -47,6 +46,7 @@ $(document).ready(function () {
         $('#loading_circle').show();
         $('#general_wc_scroll').removeClass("disabled");
         $('#histogram_scroll').removeClass("disabled");
+        $('#location_scroll').show();
 
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),

@@ -2,6 +2,17 @@ nav {
     background-color: #1976d2;
 }
 
+#wordcloud_container{
+    margin-top: 0.5%;
+}
+#nav_left{
+    left: 0;
+}
+
+#nav_right{
+    right: 0;
+}
+
 .icon-block i {
     color: #1976d2;
 }
@@ -42,7 +53,7 @@ nav {
 
 .input-field .prefix.active {
     color: #1976d2;
-      pointer-events: auto;
+    pointer-events: auto;
 }
 
 /* label underline focus color */
@@ -147,7 +158,7 @@ ul.dropdown-content.select-dropdown li span {
     overflow-y: auto;
     max-height: 600px;
     position: relative;
-    width: 400px;
+    width: 100%;
 }
 
 rect {
@@ -191,12 +202,138 @@ rect {
 }
 
 .map-responsive {
-overflow:hidden;
-padding-bottom:56.25%;
-position:relative;>
-height:0;
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
 }
 
 #container_carte{
     margin-left: 19%;
 }
+
+.font_btn_scroll{
+    font-size: 90%;
+}
+
+/*Panel*/
+
+.x_panel {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-left: 25.5%;
+    padding: 10px 17px;
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #E6E9ED;
+    -webkit-column-break-inside: avoid;
+    -moz-column-break-inside: avoid;
+    column-break-inside: avoid;
+    opacity: 1;
+    transition: all .2s ease
+}
+.x_title {
+    border-bottom: 2px solid #E6E9ED;
+    padding: 1px 5px 6px;
+    margin-bottom: 10px
+}
+.x_title .filter {
+    width: 40%;
+    float: right
+}
+.x_title h2 {
+    margin: 3% 0 2%;
+    float: left;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-bottom: 2%;
+}
+.x_title h2 small {
+    margin-left: 10px
+}
+.x_title span {
+    color: #BDBDBD
+}
+.x_content {
+    padding: 0 5px 6px;
+    position: relative;
+    width: 100%;
+    float: left;
+    clear: both;
+    margin-top: 5px
+}
+.x_content h4 {
+    font-size: 16px;
+    font-weight: 500
+}
+
+element.style {
+}
+.panel_toolbox {
+    float: right;
+    min-width: 70px;
+}
+.navbar-right {
+    margin-right: 0;
+}
+.overflow_hidden {
+    overflow: hidden
+}
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.clearfix:after,
+form:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.panel_toolbox>li {
+    float: left;
+    cursor: pointer;
+}
+.nav>li {
+    position: relative;
+    display: block;
+}
+
+.tile {
+    overflow: hidden
+}
+.panel_toolbox>li>a {
+    padding: 5px;
+    color: #C5C7CB;
+    font-size: 14px;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+}
+.x_panel, .x_title {
+    margin-bottom: 10px;
+}
+
+.fixed_height_320 {
+    height: 320px;
+}
+@media (max-width: 1200px) {
+    .graph, .tile {
+        zoom: 85%;
+        height: inherit;
+    }
+}
+    @media (min-width: 768px) {
+        .navbar-right {
+            float: right !important;
+            margin-right: -15px;
+        }
+    }

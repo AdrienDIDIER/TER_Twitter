@@ -15,6 +15,7 @@ if (document.getElementById('map') != null) {
         region_input.value = locationFilter.getBounds().toBBoxString();
     });
 }
+
 /* Cartographie */
 if (document.getElementById('mapid') != null) {
     map2 = L.map('mapid');
@@ -26,8 +27,12 @@ if (document.getElementById('mapid') != null) {
 }
 
 function addMarker(marker){
-    var latlng = L.latLng(marker.coordinates[0],marker.coordinates[1]);
+    var latlng = L.latLng(marker.coordinates[1],marker.coordinates[0]);
     L.marker(latlng).addTo(map2);
+}
+
+function refresh_geo(){
+    ajax_geolocalisation();
 }
 
 function refresh_download_btn() {
@@ -108,9 +113,6 @@ $('.datepicker').pickadate({
     }
 });
 
-function refresh_geo(){
-    ajax_geolocalisation();
-}
 function refresh_histogram(first_load, value) {
     if (!first_load) {
         var histogram = $('#histogram');
@@ -148,6 +150,9 @@ function load_containers() {
     $('hr').show();
     $('.flow-text').show();
     $('#interaction_container').show();
+    $('#histogram_area').show();
+    $('#location_panel').show();
+
 }
 
 /* On vide le mini wordcloud et la liste des tweets */
@@ -159,20 +164,65 @@ function refresh_lw_tw() {
 $(document).on("click", '.smooth_scroll_btn', function () {
     switch ($(this).attr('data_id')) {
         case "general_wc":
+            $('#wordcloud_container').show();
+            $('#wordcloud_container').parent().nextAll('hr').first().show();
             document.getElementById('wordcloud_container').scrollIntoView({
                 behavior: 'smooth'
             });
             break;
         case"histogram":
-            document.getElementById('histogram').scrollIntoView({
+            $('#histogram_area').show();
+            $('#histogram_area').parent().nextAll('hr').first().show();
+            document.getElementById('histogram_area').scrollIntoView({
                 behavior: 'smooth'
             });
             break;
         case "periode":
-            document.getElementById('bottom').scrollIntoView({
+            document.getElementById('little-wordcloud').scrollIntoView({
                 behavior: 'smooth'
             });
             break;
+        case "location":
+            $('#location_panel').show();
+            $('#location_panel').parent().nextAll('hr').first().show();
+            document.getElementById('location_panel').firstElementChild.scrollIntoView({
+                behavior: 'smooth'
+            });
+            break;
+
     }
 
 });
+
+// Panel toolbox
+$(document).ready(function() {
+    $('.collapse-link').on('click', function() {
+        var $BOX_PANEL = $(this).closest('.x_panel'),
+            $ICON = $(this).find('i'),
+            $BOX_CONTENT = $BOX_PANEL.find('.x_content');
+
+        // fix for some div with hardcoded fix class
+        if ($BOX_PANEL.attr('style')) {
+            $BOX_CONTENT.slideToggle(200, function(){
+                $BOX_PANEL.removeAttr('style');
+            });
+        } else {
+            $BOX_CONTENT.slideToggle(200);
+            $BOX_PANEL.css('height', 'auto');
+        }
+        switch($ICON.text()) {
+            case "expand_more":
+                $ICON.text("expand_less");
+                break;
+            case "expand_less":
+                $ICON.text("expand_more");
+                break;
+        }
+    });
+
+    $('.close-link').click(function () {
+        $(this).closest('.x_panel').parent().hide();
+        $(this).closest('.x_panel').parent().parent().nextAll('hr').first().hide();
+    });
+});
+// /Panel toolbox

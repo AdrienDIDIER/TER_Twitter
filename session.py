@@ -24,16 +24,16 @@ def get_little_wordcloud(start_date, stop_date):
     words = retrieve_tweets_by_date(start_date, stop_date)
     return json.dumps(words)
 
+@app.route('/result-geolocalisation/')
+def geolocalisation():
+    geos = tweet_by_geo()
+    return json.dumps(geos)
 
 @app.route('/result-wordcloud/')
 def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
 
-@app.route('/result-geolocalisation/')
-def geolocalisation():
-    geos = tweet_by_geo()
-    return json.dumps(geos)
 
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')
