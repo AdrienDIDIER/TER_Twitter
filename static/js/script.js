@@ -18,18 +18,30 @@ if (document.getElementById('map') != null) {
 
 /* Cartographie */
 if (document.getElementById('mapid') != null) {
-    map2 = L.map('mapid');
-    map2.setView([51.505, -0.09], 2);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+
+    var southWest = L.latLng(-90, -180);
+    var northEast = L.latLng(90, 180);
+
+    var map2 = L.map('mapid', {
+        maxBounds: L.latLngBounds(southWest, northEast),
+        zoom: 1.5,
         maxZoom: 18,
-        id: 'mapbox.streets'
+        minZoom: 1.5,
+        center: [0, 0],
+        zoomSnap: 0.25,
+    });
+    map2.setView([51.505, -0.09], 1);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+      id: 'mapbox.streets'
     }).addTo(map2);
+
 }
 
 function addMarker(marker){
     var latlng = L.latLng(marker.coordinates[1],marker.coordinates[0]);
     L.marker(latlng).addTo(map2);
 }
+
 
 function refresh_geo(){
     ajax_geolocalisation();

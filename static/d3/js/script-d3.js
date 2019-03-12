@@ -104,8 +104,8 @@ function ajax_geolocalisation(){
         success: function (response) {
             for(var i=0;i<response.length;i++){
                 addMarker(response[i]);
-                console.log(response[i]);
-                console.log("ajout num"+ i);
+
+
             }
         },
         error: function (error) {

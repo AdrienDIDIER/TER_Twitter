@@ -196,9 +196,9 @@ rect {
 
 #mapid {
     height: 15%;
-    width: 60%;
+    width: 80%;
     border: 1px solid #AAA;
-    margin-left: 20%;
+    margin-left: 10%;
 }
 
 .map-responsive {
