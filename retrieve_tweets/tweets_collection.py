@@ -3,6 +3,7 @@ import re, collections
 from flask import session
 from stop_words import get_stop_words
 import datetime, time
+from textblob import TextBlob
 
 def stock_tweets(tweet, stream):
     if stream:
@@ -43,6 +44,31 @@ def tweet_by_geo():
                 tweets_geo_table.append(tweet['tweet_object']['coordinates'])
 
     return tweets_geo_table
+
+def clean_tweet(tweet):
+    return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
+
+def tweet_by_text_analysis():
+    tweets_table = mongo.db.tweets
+    positif = 0
+    neutre = 0
+    negatif = 0
+    polarity_values = []
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
+        if 'text' in tweet['tweet_object']:
+            if tweet['tweet_object']['text'] is not None:
+                text = clean_tweet(tweet['tweet_object']['text'])
+                sentiment_value = TextBlob(text)
+                if sentiment_value.polarity > 0.00:
+                    positif = positif+1
+                if sentiment_value.polarity == 0:
+                    neutre = neutre+1
+                if sentiment_value.polarity < 0.00:
+                    negatif = negatif+1
+    polarity_values.append(negatif)
+    polarity_values.append(neutre)
+    polarity_values.append(positif)
+    return polarity_values
 
 def retrieve_all_tweets_text():
     if 'last_session' in session:
@@ -110,6 +136,7 @@ def date_to_int(tweet_dates, new_intervalle = None):
                 break
             new_freq.append({'freq': count_date(tweet_dates, x, x+intervals), 'start_date': x, 'stop_date': x+intervals})
         return new_freq
+
 def count_date(buffer, d, f):
     count = 0
     for i in range(len(buffer)):

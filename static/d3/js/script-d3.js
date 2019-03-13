@@ -94,22 +94,24 @@ function ajax_geolocalisation(){
     });
 }
 
-
-function ajax_geolocalisation(){
-    $.ajax({
-        url: '/result-geolocalisation/',
+function ajax_tweet_polarity(){
+     $.ajax({
+        url: '/result-tweetpolarity/',
         type: 'GET',
         dataType: 'json',
 
         success: function (response) {
-            for(var i=0;i<response.length;i++){
-                addMarker(response[i]);
-
-
+            var stream_button_pressed = $('#start-stream_button').is(":disabled");
+            if(stream_button_pressed) {
+                refresh_tweet_polarity(true);
+                console.log("refresh true");
             }
+            console.log("AJOUT");
+            createChart(response[0],response[1],response[2]);
         },
         error: function (error) {
             console.log("ERROR");
         }
     });
+
 }

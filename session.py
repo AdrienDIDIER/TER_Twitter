@@ -29,6 +29,11 @@ def geolocalisation():
     geos = tweet_by_geo()
     return json.dumps(geos)
 
+@app.route('/result-tweetpolarity/')
+def tweetAnalysis():
+    polarity_data_tweets = tweet_by_text_analysis()
+    return json.dumps(polarity_data_tweets)
+
 @app.route('/result-wordcloud/')
 def wordcloud():
     words = retrieve_all_tweets_text()

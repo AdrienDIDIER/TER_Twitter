@@ -32,7 +32,7 @@ if (document.getElementById('mapid') != null) {
     });
     map2.setView([51.505, -0.09], 1);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-      id: 'mapbox.streets'
+        id: 'mapbox.streets'
     }).addTo(map2);
 
 }
@@ -45,6 +45,46 @@ function addMarker(marker){
 
 function refresh_geo(){
     ajax_geolocalisation();
+}
+
+function createChart(negatif,neutre,positif){
+    let total = negatif + neutre + positif;
+    let neg = (negatif*100)/total;
+    let neu = (neutre*100)/total;
+    let pos = (positif*100)/total;
+
+    var pie = new d3pie("pie_chart", {
+
+        "size": {
+		    "pieInnerRadius": "47%",
+		    "pieOuterRadius": "100%"
+	    },
+
+        "data": {
+            "sortOrder": "value-asc",
+            "content": [
+
+                {"label":"Negatif","value":neg, "color": "#cb2121"},
+
+                {"label":"Neutre", "value":neu, "color": "#2484c1"},
+
+                {"label":"Positif", "value": pos, "color": "#4daa4b"}
+
+            ]
+
+        }});
+
+
+}
+
+function refresh_tweet_polarity(stream){
+
+    if (stream) {
+        var polarity = $('#polarity_panel');
+        polarity.find('svg').remove();
+        console.log("remove");
+    }
+    ajax_tweet_polarity();
 }
 
 function refresh_download_btn() {
@@ -164,6 +204,7 @@ function load_containers() {
     $('#interaction_container').show();
     $('#histogram_area').show();
     $('#location_panel').show();
+    $('#polarity_panel').show();
 
 }
 
@@ -198,6 +239,13 @@ $(document).on("click", '.smooth_scroll_btn', function () {
             $('#location_panel').show();
             $('#location_panel').parent().nextAll('hr').first().show();
             document.getElementById('location_panel').firstElementChild.scrollIntoView({
+                behavior: 'smooth'
+            });
+            break;
+        case "polarity":
+            $('#polarity_panel').show();
+            $('#polarity_panel').parent().nextAll('hr').first().show();
+            document.getElementById('polarity_panel').firstElementChild.scrollIntoView({
                 behavior: 'smooth'
             });
             break;
@@ -237,4 +285,5 @@ $(document).ready(function() {
         $(this).closest('.x_panel').parent().parent().nextAll('hr').first().hide();
     });
 });
-// /Panel toolbox
+
+

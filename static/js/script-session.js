@@ -2,6 +2,7 @@ $(document).ready(function () {
     refresh_wordcloud(false);
     refresh_histogram(true);
     refresh_geo();
+    refresh_tweet_polarity(false);
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
@@ -9,6 +10,8 @@ $(document).ready(function () {
         load_containers();
         $('#general_wc_scroll').removeClass("disabled");
         $('#histogram_scroll').removeClass("disabled");
+        $('#polarity_scroll').removeClass("disabled");
+        $('#location_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + $(this).attr('action-target'),
@@ -46,7 +49,8 @@ $(document).ready(function () {
         $('#loading_circle').show();
         $('#general_wc_scroll').removeClass("disabled");
         $('#histogram_scroll').removeClass("disabled");
-        $('#location_scroll').show();
+        $('#location_scroll').removeClass("disabled");
+        $('#polarity_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
@@ -57,6 +61,7 @@ $(document).ready(function () {
                 refresh_number_tweets();
                 refresh_wordcloud(false);
                 refresh_histogram(false);
+                refresh_tweet_polarity(true);
                 $('.progress').hide();
                 $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
@@ -77,6 +82,7 @@ $(document).ready(function () {
             if (!first_refresh) {
                 first_refresh = true;
                 refresh_wordcloud(true);
+                refresh_tweet_polarity(false);
             }
 
             ajax_freq_per_date(function repeat() {
