@@ -99,7 +99,7 @@ $(document).ready(function () {
                 $('#barre_progression').width((((nb_tweets % batch) / batch)* 100) + "%");
             }
         }
-    }, 1000);
+    }, 10000);
 
     /* A l'appui d'un intervalle pour l'histogramme */
     $('input[type=radio][name=time_interval]').change(function () {

@@ -4,21 +4,73 @@ from flask import session
 from stop_words import get_stop_words
 import datetime, time
 from textblob import TextBlob
+import unicodedata
+
+def getText(data):
+    # Try for extended text of original tweet, if RT'd (streamer)
+    try: text = data['retweeted_status']['extended_tweet']['full_text']
+    except:
+        # Try for extended text of an original tweet, if RT'd (REST API)
+        try: text = data['retweeted_status']['full_text']
+        except:
+            # Try for extended text of an original tweet (streamer)
+            try: text = data['extended_tweet']['full_text']
+            except:
+                # Try for extended text of an original tweet (REST API)
+                try: text = data['full_text']
+                except:
+                    # Try for basic text of original tweet if RT'd
+                    try: text = data['retweeted_status']['text']
+                    except:
+                        # Try for basic text of an original tweet
+                        try: text = data['text']
+                        except:
+                            # Nothing left to check for
+                            text = ''
+    return text
+
+def clean_text(tweet_text):
+    tweet_text = tweet_text.lower()
+    normalized = unicodedata.normalize('NFD', tweet_text)
+    tweet_text = u"".join([c for c in normalized if not unicodedata.combining(c)])
+    tweet_text.replace("-", " ")
+    tweet_text.replace("'", " ")
+    tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
+    tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
+    tweet_text = re.sub(r'http\S+', '', tweet_text)
+    tweet_text = re.sub(r'[0-9]', '', tweet_text)
+    return tweet_text
 
 def stock_tweets(tweet, stream):
     if stream:
         tweets_table = mongo.db.tweets
-        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet._json})
+        data = tweet._json
+        tweet_text = getText(data)
+        tweet_text = clean_text(tweet_text)
+        words = tweet_text.split(" ")
+        stop_words = get_stop_words('fr') + get_stop_words('en')
+        words = [word for word in words if word not in stop_words and 'RT' not in word and len(word) > 2]
+        field = {'split': words}
+        data.update(field)
+        tweets_table.insert({'session_id': session['last_session'], 'tweet_object': data})
     else:
         tweets_table = mongo.db.tweets
+        data = tweet
+        tweet_text = getText(data)
+        tweet_text = clean_text(tweet_text)
+        words = tweet_text.split(" ")
+        stop_words = get_stop_words('fr')
+        words = [word for word in words if word not in stop_words and 'RT' not in word and len(word) > 2]
+        field = {'split': words}
+        data.update(field)
         if tweets_by_session_id(session['last_session']).count() > 0:
             for tw in tweets_by_session_id(session['last_session']):
                 if tweet['id_str'] == tw['tweet_object']['id_str']:
                     return 0
-            tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
+            tweets_table.insert({'session_id': session['last_session'], 'tweet_object': data})
             return 1
         else:
-            tweets_table.insert({'session_id': session['last_session'], 'tweet_object': tweet})
+            tweets_table.insert({'session_id': session['last_session'], 'tweet_object': data})
             return 1
 
 
@@ -42,7 +94,6 @@ def tweet_by_geo():
         if 'coordinates' in tweet['tweet_object']:
             if tweet['tweet_object']['coordinates'] is not None:
                 tweets_geo_table.append(tweet['tweet_object']['coordinates'])
-
     return tweets_geo_table
 
 def clean_tweet(tweet):
@@ -71,28 +122,22 @@ def tweet_by_text_analysis():
     return polarity_values
 
 def retrieve_all_tweets_text():
+    tweets_table = mongo.db.tweets
     if 'last_session' in session:
-        tweets_table = tweets_by_session_id(session['last_session'])
-        tweet_text = ""
-        for tweet in tweets_table:
-            if 'full_text' in tweet['tweet_object']:
-                tweet_text = tweet_text + tweet['tweet_object']['full_text']
-            elif 'text' in tweet['tweet_object']:
-                tweet_text = tweet_text + tweet['tweet_object']['text']
+        tweet_text = []
+        for tweet in tweets_table.find({"session_id": session['last_session']}):
+            if 'split' in tweet['tweet_object']:
+                if tweet['tweet_object']['split'] is not None:
+                    for tweet_split in tweet['tweet_object']['split']:
+                        tweet_text.append(tweet_split)
         return word_splitter(tweet_text)
 
 
-def word_splitter(tweet_text):
-    tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
-    tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
-    tweet_text = re.sub(r"http\S+", "", tweet_text)
-    words = tweet_text.split(" ")
+def word_splitter(words):
     new_words = []
-    stop_words = get_stop_words('fr') + get_stop_words('en')
-    words = [word for word in words if word.lower() not in stop_words and 'RT' not in word]
     word_counter = collections.Counter(words)
     for word in word_counter:
-        if word_counter[word] >= 2:
+        if word_counter[word] > 2:
             if word != '':
                 new_words.append({'text': word, 'size': word_counter[word]})
     return new_words
