@@ -74,7 +74,7 @@ def addSession(mode=None):
             else:
                 src_img = getLinkImgFromKeyWords(request.form['session_name'])
             documentInserted = session_collection.insert(
-                {'user_id': user_logged['_id'], 'session_name': request.form['session_name'],
+                {'user_id': user_logged['_id'], 'session_name': request.form['session_name'], 'nbtweets': 0,
                  'start_date': dateOfDay.strftime(
                      "%d-%m-%y %H:%M:%S"),
                  'last_modification_date': dateOfDay.strftime(
@@ -111,10 +111,12 @@ def getLinkImgFromKeyWords(keywords):
         return -1
 
 
+
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
     current_session = getSessionByObjectId(ObjectId(session_id))
     session['last_session'] = session_id
+
     if request.method == 'GET':
         return render_template('session_interface.html', current_session=current_session,
                                number_of_tweets=count_number_of_tweets(session_id))
@@ -137,10 +139,13 @@ def display_session(session_id=None):
 @app.route('/session/close/')
 def close_session():
     dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
+    s =mongo.db.sessions.find_one({'_id': ObjectId(session['last_session'])});
     mongo.db.sessions.update_one({'_id': ObjectId(session['last_session'])}, {'$set': {
         'last_modification_date': dateOfDay.strftime(
-            "%d-%m-%y-%H-%M-%S")
-    }})
+            "%d-%m-%y-%H-%M-%S")}}
+                                 )
+    mongo.db.sessions.update_one({'_id': ObjectId(session['last_session'])}, {'$set': {'nbtweets': count_number_of_tweets(str(s['_id']))}})
+
     return redirect(url_for('index'))
 
 

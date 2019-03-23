@@ -34,6 +34,8 @@ $(document).ready(function () {
             type: 'GET',
 
             success: function (response) {
+                console.log("stop refresh géo");
+                refresh_geo();
                 first_refresh = false;
             },
             error: function (error) {/**/}
@@ -59,6 +61,7 @@ $(document).ready(function () {
 
             success: function (response) {
                 refresh_number_tweets();
+                refresh_geo();
                 refresh_wordcloud(false);
                 refresh_histogram(false);
                 refresh_tweet_polarity(true);
@@ -83,6 +86,7 @@ $(document).ready(function () {
                 first_refresh = true;
                 refresh_wordcloud(true);
                 refresh_tweet_polarity(false);
+                refresh_geo();
             }
 
             ajax_freq_per_date(function repeat() {

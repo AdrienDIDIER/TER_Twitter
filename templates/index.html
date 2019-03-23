@@ -34,13 +34,19 @@
                             <div class="card-content">
                                 <span class="card-title">{{ s.session_name }}</span>
                                 <hr>
+
+                                <p> <i><b>Nombre de tweets :</b> {{ s.nbtweets }}<br> </i>
+                                </p>
+                                <p><i><b>Mot(s) clé(s) :</b> {{ s.params.keywords}}</i></p>
+                                <p><i><b>Type de sessions :</b> {{ s.mode }}</i></p>
                                 <p>
                                     {% if s.last_modification_date != s.start_date %}
-                                        <i>dernière modification le <br> {{  datetime.strptime(s.last_modification_date,('%d-%m-%y-%H-%M-%S')).strftime('le %d/%m/%y à %H:%M') }}</i>
+                                        <i><b>Dernière modification le </b><br> {{  datetime.strptime(s.last_modification_date,('%d-%m-%y-%H-%M-%S')).strftime('le %d/%m/%y à %H:%M') }}</i>
                                     {% else %}
                                         <i>créée le <br> {{ s.start_date }}</i>
                                     {% endif %}
                                 </p>
+
                                 <a class="modal-trigger red-text" href="#modal{{ s._id }}"><i>Supprimer</i></a>
                             </div>
 

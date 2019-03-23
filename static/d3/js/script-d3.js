@@ -84,6 +84,7 @@ function ajax_geolocalisation(){
         dataType: 'json',
 
         success: function (response) {
+            clearMarker();
             for(var i=0;i<response.length;i++){
                 addMarker(response[i]);
             }
@@ -104,9 +105,9 @@ function ajax_tweet_polarity(){
             var stream_button_pressed = $('#start-stream_button').is(":disabled");
             if(stream_button_pressed) {
                 refresh_tweet_polarity(true);
-                console.log("refresh true");
+                //console.log("refresh true");
             }
-            console.log("AJOUT");
+            //console.log("AJOUT");
             createChart(response[0],response[1],response[2]);
         },
         error: function (error) {

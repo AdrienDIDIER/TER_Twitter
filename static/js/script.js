@@ -31,15 +31,26 @@ if (document.getElementById('mapid') != null) {
         zoomSnap: 0.25,
     });
     map2.setView([51.505, -0.09], 1);
+
+    lgMarkers = new L.LayerGroup();
+    map2.addLayer(lgMarkers);
+
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         id: 'mapbox.streets'
     }).addTo(map2);
 
 }
 
+function clearMarker(){
+    console.log("Clear layer");
+    lgMarkers.clearLayers();
+}
+
 function addMarker(marker){
+    console.log("addMarker");
+
     var latlng = L.latLng(marker.coordinates[1],marker.coordinates[0]);
-    L.marker(latlng).addTo(map2);
+    L.marker(latlng).addTo(lgMarkers).update();
 }
 
 
@@ -82,7 +93,7 @@ function refresh_tweet_polarity(stream){
     if (stream) {
         var polarity = $('#polarity_panel');
         polarity.find('svg').remove();
-        console.log("remove");
+        //console.log("remove");
     }
     ajax_tweet_polarity();
 }
@@ -109,6 +120,7 @@ function refresh_number_tweets() {
 }
 
 $(function () {
+    
     $('.session_card').matchHeight({
         byRow: true,
         property: 'height',
