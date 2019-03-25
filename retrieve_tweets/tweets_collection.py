@@ -49,7 +49,7 @@ def stock_tweets(tweet, stream):
         tweet_text = clean_text(tweet_text)
         words = tweet_text.split(" ")
         stop_words = get_stop_words('fr') + get_stop_words('en')
-        words = [word for word in words if word not in stop_words and 'RT' not in word and len(word) > 2]
+        words = [word for word in words if word not in stop_words and len(word) > 2]
         field = {'split': words}
         data.update(field)
         tweets_table.insert({'session_id': session['last_session'], 'tweet_object': data})
@@ -60,7 +60,7 @@ def stock_tweets(tweet, stream):
         tweet_text = clean_text(tweet_text)
         words = tweet_text.split(" ")
         stop_words = get_stop_words('fr')
-        words = [word for word in words if word not in stop_words and 'RT' not in word and len(word) > 2]
+        words = [word for word in words if word not in stop_words and len(word) > 2]
         field = {'split': words}
         data.update(field)
         if tweets_by_session_id(session['last_session']).count() > 0:
