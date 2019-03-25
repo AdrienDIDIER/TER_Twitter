@@ -42,6 +42,7 @@ if (document.getElementById('mapid') != null) {
 }
 
 function clearMarker(){
+    map2.invalidateSize();
     console.log("Clear layer");
     lgMarkers.clearLayers();
 }

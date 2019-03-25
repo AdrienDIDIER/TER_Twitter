@@ -96,6 +96,21 @@ def tweet_by_geo():
                 tweets_geo_table.append(tweet['tweet_object']['coordinates'])
     return tweets_geo_table
 
+def tweet_for_sunburst():
+    tweets_table = mongo.db.tweets
+    compteurrt = 0
+    compteurcoord = 0
+    tweets_sunburst_table = []
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
+        if 'retweeted_status' in tweet['tweet_object']:
+            if tweet['tweet_object']['retweeted_status'] is not None:
+                compteurrt += 1
+        if 'coordinates' in tweet['tweet_object']:
+            if tweet['tweet_object']['coordinates'] is not None:
+                compteurcoord += 1
+    return compteurrt
+
+
 def clean_tweet(tweet):
     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
 

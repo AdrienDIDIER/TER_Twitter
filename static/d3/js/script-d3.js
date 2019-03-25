@@ -116,3 +116,19 @@ function ajax_tweet_polarity(){
     });
 
 }
+
+function ajax_tweet_sunburst(){
+     $.ajax({
+        url: '/result-sunburst/',
+        type: 'GET',
+        dataType: 'json',
+
+        success: function (response) {
+            console.log("SUCCESS");
+        },
+        error: function (error) {
+            console.log("ERROR");
+        }
+    });
+
+}

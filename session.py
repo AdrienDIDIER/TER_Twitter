@@ -29,6 +29,11 @@ def geolocalisation():
     geos = tweet_by_geo()
     return json.dumps(geos)
 
+@app.route('/result-sunburst/')
+def sunburst():
+    sunburst = tweet_for_sunburst()
+    return json.dumps(sunburst)
+
 @app.route('/result-tweetpolarity/')
 def tweetAnalysis():
     polarity_data_tweets = tweet_by_text_analysis()
@@ -62,7 +67,7 @@ def addSession(mode=None):
     if request.method == 'GET':  # Affichage de la page HTML
         return render_template('session_create_form.html', mode=mode)
     elif request.method == 'POST':  # Envoi de formulaire
-        if isLogged():  # Vérificaiton qu'un user est connecté
+        if isLogged():  # Vérification qu'un user est connecté
             session_collection = mongo.db.sessions
             user_logged = getUser()
             dateOfDay = datetime.datetime.now()  # Récupère la date d'aujourd'hui
