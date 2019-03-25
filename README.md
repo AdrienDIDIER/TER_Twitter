@@ -1,12 +1,12 @@
 # app-python-analyse-tweets
 Tweetostats
 
-Ceci est un projet réalisé par 3 élèves de la licence 3 informatique à Montpellier:
-Mourad Inan
-Clément Tassart
-Solal Vernier
+Ceci est un projet réalisé par 4 élèves de la licence 3 informatique à Montpellier:
+Nabil BOUILLIN
 Adrien DIDIER
-Et sous le tutorat de Mr Pascal Poncelet au cours de l'année 2017-2018.
+Matéo MEYNIER
+Aurélien TROUCHE
+Et sous le tutorat de Mr Pascal Poncelet au cours de l'année 2018-2019.
 
 Ce projet est une plateforme d'analyse de tweets. Les tweets sont filtrès par l'utilisateur et sont présentés sous forme de nuage de mots dynamique et de graphiques statistiques.
 
@@ -33,12 +33,6 @@ Pour lancer le serveur python:
 
 L'utilisation d'un IDE complet et facile à utiliser vous est recommandé. Nous utilisons [PyCharm](https://www.jetbrains.com/pycharm/).
 
-### Bugs
-Actuellement on utilise des clés par défaut d'un compte crée pour l'occasion 
-pour récupérer les tweets (ce qui n'est pas optimale) il faudrait utiliser
-les clés de l'utilisateur qui vient de s'inscrire.
-
-testest
 
     
 
