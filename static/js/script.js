@@ -143,6 +143,7 @@ $(document).ready(function verify() {
                 count--;
                 console.log(s_checked);
             }
+
             if (count == 2) {
                 document.getElementsByClassName("sessionsdouble")[0].style.visibility = "visible";
                 var href = "/sessions";

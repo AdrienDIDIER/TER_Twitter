@@ -346,3 +346,7 @@ form:after {
 .id_session{
     visibility: hidden;
 }
+
+.sessionsdouble{
+    visibility: hidden;
+}
