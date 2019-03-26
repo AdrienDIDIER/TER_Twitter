@@ -41,55 +41,56 @@ if (document.getElementById('mapid') != null) {
 
 }
 
-function clearMarker(){
+function clearMarker() {
     map2.invalidateSize();
     console.log("Clear layer");
     lgMarkers.clearLayers();
 }
 
-function addMarker(marker){
+function addMarker(marker) {
     console.log("addMarker");
 
-    var latlng = L.latLng(marker.coordinates[1],marker.coordinates[0]);
+    var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
     L.marker(latlng).addTo(lgMarkers).update();
 }
 
 
-function refresh_geo(){
+function refresh_geo() {
     ajax_geolocalisation();
 }
 
-function createChart(negatif,neutre,positif){
+function createChart(negatif, neutre, positif) {
     let total = negatif + neutre + positif;
-    let neg = (negatif*100)/total;
-    let neu = (neutre*100)/total;
-    let pos = (positif*100)/total;
+    let neg = (negatif * 100) / total;
+    let neu = (neutre * 100) / total;
+    let pos = (positif * 100) / total;
 
     var pie = new d3pie("pie_chart", {
 
         "size": {
-		    "pieInnerRadius": "47%",
-		    "pieOuterRadius": "100%"
-	    },
+            "pieInnerRadius": "47%",
+            "pieOuterRadius": "100%"
+        },
 
         "data": {
             "sortOrder": "value-asc",
             "content": [
 
-                {"label":"Negatif","value":neg, "color": "#cb2121"},
+                {"label": "Negatif", "value": neg, "color": "#cb2121"},
 
-                {"label":"Neutre", "value":neu, "color": "#2484c1"},
+                {"label": "Neutre", "value": neu, "color": "#2484c1"},
 
-                {"label":"Positif", "value": pos, "color": "#4daa4b"}
+                {"label": "Positif", "value": pos, "color": "#4daa4b"}
 
             ]
 
-        }});
+        }
+    });
 
 
 }
 
-function refresh_tweet_polarity(stream){
+function refresh_tweet_polarity(stream) {
 
     if (stream) {
         var polarity = $('#polarity_panel');
@@ -120,8 +121,56 @@ function refresh_number_tweets() {
     });
 }
 
+$(document).ready(function verify() {
+    var sessions = checkbox_sessions();
+    var count = 0;
+    var s_checked = [];
+
+    for (var i = 0; i < sessions.length; i++) {
+         s_checked[i]=0;
+    }
+    for (var i = 0; i < sessions.length; i++) {
+        var id = sessions[i];
+        document.getElementById(id).value = i;
+        checkbox= document.getElementById(id);
+        checkbox.addEventListener('change', function () {
+            if (this.checked) {
+                s_checked[this.value] = 1;
+                count++;
+                console.log(s_checked);
+            } else {
+                s_checked[this.value] = 0;
+                count--;
+                console.log(s_checked);
+            }
+            if (count == 2) {
+                document.getElementsByClassName("sessionsdouble")[0].style.visibility = "visible";
+                var href = "/sessions";
+                for(var i=0;i<s_checked.length;i++){
+                    if(s_checked[i]==1){
+                        href+="/"+sessions[i];
+                    }
+                }
+                document.getElementById("doublesessions").href = href;
+            } else {
+                document.getElementsByClassName("sessionsdouble")[0].style.visibility = "hidden";
+            }
+        });
+    }
+
+});
+
+function checkbox_sessions() {
+
+    var sessions = [];
+    $('.id_session').each(function () {
+        sessions.push($(this).text());
+    });
+    return sessions;
+}
+
 $(function () {
-    
+
     $('.session_card').matchHeight({
         byRow: true,
         property: 'height',
@@ -268,22 +317,22 @@ $(document).on("click", '.smooth_scroll_btn', function () {
 });
 
 // Panel toolbox
-$(document).ready(function() {
-    $('.collapse-link').on('click', function() {
+$(document).ready(function () {
+    $('.collapse-link').on('click', function () {
         var $BOX_PANEL = $(this).closest('.x_panel'),
             $ICON = $(this).find('i'),
             $BOX_CONTENT = $BOX_PANEL.find('.x_content');
 
         // fix for some div with hardcoded fix class
         if ($BOX_PANEL.attr('style')) {
-            $BOX_CONTENT.slideToggle(200, function(){
+            $BOX_CONTENT.slideToggle(200, function () {
                 $BOX_PANEL.removeAttr('style');
             });
         } else {
             $BOX_CONTENT.slideToggle(200);
             $BOX_PANEL.css('height', 'auto');
         }
-        switch($ICON.text()) {
+        switch ($ICON.text()) {
             case "expand_more":
                 $ICON.text("expand_less");
                 break;

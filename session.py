@@ -140,6 +140,16 @@ def display_session(session_id=None):
 
         return render_template('session_interface.html', current_session=current_session)
 
+#@app.route('/session/<session_id>/<session_id2>', methods=['POST', 'GET'])
+#def display_session(session_id=None,session_id2=None):
+#    current_session = getSessionByObjectId(ObjectId(session_id))
+#   current_session2 = getSessionByObjectId(ObjectId(session_id2))
+#    session['last_session'] = session_id
+
+#    if request.method == 'GET':
+#        return render_template('session_interface.html', current_session=current_session,
+#                               number_of_tweets=count_number_of_tweets(session_id)+count_number_of_tweets(session_id2))
+
 
 @app.route('/session/close/')
 def close_session():
