@@ -61,14 +61,12 @@ function ajax_wordcloud(){
 
         success: function (response) {
             var stream_button_pressed = $('#start-stream_button').is(":disabled");
-            if(stream_button_pressed){
-                refresh_wordcloud(true);
-            }
-            mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
-            $('#loading_circle').hide();
             var startdated_button_pressed = $('#start-dated_tweets_button').is(":disabled");
-            if(startdated_button_pressed){
-                $('#loading_circle').show();
+            if(stream_button_pressed || startdated_button_pressed){
+                refresh_wordcloud(false);
+            }else{
+                mycloud.stop().words(response).start().on("end", draw(response, "wordcloud"));
+                $('#loading_circle').hide();
             }
         },
         error: function (error) {

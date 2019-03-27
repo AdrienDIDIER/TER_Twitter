@@ -34,4 +34,3 @@ tweepy == 3.5.0
 
 textblob == 0.15.1
 
-nltk == 3.4

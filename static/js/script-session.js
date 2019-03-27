@@ -4,6 +4,7 @@ $(document).ready(function () {
     refresh_geo();
     refresh_tweet_polarity(false);
 
+
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
@@ -37,6 +38,7 @@ $(document).ready(function () {
             success: function (response) {
                 refresh_geo();
                 refresh_tweet_polarity(false);
+                refresh_wordcloud(true);
                 first_refresh = false;
             },
             error: function (error) {/**/}
@@ -86,7 +88,7 @@ $(document).ready(function () {
             refresh_tweet_polarity(true);
             if (!first_refresh) {
                 first_refresh = true;
-                refresh_wordcloud(true);
+                refresh_wordcloud(false);
                 refresh_tweet_polarity(true);
                 refresh_geo();
             }
@@ -105,7 +107,7 @@ $(document).ready(function () {
                 $('#barre_progression').width((((nb_tweets % batch) / batch)* 100) + "%");
             }
         }
-    }, 2000);
+    }, 1000);
 
     /* A l'appui d'un intervalle pour l'histogramme */
     $('input[type=radio][name=time_interval]').change(function () {

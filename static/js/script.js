@@ -168,7 +168,6 @@ function refresh_wordcloud(stream) {
             /* Vide le wordcloud pour en accueillir un nouveau */
         }
     }
-
     ajax_wordcloud();
 }
 
