@@ -62,12 +62,12 @@ var defaultSettings = {
 	},
 	size: {
 		canvasHeight: 500,
-		canvasWidth: 500,
-		pieInnerRadius: "0%",
-		pieOuterRadius: null
+		canvasWidth: 700,
+		pieInnerRadius: "40%",
+		pieOuterRadius: "100%"
 	},
 	data: {
-		sortOrder: "none",
+		sortOrder: "value-asc",
 		ignoreSmallSegments: {
 			enabled: false,
 			valueType: "percentage",

@@ -43,14 +43,11 @@ if (document.getElementById('mapid') != null) {
 
 function clearMarker() {
     map2.invalidateSize();
-    console.log("Clear layer");
     lgMarkers.clearLayers();
 }
 
 function addMarker(marker) {
-    console.log("addMarker");
-
-    var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
+    var latlng = L.latLng(marker.coordinates[1],marker.coordinates[0]);
     L.marker(latlng).addTo(lgMarkers).update();
 }
 
@@ -59,45 +56,14 @@ function refresh_geo() {
     ajax_geolocalisation();
 }
 
-function createChart(negatif, neutre, positif) {
-    let total = negatif + neutre + positif;
-    let neg = (negatif * 100) / total;
-    let neu = (neutre * 100) / total;
-    let pos = (positif * 100) / total;
-
-    var pie = new d3pie("pie_chart", {
-
-        "size": {
-            "pieInnerRadius": "47%",
-            "pieOuterRadius": "100%"
-        },
-
-        "data": {
-            "sortOrder": "value-asc",
-            "content": [
-
-                {"label": "Negatif", "value": neg, "color": "#cb2121"},
-
-                {"label": "Neutre", "value": neu, "color": "#2484c1"},
-
-                {"label": "Positif", "value": pos, "color": "#4daa4b"}
-
-            ]
-
-        }
-    });
-
-
-}
-
-function refresh_tweet_polarity(stream) {
-
-    if (stream) {
+function refresh_tweet_polarity(start){
+    if(start){
         var polarity = $('#polarity_panel');
         polarity.find('svg').remove();
-        //console.log("remove");
+        $('#loading_circle_polarity').show();
+    }else{
+        ajax_tweet_polarity();
     }
-    ajax_tweet_polarity();
 }
 
 function refresh_download_btn() {
@@ -127,7 +93,7 @@ $(document).ready(function verify() {
     var s_checked = [];
 
     for (var i = 0; i < sessions.length; i++) {
-         s_checked[i]=0;
+        s_checked[i]=0;
     }
     for (var i = 0; i < sessions.length; i++) {
         var id = sessions[i];
@@ -171,7 +137,6 @@ function checkbox_sessions() {
 }
 
 $(function () {
-
     $('.session_card').matchHeight({
         byRow: true,
         property: 'height',

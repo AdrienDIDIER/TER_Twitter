@@ -95,6 +95,27 @@ function ajax_geolocalisation(){
     });
 }
 
+function createChart(negatif, neutre, positif){
+    let total = negatif + neutre + positif;
+    let neg = (negatif*100)/total;
+    let neu = (neutre*100)/total;
+    let pos = (positif*100)/total;
+
+    var pie = new d3pie("pie_chart", {
+        "data": {
+            "content": [
+
+                {"label":"Negatif","value":neg, "color": "#cb2121"},
+
+                {"label":"Neutre", "value":neu, "color": "#2484c1"},
+
+                {"label":"Positif", "value": pos, "color": "#4daa4b"}
+
+            ]
+
+        }});
+}
+
 function ajax_tweet_polarity(){
      $.ajax({
         url: '/result-tweetpolarity/',
@@ -102,13 +123,9 @@ function ajax_tweet_polarity(){
         dataType: 'json',
 
         success: function (response) {
-            var stream_button_pressed = $('#start-stream_button').is(":disabled");
-            if(stream_button_pressed) {
-                refresh_tweet_polarity(true);
-                //console.log("refresh true");
-            }
-            //console.log("AJOUT");
-            createChart(response[0],response[1],response[2]);
+            $('#loading_circle_polarity').hide();
+            createChart(response[0], response[1], response[2]);
+
         },
         error: function (error) {
             console.log("ERROR");

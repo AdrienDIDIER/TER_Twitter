@@ -3,6 +3,7 @@ $(document).ready(function () {
     refresh_histogram(true);
     refresh_geo();
     refresh_tweet_polarity(false);
+
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
         $(this).prop("disabled", true);
@@ -34,8 +35,8 @@ $(document).ready(function () {
             type: 'GET',
 
             success: function (response) {
-                console.log("stop refresh géo");
                 refresh_geo();
+                refresh_tweet_polarity(false);
                 first_refresh = false;
             },
             error: function (error) {/**/}
@@ -64,7 +65,7 @@ $(document).ready(function () {
                 refresh_geo();
                 refresh_wordcloud(false);
                 refresh_histogram(false);
-                refresh_tweet_polarity(true);
+                refresh_tweet_polarity(false);
                 $('.progress').hide();
                 $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
@@ -82,10 +83,11 @@ $(document).ready(function () {
         if (stream_button_pressed || datedtweets_button_pressed) {
             refresh_number_tweets();
             refresh_download_btn();
+            refresh_tweet_polarity(true);
             if (!first_refresh) {
                 first_refresh = true;
                 refresh_wordcloud(true);
-                refresh_tweet_polarity(false);
+                refresh_tweet_polarity(true);
                 refresh_geo();
             }
 
@@ -103,7 +105,7 @@ $(document).ready(function () {
                 $('#barre_progression').width((((nb_tweets % batch) / batch)* 100) + "%");
             }
         }
-    }, 10000);
+    }, 2000);
 
     /* A l'appui d'un intervalle pour l'histogramme */
     $('input[type=radio][name=time_interval]').change(function () {

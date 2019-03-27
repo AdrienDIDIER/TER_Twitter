@@ -358,14 +358,31 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content" style="display: block;">
-                        <div id="pie_chart">
+                        <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
+                            style="display: none" {% endif %}
+                            class="preloader-wrapper big active loader_wordcloud"
+                            id="loading_circle_polarity">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
                         </div>
+                        <div id="pie_chart"></div>
                     </div>
                 </div>
-                <div class="col m2 s2 l2"></div>
             </div>
         </div>
-        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        <div class="col m2 s2 l2"></div>
+    </div>
+    </div>
+    <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
 
     </div>

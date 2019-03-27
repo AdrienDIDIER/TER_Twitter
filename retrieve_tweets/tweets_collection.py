@@ -111,9 +111,6 @@ def tweet_for_sunburst():
     return compteurrt
 
 
-def clean_tweet(tweet):
-    return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", tweet).split())
-
 def tweet_by_text_analysis():
     tweets_table = mongo.db.tweets
     positif = 0
@@ -121,16 +118,14 @@ def tweet_by_text_analysis():
     negatif = 0
     polarity_values = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
-        if 'text' in tweet['tweet_object']:
-            if tweet['tweet_object']['text'] is not None:
-                text = clean_tweet(tweet['tweet_object']['text'])
-                sentiment_value = TextBlob(text)
-                if sentiment_value.polarity > 0.00:
-                    positif = positif+1
-                if sentiment_value.polarity == 0:
-                    neutre = neutre+1
-                if sentiment_value.polarity < 0.00:
-                    negatif = negatif+1
+        tweet_text = clean_text(getText(tweet['tweet_object']))
+        sentiment_value = TextBlob(tweet_text)
+        if sentiment_value.polarity > 0.00:
+            positif = positif + 1
+        if sentiment_value.polarity == 0:
+            neutre = neutre + 1
+        if sentiment_value.polarity < 0.00:
+            negatif = negatif + 1
     polarity_values.append(negatif)
     polarity_values.append(neutre)
     polarity_values.append(positif)
@@ -207,16 +202,16 @@ def count_date(buffer, d, f):
 
 def retrieve_tweets_by_date(start,stop):
     tweets_table = mongo.db.tweets
-    tweet_text = ""
+    tweet_text = []
     count = 0
     for tweet in tweets_table.find({"session_id": session['last_session']}):
         count = count +1
         d = datetime.datetime.strptime(tweet['tweet_object']['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
         if time.mktime(d.timetuple())>= float(start) and time.mktime(d.timetuple())<= float(stop):
-            if "full_text" in tweet['tweet_object']:
-                tweet_text = tweet_text + " " + tweet['tweet_object']["full_text"]
-            else:
-                tweet_text = tweet_text + " " + tweet['tweet_object']["text"]
+            if 'split' in tweet['tweet_object']:
+                if tweet['tweet_object']['split'] is not None:
+                    for tweet_split in tweet['tweet_object']['split']:
+                        tweet_text.append(tweet_split)
     return word_splitter(tweet_text)
 
 def getTweets(start, stop):
