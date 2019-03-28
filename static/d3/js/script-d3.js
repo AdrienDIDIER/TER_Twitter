@@ -145,5 +145,20 @@ function ajax_tweet_sunburst(){
             console.log("ERROR");
         }
     });
+}
 
+
+function ajax_double_session(){
+    $.ajax({
+        url: '/sessions/session_id/session_id2/',
+        type: 'GET',
+        dataType: 'json',
+
+        success: function (response) {
+            console.log(response[1]);
+        },
+        error: function (error) {
+            console.log("ERROR");
+        }
+    });
 }
