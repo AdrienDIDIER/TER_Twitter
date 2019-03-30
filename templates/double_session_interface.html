@@ -35,9 +35,9 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
-
-        <div class="col s6 m6 l6">
+    <div class="row" >
+        <div class="col s6 m6 l6" id="session_target" data-session="{{ sessions[0] }}">
+        {{ sessions[0] }}
             <div class="row center">
                 <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
@@ -101,9 +101,9 @@
             <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
         </div>
-
-        <div class="col s6 m6 l6">
+        <div class="col s6 m6 l6" id="session_target2" data-session="{{ sessions[1] }}">
             <div class="row center">
+            {{ sessions[1] }}
                 <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
@@ -162,7 +162,9 @@
                     </div>
                 </div>
             </div>
+
             <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+
         </div>
     </div>
 {% endblock %}

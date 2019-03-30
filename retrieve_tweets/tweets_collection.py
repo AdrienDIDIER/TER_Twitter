@@ -117,6 +117,7 @@ def tweet_by_text_analysis():
     neutre = 0
     negatif = 0
     polarity_values = []
+    print(session['last_session'])
     for tweet in tweets_table.find({"session_id": session['last_session']}):
         tweet_text = clean_text(getText(tweet['tweet_object']))
         sentiment_value = TextBlob(tweet_text)

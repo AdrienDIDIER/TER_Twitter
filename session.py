@@ -12,7 +12,6 @@ import json
 from lib import google_images_download
 from random import randint
 
-
 @app.route('/delete-all-tweets')
 def deleted():
     delete_many_tweets()
@@ -97,7 +96,6 @@ def addSession(mode=None):
                      'language': request.form['language']
                  }
                  })  # Insertion du document session dans la collection session
-
             # Recuperation de l'id de la dernière session créée
             session['last_session'] = str(getSessionByObjectId(documentInserted)['_id'])
             return redirect(url_for('display_session', session_id=documentInserted))
@@ -120,8 +118,7 @@ def getLinkImgFromKeyWords(keywords):
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
     current_session = getSessionByObjectId(ObjectId(session_id))
-    session['last_session'] = session_id
-
+    session_id_test = session_id
     if request.method == 'GET':
         return render_template('session_interface.html', current_session=current_session,
                                number_of_tweets=count_number_of_tweets(session_id))
@@ -142,12 +139,22 @@ def display_session(session_id=None):
 
 @app.route('/sessions/<session_id>/<session_id2>', methods=['POST', 'GET'])
 def display_double_session(session_id=None, session_id2=None):
+    sessions = []
     current_session = getSessionByObjectId(ObjectId(session_id))
     current_session2 = getSessionByObjectId(ObjectId(session_id2))
-
+    sessions.append(session_id)
+    sessions.append(session_id2)
     if request.method == 'GET':
-        return render_template('double_session_interface.html', current_session=current_session, current_session2=current_session2,
+        return render_template('double_session_interface.html', current_session=current_session, current_session2=current_session2, sessions=sessions,
                                number_of_tweets=count_number_of_tweets(session_id)+count_number_of_tweets(session_id2))
+
+@app.route('/load_session/<session_id>/', methods=['GET'])
+def loadSession(session_id=None):
+    print('OK')
+    session.pop('last_session', None)
+    session['last_session'] = session_id
+    print(session['last_session'])
+    return session['last_session']
 
 @app.route('/session/close/')
 def close_session():
