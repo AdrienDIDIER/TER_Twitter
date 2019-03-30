@@ -35,14 +35,21 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row" >
+    <div class="row">
         <div class="col s6 m6 l6" id="session_target" data-session="{{ sessions[0] }}">
-        {{ sessions[0] }}
             <div class="row center">
-                <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+                <div class="x_title">
+                    <h2 class="flow-text">{{ sessions[0] }}</h2>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="row center">
+                <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                     class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Cartographie</h2>
+                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                                Cartographie</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
                                 </li>
@@ -63,10 +70,12 @@
             <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
             <div class="row center">
-                <div id="polarity_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+                <div id="polarity_panel1" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                     class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Sentiment</h2>
+                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                                Sentiment</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
                                 </li>
@@ -92,7 +101,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="pie_chart"></div>
+                            <div id="pie_chart1"></div>
                         </div>
                     </div>
                 </div>
@@ -102,12 +111,20 @@
 
         </div>
         <div class="col s6 m6 l6" id="session_target2" data-session="{{ sessions[1] }}">
+
             <div class="row center">
-            {{ sessions[1] }}
-                <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+                <div class="x_title">
+                    <h2 class="flow-text">{{ sessions[1] }}</h2>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="row center">
+                <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                     class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Cartographie</h2>
+                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                                Cartographie</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
                                 </li>
@@ -117,7 +134,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content" style="display: block;">
-                            <div id="mapid" class="map-responsive"></div>
+                            <div id="mapid2" class="map-responsive"></div>
                             <div id="cartographie" class="interface_content"></div>
                         </div>
                     </div>
@@ -128,10 +145,12 @@
             <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
 
             <div class="row center">
-                <div id="polarity_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+                <div id="polarity_panel2" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                     class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Sentiment</h2>
+                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                                Sentiment</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
                                 </li>
@@ -157,7 +176,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="pie_chart"></div>
+                            <div id="pie_chart2"></div>
                         </div>
                     </div>
                 </div>

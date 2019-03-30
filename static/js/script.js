@@ -40,28 +40,75 @@ if (document.getElementById('mapid') != null) {
     }).addTo(map2);
 }
 
-function clearMarker() {
-    map2.invalidateSize();
-    lgMarkers.clearLayers();
+if (document.getElementById('mapid2') != null) {
+
+    var southWest = L.latLng(-90, -180);
+    var northEast = L.latLng(90, 180);
+
+    var map3 = L.map('mapid2', {
+        maxBounds: L.latLngBounds(southWest, northEast),
+        zoom: 1.5,
+        maxZoom: 18,
+        minZoom: 1.5,
+        center: [0, 0],
+        zoomSnap: 0.25,
+    });
+    map3.setView([51.505, -0.09], 1);
+
+    lgMarkers2 = new L.LayerGroup();
+    map3.addLayer(lgMarkers2);
+
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        id: 'mapbox.streets'
+    }).addTo(map3);
 }
 
-function addMarker(marker) {
-    var latlng = L.latLng(marker.coordinates[1],marker.coordinates[0]);
-    L.marker(latlng).addTo(lgMarkers).update();
+function clearMarker(session) {
+    if(!session){
+        map2.invalidateSize();
+        lgMarkers.clearLayers();
+    }
+
+}
+
+function addMarker(marker,session) {
+    if(session){
+        if(session==1) {
+            var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
+            L.marker(latlng).addTo(lgMarkers).update();
+        }
+         if (session==2) {
+            var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
+            L.marker(latlng).addTo(lgMarkers2).update();
+        }
+    }
+    else{
+        var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
+        L.marker(latlng).addTo(lgMarkers).update();
+    }
+
 }
 
 
-function refresh_geo() {
-    ajax_geolocalisation();
+function refresh_geo(session) {
+    ajax_geolocalisation(session);
 }
 
-function refresh_tweet_polarity(start){
+function refresh_tweet_polarity(start,session){
     if(start){
-        var polarity = $('#polarity_panel');
-        polarity.find('svg').remove();
-        $('#loading_circle_polarity').show();
+        if(session!=null) {
+            var pol = '#polarity_panel' + session
+            var polarity = $(pol);
+            polarity.find('svg').remove();
+            $('#loading_circle_polarity').show();
+        }
+        else {
+            var polarity = $('#polarity_panel');
+            polarity.find('svg').remove();
+            $('#loading_circle_polarity').show();
+        }
     }else{
-        ajax_tweet_polarity();
+        ajax_tweet_polarity(session);
     }
 }
 

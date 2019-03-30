@@ -75,16 +75,16 @@ function ajax_wordcloud(){
     });
 }
 
-function ajax_geolocalisation(){
+function ajax_geolocalisation(session){
     $.ajax({
         url: '/result-geolocalisation/',
         type: 'GET',
         dataType: 'json',
 
         success: function (response) {
-            clearMarker();
+            clearMarker(session);
             for(var i=0;i<response.length;i++){
-                addMarker(response[i]);
+                addMarker(response[i],session);
             }
         },
         error: function (error) {
@@ -93,13 +93,21 @@ function ajax_geolocalisation(){
     });
 }
 
-function createChart(negatif, neutre, positif){
+function createChart(negatif, neutre, positif,session){
     let total = negatif + neutre + positif;
     let neg = (negatif*100)/total;
     let neu = (neutre*100)/total;
     let pos = (positif*100)/total;
 
-    var pie = new d3pie("pie_chart", {
+    if(session != null){
+        var valeurID = "pie_chart" + session;
+    }
+    else{
+        var valeurID = "pie_chart";
+    }
+
+    console.log(valeurID);
+    var pie = new d3pie(valeurID, {
         "data": {
             "content": [
 
@@ -114,7 +122,7 @@ function createChart(negatif, neutre, positif){
         }});
 }
 
-function ajax_tweet_polarity(){
+function ajax_tweet_polarity(session){
      $.ajax({
         url: '/result-tweetpolarity/',
         type: 'GET',
@@ -122,7 +130,7 @@ function ajax_tweet_polarity(){
 
         success: function (response) {
             $('#loading_circle_polarity').hide();
-            createChart(response[0], response[1], response[2]);
+            createChart(response[0], response[1], response[2],session);
 
         },
         error: function (error) {
@@ -140,22 +148,6 @@ function ajax_tweet_sunburst(){
 
         success: function (response) {
             console.log("SUCCESS");
-        },
-        error: function (error) {
-            console.log("ERROR");
-        }
-    });
-}
-
-
-function ajax_double_session(){
-    $.ajax({
-        url: '/sessions/session_id/session_id2/',
-        type: 'GET',
-        dataType: 'json',
-
-        success: function (response) {
-            console.log(response[1]);
         },
         error: function (error) {
             console.log("ERROR");

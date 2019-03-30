@@ -9,7 +9,8 @@ $(document).ready(function () {
     });
 
     setTimeout(function(){
-        refresh_tweet_polarity(false);
+        refresh_geo(1);
+        refresh_tweet_polarity(false,1);
     }, 1000);
     setTimeout(function () {
         $.ajax({
@@ -20,11 +21,12 @@ $(document).ready(function () {
             success: function (response) {console.log('OK');},
             error: function (error) {/**/}
         });
-    },10000);
+    },1000);
 
     setTimeout(function(){
-        refresh_tweet_polarity(false);
-    }, 15000);
+        refresh_geo(2);
+        refresh_tweet_polarity(false,2);
+    }, 1500);
 
 });
 

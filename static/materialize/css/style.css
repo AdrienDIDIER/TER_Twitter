@@ -201,6 +201,14 @@ rect {
     margin-left: 10%;
 }
 
+#mapid2 {
+    height: 15%;
+    width: 80%;
+    border: 1px solid #AAA;
+    margin-left: 10%;
+}
+
+
 .map-responsive {
     overflow:hidden;
     padding-bottom:56.25%;
