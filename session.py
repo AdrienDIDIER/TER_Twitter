@@ -148,13 +148,17 @@ def display_double_session(session_id=None, session_id2=None):
         return render_template('double_session_interface.html', current_session=current_session, current_session2=current_session2, sessions=sessions,
                                number_of_tweets=count_number_of_tweets(session_id)+count_number_of_tweets(session_id2))
 
-@app.route('/load_session/<session_id>/', methods=['GET'])
-def loadSession(session_id=None):
+@app.route('/load_double_sessions/<session_id>/', methods=['GET'])
+def load_double_sessions(session_id=None):
     print('OK')
     session.pop('last_session', None)
     session['last_session'] = session_id
     print(session['last_session'])
     return session['last_session']
+
+@app.route('/double_sessions/close/')
+def close_double_session():
+    return redirect(url_for('index'))
 
 @app.route('/session/close/')
 def close_session():
