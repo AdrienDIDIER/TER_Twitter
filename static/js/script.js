@@ -77,7 +77,7 @@ function addMarker(marker,session) {
             var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
             L.marker(latlng).addTo(lgMarkers).update();
         }
-         if (session==2) {
+        if (session==2) {
             var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
             L.marker(latlng).addTo(lgMarkers2).update();
         }
@@ -309,11 +309,15 @@ $(document).on("click", '.smooth_scroll_btn', function () {
             });
             break;
         case "location":
-            $('#location_panel').show();
+            $('#location_panel').each(function() {$(this).show()});
             $('#location_panel').parent().nextAll('hr').first().show();
             document.getElementById('location_panel').firstElementChild.scrollIntoView({
                 behavior: 'smooth'
             });
+            if($('#location_panel2').length){
+                $('#location_panel2').show();
+                $('#location_panel2').parent().nextAll('hr').first().show();
+            }
             break;
         case "polarity":
             $('#polarity_panel').show();
@@ -321,6 +325,10 @@ $(document).on("click", '.smooth_scroll_btn', function () {
             document.getElementById('polarity_panel').firstElementChild.scrollIntoView({
                 behavior: 'smooth'
             });
+            if($('#polarity_panel2').length){
+                $('#polarity_panel2').show();
+                $('#polarity_panel2').parent().nextAll('hr').first().show();
+            }
             break;
 
     }

@@ -150,10 +150,8 @@ def display_double_session(session_id=None, session_id2=None):
 
 @app.route('/load_double_sessions/<session_id>/', methods=['GET'])
 def load_double_sessions(session_id=None):
-    print('OK')
     session.pop('last_session', None)
     session['last_session'] = session_id
-    print(session['last_session'])
     return session['last_session']
 
 @app.route('/double_sessions/close/')

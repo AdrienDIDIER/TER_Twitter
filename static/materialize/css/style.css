@@ -334,6 +334,7 @@ form:after {
 .fixed_height_320 {
     height: 320px;
 }
+
 @media (max-width: 1200px) {
     .graph, .tile {
         zoom: 85%;
