@@ -3,6 +3,7 @@ $(document).ready(function () {
     refresh_histogram(true);
     refresh_geo();
     refresh_tweet_polarity(false);
+    refresh_sunburst();
 
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
@@ -39,6 +40,7 @@ $(document).ready(function () {
                 refresh_tweet_polarity(false);
                 refresh_wordcloud(true);
                 first_refresh = false;
+                refresh_sunburst();
             },
             error: function (error) {/**/}
         });
@@ -67,6 +69,7 @@ $(document).ready(function () {
                 refresh_wordcloud(false);
                 refresh_histogram(false);
                 refresh_tweet_polarity(false);
+                refresh_sunburst();
                 $('.progress').hide();
                 $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
@@ -90,6 +93,7 @@ $(document).ready(function () {
                 refresh_wordcloud(false);
                 refresh_tweet_polarity(true);
                 refresh_geo();
+                refresh_sunburst();
             }
 
             ajax_freq_per_date(function repeat() {
