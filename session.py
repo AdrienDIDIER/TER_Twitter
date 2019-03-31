@@ -118,7 +118,7 @@ def getLinkImgFromKeyWords(keywords):
     else:
         return -1
 
-
+#
 
 @app.route('/session/<session_id>', methods=['POST', 'GET'])
 def display_session(session_id=None):
