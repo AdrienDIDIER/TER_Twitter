@@ -100,6 +100,7 @@ def tweet_for_sunburst():
     tweets_table = mongo.db.tweets
     compteurrt = 0
     compteurcoord = 0
+    compteurlink = 0
     tweets_sunburst_table = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
         if 'retweeted_status' in tweet['tweet_object']:
@@ -108,7 +109,13 @@ def tweet_for_sunburst():
         if 'coordinates' in tweet['tweet_object']:
             if tweet['tweet_object']['coordinates'] is not None:
                 compteurcoord += 1
-    return compteurrt
+        if 'entities' in tweet['tweet_object']:
+            if len(tweet['tweet_object']['entities']['urls']) != 0:
+                compteurlink += 1
+    tweets_sunburst_table.append(compteurrt)
+    tweets_sunburst_table.append(compteurcoord)
+    tweets_sunburst_table.append(compteurlink)
+    return tweets_sunburst_table
 
 
 def tweet_by_text_analysis():

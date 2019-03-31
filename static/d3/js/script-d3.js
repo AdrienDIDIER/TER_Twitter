@@ -253,10 +253,22 @@ function ajax_tweet_sunburst(){
         dataType: 'json',
 
         success: function (response) {
-            console.log("SUCCESS");
+            createSunburst(response[0],response[1],response[2]);
         },
         error: function (error) {
             console.log("ERROR");
         }
     });
+
+}
+function createSunburst(rts,coords,links){
+    var jsonsunburst = {
+                "name" : "SUNBURST", "children" : [
+                    {"name ": "RT", "nb": rts},
+                    {"name ": "coord", "nb": coords},
+                    {"name ": "liens", "nb": links}
+                ]
+    }
+
+
 }

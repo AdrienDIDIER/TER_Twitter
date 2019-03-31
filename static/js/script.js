@@ -94,6 +94,10 @@ function refresh_geo(session) {
     ajax_geolocalisation(session);
 }
 
+function refresh_sunburst(){
+    ajax_tweet_sunburst();
+}
+
 function refresh_tweet_polarity(start,session){
     if(start){
         if(session!= null && session==2) {
