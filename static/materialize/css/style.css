@@ -2,6 +2,11 @@ nav {
     background-color: #1976d2;
 }
 
+.body{
+    position: -webkit-sticky;
+    position: sticky;
+}
+
 #wordcloud_container{
     margin-top: 0.5%;
 }
@@ -333,6 +338,27 @@ form:after {
 
 .fixed_height_320 {
     height: 320px;
+}
+
+/********************/
+/*****Bar Chart*****/
+
+.bar {
+    fill: #5f89ad;
+}
+
+.axis {
+    font-size: 13px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    display: none;
+}
+
+.label {
+    font-size: 13px;
 }
 
 @media (max-width: 1200px) {

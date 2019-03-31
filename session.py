@@ -43,6 +43,11 @@ def wordcloud():
     words = retrieve_all_tweets_text()
     return json.dumps(words)
 
+@app.route('/result-frequency-words/')
+def frequencyWord():
+    words = frequency_word()
+    return json.dumps(words)
+
 
 @app.route('/result-freq-per-date/<startdate>/<stopdate>')
 @app.route('/result-freq-per-date/')

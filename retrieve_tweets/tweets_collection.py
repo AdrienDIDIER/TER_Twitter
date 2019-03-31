@@ -131,6 +131,16 @@ def tweet_by_text_analysis():
     polarity_values.append(positif)
     return polarity_values
 
+def frequency_word():
+    tweets_table = mongo.db.tweets
+    all_tweets_words = []
+    for tweet in tweets_table.find({"session_id": session['last_session']}):
+        for word in tweet['tweet_object']['split']:
+            all_tweets_words.append(word)
+    count_words = collections.Counter(all_tweets_words)
+    return count_words.most_common(10)
+
+
 def retrieve_all_tweets_text():
     tweets_table = mongo.db.tweets
     if 'last_session' in session:

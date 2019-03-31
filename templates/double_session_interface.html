@@ -4,19 +4,22 @@
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper">
-                <a href="{{ url_for('index') }}" class="brand-logo center"><img
-                        src="{{ url_for('static', filename='img/logo.png') }}">{{ number_of_tweets }} Tweets </a>
                 {% if 'email' in session %}
                     <ul id="nav-mobile" class="left hide-on-med-and-down">
                         <li>
                             <a id="polarity_scroll"
-                               class="font_btn_scroll waves-effect waves-light btn orange accent-1 smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}"
+                               class="font_btn_scroll waves-effect waves-light btn orange accent-2 smooth_scroll_btn"
                                data_id="polarity"><i class="material-icons right">mood</i>Sentiment</a>
                         </li>
                         <li>
                             <a id="location_scroll"
-                               class="font_btn_scroll waves-effect waves-light btn blue accent-1 smooth_scroll_btn {% if number_of_tweets == 0 %} disabled {% endif %}"
+                               class="font_btn_scroll waves-effect waves-light btn blue accent-1 smooth_scroll_btn"
                                data_id="location"><i class="material-icons right">location_on</i>Location</a>
+                        </li>
+                        <li>
+                            <a id="bar_chart_scroll"
+                               class="font_btn_scroll waves-effect waves-light btn accent vert-1 smooth_scroll_btn"
+                               data_id="bar_chart"><i class="material-icons right">insert_chart</i>Frequency Words</a>
                         </li>
                         <li>
                             <a class="btn waves-effect waves-light orange darken-2 navbar_btn"
@@ -35,21 +38,21 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row">
+    <div class="row body">
         <div class="col s6 m6 l6" id="session_target" data-session="{{ sessions[0] }}">
             <div class="row center">
-                <div class="x_title">
+                <div class="x_title hide-on-med-and-down">
                     <h2 class="flow-text">Session: {{ current_session.session_name }} |  Nombre de Tweets: {{ current_session.nbtweets }}  |
                         Keywords: {{ current_session.params.keywords }}</h2>
                     <div class="clearfix"></div>
                 </div>
             </div>
             <div class="row center">
-                <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                <div id="location_panel"
                      class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                            <h2 class="flow-text">
                                 Cartographie</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
@@ -68,14 +71,14 @@
                 </div>
             </div>
 
-            <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+            <hr id="bottom" class="style-four">
 
             <div class="row center">
-                <div id="polarity_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                <div id="polarity_panel"
                      class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                            <h2 class="flow-text">
                                 Sentiment</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
@@ -86,10 +89,9 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content" style="display: block;">
-                            <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
-                                style="display: none" {% endif %}
-                                class="preloader-wrapper big active loader_wordcloud"
-                                id="loading_circle_polarity">
+                            <div
+                                    class="preloader-wrapper big active loader_wordcloud"
+                                    id="loading_circle_polarity">
                                 <div class="spinner-layer spinner-blue-only">
                                     <div class="circle-clipper left">
                                         <div class="circle"></div>
@@ -108,24 +110,61 @@
                 </div>
             </div>
 
-            <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+            <hr id="bottom" class="style-four">
 
+            <div class="row center">
+                <div id="bar_chart_panel"
+                     class="col m12 l12 s12 center interface_element">
+                    <div class="x_panel col s12 l12 m12 center">
+                        <div class="x_title">
+                            <h2 class="flow-text">
+                                Frequency Words</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
+                                </li>
+                                <li><a class="close-link"><i class="material-icons">close</i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: block;">
+                            <div
+                                    class="preloader-wrapper big active loader_wordcloud"
+                                    id="loading_circle_bar_chart">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="bar_chart1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr id="bottom" class="style-four">
         </div>
         <div class="col s6 m6 l6" id="session_target2" data-session="{{ sessions[1] }}">
 
             <div class="row center">
-                <div class="x_title">
+                <div class="x_title hide-on-med-and-down">
                     <h2 class="flow-text left">Session: {{ current_session2.session_name }}   |   Nombre de Tweets: {{ current_session2.nbtweets }}  |
                         Keywords: {{ current_session2.params.keywords }}</h2>
                     <div class="clearfix"></div>
                 </div>
             </div>
             <div class="row center">
-                <div id="location_panel2" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                <div id="location_panel2"
                      class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                            <h2 class="flow-text">
                                 Cartographie</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
@@ -144,14 +183,14 @@
                 </div>
             </div>
 
-            <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+            <hr id="bottom" class="style-four">
 
             <div class="row center">
-                <div id="polarity_panel2" {% if number_of_tweets == 0 %} style="display: none" {% endif %}
+                <div id="polarity_panel2"
                      class="col m12 l12 s12 center interface_element">
                     <div class="x_panel col s12 l12 m12 center">
                         <div class="x_title">
-                            <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">
+                            <h2 class="flow-text">
                                 Sentiment</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
@@ -162,10 +201,9 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content" style="display: block;">
-                            <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
-                                style="display: none" {% endif %}
-                                class="preloader-wrapper big active loader_wordcloud"
-                                id="loading_circle_polarity">
+                            <div
+                                    class="preloader-wrapper big active loader_wordcloud"
+                                    id="loading_circle_polarity2">
                                 <div class="spinner-layer spinner-blue-only">
                                     <div class="circle-clipper left">
                                         <div class="circle"></div>
@@ -184,8 +222,44 @@
                 </div>
             </div>
 
-            <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
-
+            <hr id="bottom" class="style-four">
+            <div class="row center">
+                <div id="bar_chart_panel2"
+                     class="col m12 l12 s12 center interface_element">
+                    <div class="x_panel col s12 l12 m12 center">
+                        <div class="x_title">
+                            <h2 class="flow-text">
+                                Frequency Words</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
+                                </li>
+                                <li><a class="close-link"><i class="material-icons">close</i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: block;">
+                            <div
+                                    class="preloader-wrapper big active loader_wordcloud"
+                                    id="loading_circle_bar_chart2">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="bar_chart2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr id="bottom" class="style-four">
         </div>
     </div>
 {% endblock %}

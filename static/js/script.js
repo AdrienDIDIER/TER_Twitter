@@ -96,11 +96,12 @@ function refresh_geo(session) {
 
 function refresh_tweet_polarity(start,session){
     if(start){
-        if(session!=null) {
+        if(session!= null && session==2) {
             var pol = '#polarity_panel' + session
+            console.log(pol);
             var polarity = $(pol);
             polarity.find('svg').remove();
-            $('#loading_circle_polarity').show();
+            $('#loading_circle_polarity2').show();
         }
         else {
             var polarity = $('#polarity_panel');
@@ -109,6 +110,24 @@ function refresh_tweet_polarity(start,session){
         }
     }else{
         ajax_tweet_polarity(session);
+    }
+}
+
+function refresh_tweet_frequency_words(start,session){
+    if(start){
+        if(session!=null && session==2) {
+            var pol = '#bar_char_panel' + session
+            var polarity = $(pol);
+            polarity.find('svg').remove();
+            $('#loading_circle_bar_chart2').show();
+        }
+        else {
+            var polarity = $('#bar_chart_panel');
+            polarity.find('svg').remove();
+            $('#loading_circle_bar_chart').show();
+        }
+    }else{
+        ajax_tweet_frequency_words(session);
     }
 }
 
@@ -328,6 +347,17 @@ $(document).on("click", '.smooth_scroll_btn', function () {
             if($('#polarity_panel2').length){
                 $('#polarity_panel2').show();
                 $('#polarity_panel2').parent().nextAll('hr').first().show();
+            }
+            break;
+        case "bar_chart":
+            $('#bar_chart_panel').show();
+            $('#bar_chart_panel').parent().nextAll('hr').first().show();
+            document.getElementById('bar_chart_panel').firstElementChild.scrollIntoView({
+                behavior: 'smooth'
+            });
+            if($('#bar_chart_panel2').length){
+                $('#bar_chart_panel2').show();
+                $('#bar_chart_panel2').parent().nextAll('hr').first().show();
             }
             break;
 

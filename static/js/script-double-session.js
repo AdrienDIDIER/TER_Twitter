@@ -4,13 +4,14 @@ $(document).ready(function () {
         data: '',
         type: 'GET',
 
-        success: function (response) {console.log('OK');},
+        success: function (response) {/**/},
         error: function (error) {/**/}
     });
 
     setTimeout(function(){
         refresh_geo(1);
         refresh_tweet_polarity(false,1);
+        refresh_tweet_frequency_words(false, 1);
     }, 1000);
     setTimeout(function () {
         $.ajax({
@@ -18,7 +19,7 @@ $(document).ready(function () {
             data: '',
             type: 'GET',
 
-            success: function (response) {console.log('OK');},
+            success: function (response) {/**/},
             error: function (error) {/**/}
         });
     },1000);
@@ -26,6 +27,8 @@ $(document).ready(function () {
     setTimeout(function(){
         refresh_geo(2);
         refresh_tweet_polarity(false,2);
+        console.log("script-double-session");
+        refresh_tweet_frequency_words(false,2);
     }, 1500);
 
 });

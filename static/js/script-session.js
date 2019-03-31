@@ -3,6 +3,7 @@ $(document).ready(function () {
     refresh_histogram(true);
     refresh_geo();
     refresh_tweet_polarity(false);
+    refresh_tweet_frequency_words(false);
 
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
@@ -13,6 +14,7 @@ $(document).ready(function () {
         $('#histogram_scroll').removeClass("disabled");
         $('#polarity_scroll').removeClass("disabled");
         $('#location_scroll').removeClass("disabled");
+        $('#bar_chart_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + $(this).attr('action-target'),
@@ -37,6 +39,7 @@ $(document).ready(function () {
             success: function (response) {
                 refresh_geo();
                 refresh_tweet_polarity(false);
+                refresh_tweet_frequency_words(false);
                 refresh_wordcloud(true);
                 first_refresh = false;
             },
@@ -55,6 +58,7 @@ $(document).ready(function () {
         $('#histogram_scroll').removeClass("disabled");
         $('#location_scroll').removeClass("disabled");
         $('#polarity_scroll').removeClass("disabled");
+        $('#bar_chart_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
@@ -67,6 +71,7 @@ $(document).ready(function () {
                 refresh_wordcloud(false);
                 refresh_histogram(false);
                 refresh_tweet_polarity(false);
+                refresh_tweet_frequency_words(false);
                 $('.progress').hide();
                 $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
@@ -85,10 +90,12 @@ $(document).ready(function () {
             refresh_number_tweets();
             refresh_download_btn();
             refresh_tweet_polarity(true);
+            refresh_tweet_frequency_words(true);
             if (!first_refresh) {
                 first_refresh = true;
                 refresh_wordcloud(false);
                 refresh_tweet_polarity(true);
+                refresh_tweet_frequency_words(true);
                 refresh_geo();
             }
 
