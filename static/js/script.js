@@ -77,16 +77,7 @@ if (document.getElementById('mapid2') != null) {
         }
     });
 
-/*
 
-    $(document).ready(function () {
-        $("div#session_parameter > div.param").each(function(){
-                $("div#session_parameter > div.param").show();
-                $("div#session_parameter > div.param").hide();
-        });
-    });
-
-*/
 
 function clearMarker(session) {
     if(!session){
