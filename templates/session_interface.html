@@ -55,7 +55,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="row body">
+    <div class="row body hide-on-med-and-down">
         {#    debut card #}
         <div class="col m2 l2 s12 ">
             <div id="nav_left" class="card z-depth-3 grey lighten-4 fixed card_interface">
@@ -391,7 +391,7 @@
             <div id="bar_chart_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
                 <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2 center">
                     <div class="x_title">
-                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Sentiment</h2>
+                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Frequency Words</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
                             </li>
