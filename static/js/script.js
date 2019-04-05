@@ -63,6 +63,31 @@ if (document.getElementById('mapid2') != null) {
     }).addTo(map3);
 }
 
+
+    /* si on click sur + pour parameter */
+    $(document).on("click", '#session_parameter_button', function(){
+        var param= '.'+$(this).val();
+        if ($(param).is(":visible")){
+            $(param).hide();
+            $(this).children(":first").text("add");
+        }
+        else if ($(param).is(":hidden")) {
+            $(param).show();
+            $(this).children(":first").text("remove");
+        }
+    });
+
+/*
+
+    $(document).ready(function () {
+        $("div#session_parameter > div.param").each(function(){
+                $("div#session_parameter > div.param").show();
+                $("div#session_parameter > div.param").hide();
+        });
+    });
+
+*/
+
 function clearMarker(session) {
     if(!session){
         map2.invalidateSize();

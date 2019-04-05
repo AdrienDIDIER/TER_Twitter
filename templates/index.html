@@ -48,6 +48,56 @@
                                         <i>créée le <br> {{ s.start_date }}</i>
                                     {% endif %}
                                 </p>
+                            <br>
+                                <div id="session_parameter">
+                                     <button id="session_parameter_button" data-position="right" class="btn-floating halfway-fab waves-effect waves-light blue darken-3" value="{{ s._id }}">
+                                         <i class="material-icons">remove</i>
+                                     </button>
+                                <div id="param" class="{{ s._id }}">
+                                    <p>
+                                        {% if s._id != null %}
+                                            <i><b>ID de la session : </b> {{ s._id }}</i>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        {% if s.tweets_batch != None %}
+                                            <i><b>Nombres de tweets à récuperer : </b> {{ s.tweets_batch }}</i>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        {% if s.start_date != None %}
+                                            <i><b>Date de début : </b> {{ datetime.strptime(s.start_date,('%d-%m-%y %H:%M:%S')).strftime('le %d/%m/%y') }}</i>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        {% if s.params.stop_date != None %}
+                                            <i><b>Date de fin : </b> {{ datetime.strptime(s.params.stop_date,('%Y-%m-%d')).strftime('le %d/%m/%Y')  }}</i>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        {% if s.params.start_time != None %}
+                                            <i><b>Heure de début : </b> {{ datetime.strptime(s.params.start_time,('%H:%M')).strftime('à %H:%M') }}</i>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        {% if s.params.stop_time != None %}
+                                            <i><b>Heure de fin : </b> {{ datetime.strptime(s.params.stop_time,('%H:%M')).strftime('à %H:%M') }}</i>
+                                        {% endif %}
+                                    </p>
+
+                                    <p>
+                                        {% if s.params.language != '' %}
+                                            <i><b>Language : </b> {{s.params.language }}</i>
+                                        {% endif %}
+                                    </p>
+                                    </div>
+                                </div>
+
 
                                 <a class="modal-trigger red-text" href="#modal{{ s._id }}"><i>Supprimer</i></a>
                             </div>
