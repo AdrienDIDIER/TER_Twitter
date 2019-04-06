@@ -98,6 +98,7 @@ def tweet_by_geo():
 
 def tweet_for_sunburst():
     tweets_table = mongo.db.tweets
+    compteurtweet= count_number_of_tweets(session['last_session'])
     compteurrt = 0
     compteurcoord = 0
     compteurlink = 0
@@ -112,6 +113,7 @@ def tweet_for_sunburst():
         if 'entities' in tweet['tweet_object']:
             if len(tweet['tweet_object']['entities']['urls']) != 0:
                 compteurlink += 1
+    tweets_sunburst_table.append(compteurtweet)
     tweets_sunburst_table.append(compteurrt)
     tweets_sunburst_table.append(compteurcoord)
     tweets_sunburst_table.append(compteurlink)
