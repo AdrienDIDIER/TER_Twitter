@@ -73,8 +73,10 @@
                                         </p>
 
                                         <p>
-                                            {% if s.params.stop_date != None %}
+                                            {% if s.params.stop_date != '' %}
+                                                {% if s.params.stop_date != None %}
                                                 <i><b>Date de fin : </b> {{ datetime.strptime(s.params.stop_date,('%Y-%m-%d')).strftime('le %d/%m/%Y')  }}</i>
+                                                {% endif %}
                                             {% endif %}
                                         </p>
 
