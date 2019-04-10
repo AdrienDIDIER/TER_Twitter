@@ -154,34 +154,37 @@
         </div>
         {#    fin side nav#}
 
-        {#    word cloud general#}
+        {# Debut cartographie #}
         <div class="row center">
-            <div class="col m12 l12 s12 center interface_element">
-                {% if number_of_tweets == 0 %}
-                    <div id="no_tweet_div" class="col s8 l8 m8 push-s2 push-m2 push-l2 center">
-                        <img src="{{ url_for('static', filename='img/arrow.png') }}">
-                        <h4>Vous n'avez toujours pas récupéré de tweets !</h4>
-                        Commencez
-                        maintenant en appuyant sur "Récupérer" ou "Start" !
-                    </div>
-                {% endif %}
-            </div>
-            {#    loader#}
-            {% if current_session.mode == "dated_tweets" %}
-                {% if number_of_tweets is number %}
-                    <div class="progress" style="display: none">
-                        {% set batch = current_session.tweets_batch | int %}
-                        <div class="determinate" id="barre_progression"
-                             style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
-                    </div>
-                {% endif %}
-            {% endif %}
-            <div id="wordcloud_container" {% if number_of_tweets == 0 %}
-                 style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+            <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
                 <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2 center">
-                    <div class="x_title flow-text">
-                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Nuage de mots
-                            général</h2>
+                    <div class="x_title">
+                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Cartographie</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
+                            </li>
+                            <li><a class="close-link"><i class="material-icons">close</i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="display: block;">
+                        <div id="mapid" class="map-responsive"></div>
+                        <div id="cartographie" class="interface_content"></div>
+                    </div>
+                </div>
+                <div class="col m2 s2 l2"></div>
+            </div>
+        </div>
+        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        {# Fin Cartographie #}
+
+        {# Debut Sentiment Graphe #}
+        <div class="row center">
+            <div id="polarity_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+                <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2 center">
+                    <div class="x_title">
+                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Sentiment</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
                             </li>
@@ -194,7 +197,7 @@
                         <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
                             style="display: none" {% endif %}
                             class="preloader-wrapper big active loader_wordcloud"
-                            id="loading_circle">
+                            id="loading_circle_polarity">
                             <div class="spinner-layer spinner-blue-only">
                                 <div class="circle-clipper left">
                                     <div class="circle"></div>
@@ -207,27 +210,60 @@
                                 </div>
                             </div>
                         </div>
-                        {#                Wordcloud général#}
-                        <div id="wordcloud" class="interface_content"></div>
-                        {#                Fin Wordcloud général#}
+                        <div id="pie_chart"></div>
                     </div>
                 </div>
             </div>
         </div>
+        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        {# Fin Sentiment Graphe #}
 
-        <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        {# Debut Sunburst #}
+        <div class="row center">
+            <div id="sunburst_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+                <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2 center">
+                    <div class="x_title">
+                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Sunburst</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
+                            </li>
+                            <li><a class="close-link"><i class="material-icons">close</i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="display: block;">
+                        <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
+                            style="display: none" {% endif %}
+                            class="preloader-wrapper big active loader_wordcloud"
+                            id="loading_circle_sunburst">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sunburst" class="interface_content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        {# Fin Sunburst #}
 
         {#    Partie Interactive de l'interface#}
-
-
         <div class="row interface_elements" id="interaction_container" {% if number_of_tweets == 0 %}
              style="display: none" {% endif %}>
         </div>
-
-
         {#    fin loader#}
 
-
+        {# Debut Histogramme #}
         <div class="row center">
             <div {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center" id="histogram_area">
                 <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2  center">
@@ -328,39 +364,37 @@
                 </div>
             </div>
         </div>
-
         <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        {# Fin Histogramme #}
 
-        {# Debut cartographie #}
+        {# Debut Wordcloud General#}
         <div class="row center">
-            <div id="location_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
-                <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2 center">
-                    <div class="x_title">
-                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Cartographie</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
-                            </li>
-                            <li><a class="close-link"><i class="material-icons">close</i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
+            <div class="col m12 l12 s12 center interface_element">
+                {% if number_of_tweets == 0 %}
+                    <div id="no_tweet_div" class="col s8 l8 m8 push-s2 push-m2 push-l2 center">
+                        <img src="{{ url_for('static', filename='img/arrow.png') }}">
+                        <h4>Vous n'avez toujours pas récupéré de tweets !</h4>
+                        Commencez
+                        maintenant en appuyant sur "Récupérer" ou "Start" !
                     </div>
-                    <div class="x_content" style="display: block;">
-                        <div id="mapid" class="map-responsive"></div>
-                        <div id="cartographie" class="interface_content"></div>
-                    </div>
-                </div>
-                <div class="col m2 s2 l2"></div>
+                {% endif %}
             </div>
-        </div>
-        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
-
-        {# Debut sentiment graphe #}
-        <div class="row center">
-            <div id="polarity_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
+            {#    loader#}
+            {% if current_session.mode == "dated_tweets" %}
+                {% if number_of_tweets is number %}
+                    <div class="progress" style="display: none">
+                        {% set batch = current_session.tweets_batch | int %}
+                        <div class="determinate" id="barre_progression"
+                             style="width: {{ ((number_of_tweets % batch) / batch) * 100 }}%"></div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            <div id="wordcloud_container" {% if number_of_tweets == 0 %}
+                 style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
                 <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2 center">
-                    <div class="x_title">
-                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Sentiment</h2>
+                    <div class="x_title flow-text">
+                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Nuage de mots
+                            général</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
                             </li>
@@ -373,7 +407,7 @@
                         <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
                             style="display: none" {% endif %}
                             class="preloader-wrapper big active loader_wordcloud"
-                            id="loading_circle_polarity">
+                            id="loading_circle">
                             <div class="spinner-layer spinner-blue-only">
                                 <div class="circle-clipper left">
                                     <div class="circle"></div>
@@ -386,12 +420,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="pie_chart"></div>
+                        {#                Wordcloud général#}
+                        <div id="wordcloud" class="interface_content"></div>
+                        {#  Fin Wordcloud général#}
                     </div>
                 </div>
             </div>
         </div>
-        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        <hr {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
+        {# Fin Wordcloud General #}
+
         {# Debut Frequency Words Bar Chart #}
         <div class="row center">
             <div id="bar_chart_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
@@ -429,45 +467,7 @@
             </div>
         </div>
         <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
-        {# debut sunburst #}
-        <div class="row center">
-            <div id="sunburst_panel" {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="col m12 l12 s12 center interface_element">
-                <div class="x_panel col s8 l8 m8 push-s2 push-m2 push-l2 center">
-                    <div class="x_title">
-                        <h2 {% if number_of_tweets == 0 %} style="display: none" {% endif %} class="flow-text">Sunburst</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
-                            </li>
-                            <li><a class="close-link"><i class="material-icons">close</i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content" style="display: block;">
-                        <div {% if number_of_tweets == 0 or current_session.mode == "stream" %}
-                            style="display: none" {% endif %}
-                            class="preloader-wrapper big active loader_wordcloud"
-                            id="loading_circle_sunburst">
-                            <div class="spinner-layer spinner-blue-only">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="gap-patch">
-                                    <div class="circle"></div>
-                                </div>
-                                <div class="circle-clipper right">
-                                    <div class="circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="sunburst" class="interface_content"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr id="bottom"{% if number_of_tweets == 0 %} style="display: none" {% endif %} class="style-four">
-        {# fin sunburst #}
-
+        {# Fin Frequency Words Bar Chart #}
     </div>
 {% endblock %}
 
