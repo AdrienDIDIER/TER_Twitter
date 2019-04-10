@@ -246,23 +246,34 @@ function ajax_tweet_frequency_words(session){
     });
 }
 
-function ajax_tweet_sunburst(){
+function ajax_tweet_sunburst(session){
     $.ajax({
         url: '/result-sunburst/',
         type: 'GET',
         dataType: 'json',
 
         success: function (response) {
-            console.log(response);
-            createSunburst(response[0],response[1],response[2],response[3]);
+            if(session==2){
+                $('#loading_circle_sunburst2').hide();
+            }else{
+                $('#loading_circle_sunburst').hide();
+            }
+            createSunburst(response[0],response[1],response[2],response[3],session);
         },
         error: function (error) {
             console.log("ERROR");
         }
+
     });
 
 }
-function createSunburst(tweets,rts,coords,links,){
+function createSunburst(tweets,rts,coords,links,session){
+    if(session != null){
+        var valeurID = "#sunburst" + session;
+    }
+    else{
+        var valeurID = "#sunburst";
+    }
     var autrestweets = tweets - (rts+coords+links);
     var jsonsunburst = {
                 "name" : "SUNBURST", "children": [
@@ -280,7 +291,7 @@ function createSunburst(tweets,rts,coords,links,){
     var radius = Math.min(width, height) / 2;
     var color = d3.scaleOrdinal(d3.schemeCategory20b);
 
-    var g = d3.select("#sunburst").append("svg")
+    var g = d3.select(valeurID).append("svg")
         .attr('width', width)
         .attr('height', height)
         .style("font", "15px sans-serif")

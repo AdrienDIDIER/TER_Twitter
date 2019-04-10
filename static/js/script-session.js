@@ -4,7 +4,7 @@ $(document).ready(function () {
     refresh_geo();
     refresh_tweet_polarity(false);
     refresh_tweet_frequency_words(false);
-    refresh_sunburst();
+    refresh_sunburst(false);
 
     /* Si l'on démarre un stream */
     $(document).on("click", '#start-stream_button', function () {
@@ -16,6 +16,7 @@ $(document).ready(function () {
         $('#polarity_scroll').removeClass("disabled");
         $('#location_scroll').removeClass("disabled");
         $('#bar_chart_scroll').removeClass("disabled");
+        $('#sunburst_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + $(this).attr('action-target'),
@@ -43,7 +44,7 @@ $(document).ready(function () {
                 refresh_tweet_frequency_words(false);
                 refresh_wordcloud(true);
                 first_refresh = false;
-                refresh_sunburst();
+                refresh_sunburst(false);
             },
             error: function (error) {/**/}
         });
@@ -60,6 +61,8 @@ $(document).ready(function () {
         $('#histogram_scroll').removeClass("disabled");
         $('#location_scroll').removeClass("disabled");
         $('#polarity_scroll').removeClass("disabled");
+        $('#bar_chart_scroll').removeClass("disabled");
+        $('#sunburst_scroll').removeClass("disabled");
 
         $.ajax({
             url: '/session/' + button_target.attr('action-target'),
@@ -73,7 +76,7 @@ $(document).ready(function () {
                 refresh_histogram(false);
                 refresh_tweet_polarity(false);
                 refresh_tweet_frequency_words(false);
-                refresh_sunburst();
+                refresh_sunburst(false);
                 $('.progress').hide();
                 $('#barre_progression').width("0%");
                 button_target.prop("disabled", false);
@@ -93,13 +96,14 @@ $(document).ready(function () {
             refresh_download_btn();
             refresh_tweet_polarity(true);
             refresh_tweet_frequency_words(true);
+            refresh_sunburst(true);
             if (!first_refresh) {
                 first_refresh = true;
                 refresh_wordcloud(false);
                 refresh_tweet_polarity(true);
                 refresh_tweet_frequency_words(true);
                 refresh_geo();
-                refresh_sunburst();
+                refresh_sunburst(true);
             }
 
             ajax_freq_per_date(function repeat() {

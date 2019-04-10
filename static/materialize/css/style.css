@@ -7,6 +7,16 @@ nav {
     position: sticky;
 }
 
+#intervalle_temps{
+    position: absolute;
+    margin-left: 10%;
+    margin-top: 20%;
+}
+
+#intervalle_graph{
+    margin-left: 30%;
+}
+
 #wordcloud_container{
     margin-top: 0.5%;
 }

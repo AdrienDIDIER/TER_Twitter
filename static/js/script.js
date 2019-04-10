@@ -64,18 +64,18 @@ if (document.getElementById('mapid2') != null) {
 }
 
 
-    /* si on click sur + pour parameter */
-    $(document).on("click", '#session_parameter_button', function(){
-        var param= '.'+$(this).val();
-        if ($(param).is(":visible")){
-            $(param).hide();
-            $(this).children(":first").text("add");
-        }
-        else if ($(param).is(":hidden")) {
-            $(param).show();
-            $(this).children(":first").text("remove");
-        }
-    });
+/* si on click sur + pour parameter */
+$(document).on("click", '#session_parameter_button', function(){
+    var param= '.'+$(this).val();
+    if ($(param).is(":visible")){
+        $(param).hide();
+        $(this).children(":first").text("add");
+    }
+    else if ($(param).is(":hidden")) {
+        $(param).show();
+        $(this).children(":first").text("remove");
+    }
+});
 
 
 
@@ -110,8 +110,22 @@ function refresh_geo(session) {
     ajax_geolocalisation(session);
 }
 
-function refresh_sunburst(){
-    ajax_tweet_sunburst();
+function refresh_sunburst(start,session){
+    if(start){
+        if(session!=null && session==2) {
+            var pol = '#sunburst_panel' + session
+            var polarity = $(pol);
+            polarity.find('svg').remove();
+            $('#loading_circle_sunburst2').show();
+        }
+        else {
+            var polarity = $('#sunburst_panel');
+            polarity.find('svg').remove();
+            $('#loading_circle_sunburst').show();
+        }
+    }else{
+        ajax_tweet_sunburst(session);
+    }
 }
 
 function refresh_tweet_polarity(start,session){
@@ -317,6 +331,8 @@ function load_containers() {
     $('#histogram_area').show();
     $('#location_panel').show();
     $('#polarity_panel').show();
+    $('#bar_chart_panel').show();
+    $('#sunburst_panel').show();
 
 }
 
@@ -378,6 +394,17 @@ $(document).on("click", '.smooth_scroll_btn', function () {
             if($('#bar_chart_panel2').length){
                 $('#bar_chart_panel2').show();
                 $('#bar_chart_panel2').parent().nextAll('hr').first().show();
+            }
+            break;
+        case "sunburst":
+            $('#sunburst_panel').show();
+            $('#sunburst_panel').parent().nextAll('hr').first().show();
+            document.getElementById('sunburst_panel').firstElementChild.scrollIntoView({
+                behavior: 'smooth'
+            });
+            if($('#sunburst_panel2').length){
+                $('#sunburst_panel2').show();
+                $('#sunburst_panel2').parent().nextAll('hr').first().show();
             }
             break;
 

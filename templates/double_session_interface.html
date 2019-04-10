@@ -22,6 +22,11 @@
                                data_id="bar_chart"><i class="material-icons right">insert_chart</i>Frequency Words</a>
                         </li>
                         <li>
+                            <a id="sunburst_scroll"
+                               class="font_btn_scroll waves-effect waves-light btn brown lighten-1 smooth_scroll_btn"
+                               data_id="sunburst"><i class="material-icons right">donut_large</i>Sunburst</a>
+                        </li>
+                        <li>
                             <a class="btn waves-effect waves-light orange darken-2 navbar_btn"
                                href="{{ url_for('close_double_session') }}"><i
                                     class="material-icons right">close</i>Fermer</a>
@@ -149,6 +154,43 @@
                 </div>
             </div>
             <hr id="bottom" class="style-four">
+            <div class="row center">
+                <div id="sunburst_panel"
+                     class="col m12 l12 s12 center interface_element">
+                    <div class="x_panel col s12 l12 m12 center">
+                        <div class="x_title">
+                            <h2 class="flow-text">
+                                Sunburst</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
+                                </li>
+                                <li><a class="close-link"><i class="material-icons">close</i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: block;">
+                            <div
+                                    class="preloader-wrapper big active loader_wordcloud"
+                                    id="loading_circle_sunburst">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="sunburst1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr id="bottom" class="style-four">
         </div>
         <div class="col s6 m6 l6" id="session_target2" data-session="{{ sessions[1] }}">
 
@@ -255,6 +297,43 @@
                                 </div>
                             </div>
                             <div id="bar_chart2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr id="bottom" class="style-four">
+            <div class="row center">
+                <div id="sunburst_panel2"
+                     class="col m12 l12 s12 center interface_element">
+                    <div class="x_panel col s12 l12 m12 center">
+                        <div class="x_title">
+                            <h2 class="flow-text">
+                                Sunburst</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="material-icons">expand_less</i></a>
+                                </li>
+                                <li><a class="close-link"><i class="material-icons">close</i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: block;">
+                            <div
+                                    class="preloader-wrapper big active loader_wordcloud"
+                                    id="loading_circle_sunburst2">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="sunburst2"></div>
                         </div>
                     </div>
                 </div>
