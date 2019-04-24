@@ -90,13 +90,14 @@ function histogram(freq_per_date) {
 
                 var formatDate1 = d3.time.format("%d/%m/%y à %Hh%Mm%Ss");
                 var formatDate2 = d3.time.format("au %d/%m/%y à %Hh%Mm%Ss");
+                console.log(da);
+                console.log(s);
                 var debut = formatDate1(new Date(1000 * da));
                 var fin = formatDate2(new Date(1000 * s));
 
                 $('#periode_selected').text("Période du " + debut + " " + fin);
                 d3.json("/result-wordcloud/" + da + "/" + s, function (json) {
                     mycloud.stop().words(json).start().on("end", draw(json, "little-wordcloud"));
-                    console.log(json);
                     $('#loading_circle_little_wordcloud').hide();
                     $('#little-wordcloud').show();
                 });
@@ -134,20 +135,37 @@ function histogram(freq_per_date) {
     }
 }
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 function displayTweets(json) {
-    ($('.graphs').has(".tweets").length ? console.log("yes") : $('.graphs').append("<div class=\"tweets zoom_periode\"></div>"));
+    ($('.graphs').has(".tweets").length ? console.log("") : $('.graphs').append("<div class=\"tweets zoom_periode\"></div>"));
     if ($('.tweets').children.length > 0) {
         $('.tweets').empty();
     }
-    var i;
-    for (i = 0; i < json.length; i++) {
-        $('.tweets').append("<div class=\"tweet\" id=" + json[i].id + "></div>");
+    var x = 0;
+    if(json.length>100) {
+        while (x != 100) {
+            var twt;
+            twt = getRandomInt(json.length);
+            $('.tweets').append("<div class=\"tweet\" id=" + json[x].id + "></div>");
+            x++;
+        }
+    }
+    else{
+        while (x != json.length) {
+            $('.tweets').append("<div class=\"tweet\" id=" + json[x].id + "></div>");
+            x++;
+        }
     }
     $('.tweets').children().each(function (t, tweet) {
         var id = $(this).attr('id');
         twttr.widgets.createTweet(
             id, tweet,
             {
+                size: 'medium',
+                tweetLimit: 'Undefined',
                 conversation: 'none',    // or all
                 cards: 'hidden',  // or visible
                 linkColor: '#cc0000', // default is blue

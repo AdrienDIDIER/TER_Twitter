@@ -34,7 +34,11 @@ if (document.getElementById('mapid') != null) {
 
     lgMarkers = new L.LayerGroup();
     map2.addLayer(lgMarkers);
-
+    info_marker = L.control();
+    info_marker.onRemove = function (map2){
+        this._div = L.DomUtil.remove('div');
+        delete map2.info_marker;
+    };
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         id: 'mapbox.streets'
     }).addTo(map2);
@@ -54,10 +58,9 @@ if (document.getElementById('mapid2') != null) {
         zoomSnap: 0.25,
     });
     map3.setView([51.505, -0.09], 1);
-
+    info_marker2 = L.control();
     lgMarkers2 = new L.LayerGroup();
     map3.addLayer(lgMarkers2);
-
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         id: 'mapbox.streets'
     }).addTo(map3);
@@ -83,8 +86,8 @@ function clearMarker(session) {
     if(!session){
         map2.invalidateSize();
         lgMarkers.clearLayers();
+        info_marker.remove(map2);
     }
-
 }
 
 function addMarker(marker,session) {
@@ -94,17 +97,44 @@ function addMarker(marker,session) {
             L.marker(latlng).addTo(lgMarkers).update();
         }
         if (session==2) {
-            var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
-            L.marker(latlng).addTo(lgMarkers2).update();
+            var latlng2 = L.latLng(marker.coordinates[1], marker.coordinates[0]);
+            L.marker(latlng2).addTo(lgMarkers2).update();
         }
     }
     else{
         var latlng = L.latLng(marker.coordinates[1], marker.coordinates[0]);
         L.marker(latlng).addTo(lgMarkers).update();
     }
-
 }
 
+function infoMarker(compteur, session){
+    if(session){
+        if(session==1) {
+            info_marker.onAdd = function (map2) {
+                this._div = L.DomUtil.create('div', 'info_marker'); // create a div with a class "info_marker"
+                this._div.innerHTML = '<h4>Nombre de géolocalisation : '+ compteur+' </h4>';
+                return this._div;
+            };
+            info_marker.addTo(map2);
+        }
+        if (session==2) {
+            info_marker2.onAdd = function (map3) {
+                this._div = L.DomUtil.create('div', 'info_marker'); // create a div with a class "info_marker"
+                this._div.innerHTML = '<h4>Nombre de géolocalisation : '+ compteur+' </h4>';
+                return this._div;
+            };
+            info_marker2.addTo(map3);
+        }
+    }
+    else{
+        info_marker.onAdd = function (map2) {
+            this._div = L.DomUtil.create('div', 'info_marker'); // create a div with a class "info_marker"
+            this._div.innerHTML = '<h4>Nombre de géolocalisation : '+ compteur+' </h4>';
+            return this._div;
+        };
+        info_marker.addTo(map2);
+    }
+}
 
 function refresh_geo(session) {
     ajax_geolocalisation(session);
@@ -268,6 +298,7 @@ function refresh_wordcloud(stream) {
         }
     }
     ajax_wordcloud();
+
 }
 
 $('.datepicker').pickadate({

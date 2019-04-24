@@ -22,7 +22,6 @@ $(document).ready(function () {
             url: '/session/' + $(this).attr('action-target'),
             data: $('form').serialize(),
             type: 'POST',
-
             success: function (response) {/**/},
             error: function (error) {/**/}
         });
@@ -37,7 +36,6 @@ $(document).ready(function () {
             url: '/session/stream/stop',
             data: '',
             type: 'GET',
-
             success: function (response) {
                 refresh_geo();
                 refresh_tweet_polarity(false);
@@ -100,7 +98,7 @@ $(document).ready(function () {
             if (!first_refresh) {
                 first_refresh = true;
                 refresh_geo();
-                refresh_tweet_polarity(true);
+                //refresh_tweet_polarity(true);
                 refresh_sunburst(true);
                 refresh_wordcloud(false);
                 refresh_tweet_frequency_words(true);

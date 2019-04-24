@@ -33,8 +33,9 @@ def clean_text(tweet_text):
     tweet_text = tweet_text.lower()
     normalized = unicodedata.normalize('NFD', tweet_text)
     tweet_text = u"".join([c for c in normalized if not unicodedata.combining(c)])
-    tweet_text.replace("-", " ")
-    tweet_text.replace("'", " ")
+    tweet_text.replace("#", "  ")
+    tweet_text.replace("-", "  ")
+    tweet_text.replace("'", "  ")
     tweet_text = re.sub(r'[^\w\s]', '', tweet_text)
     tweet_text = re.sub(r'\s\s+', ' ', tweet_text)
     tweet_text = re.sub(r'http\S+', '', tweet_text)
@@ -165,10 +166,13 @@ def retrieve_all_tweets_text():
 def word_splitter(words):
     new_words = []
     word_counter = collections.Counter(words)
-    for word in word_counter:
-        if word_counter[word] > 2:
+    total_word = len(word_counter)
+    counter_display_word = round(0.2 * total_word)
+    word_counter = word_counter.most_common(counter_display_word)
+    for word in range(len(word_counter)):
+        if word_counter[word][1] > 2:
             if word != '':
-                new_words.append({'text': word, 'size': word_counter[word]})
+                new_words.append({'text': word_counter[word][0], 'size': word_counter[word][1]})
     return new_words
 
 def retrieve_tweet_dates(intervalle = None):
@@ -231,6 +235,8 @@ def retrieve_tweets_by_date(start,stop):
                 if tweet['tweet_object']['split'] is not None:
                     for tweet_split in tweet['tweet_object']['split']:
                         tweet_text.append(tweet_split)
+    for tweet in tweet_text:
+        print(tweet)
     return word_splitter(tweet_text)
 
 def getTweets(start, stop):
