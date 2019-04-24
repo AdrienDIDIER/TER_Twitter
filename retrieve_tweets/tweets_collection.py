@@ -235,8 +235,6 @@ def retrieve_tweets_by_date(start,stop):
                 if tweet['tweet_object']['split'] is not None:
                     for tweet_split in tweet['tweet_object']['split']:
                         tweet_text.append(tweet_split)
-    for tweet in tweet_text:
-        print(tweet)
     return word_splitter(tweet_text)
 
 def getTweets(start, stop):

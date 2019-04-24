@@ -90,8 +90,6 @@ function histogram(freq_per_date) {
 
                 var formatDate1 = d3.time.format("%d/%m/%y à %Hh%Mm%Ss");
                 var formatDate2 = d3.time.format("au %d/%m/%y à %Hh%Mm%Ss");
-                console.log(da);
-                console.log(s);
                 var debut = formatDate1(new Date(1000 * da));
                 var fin = formatDate2(new Date(1000 * s));
 

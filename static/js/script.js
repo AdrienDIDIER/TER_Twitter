@@ -369,8 +369,14 @@ function load_containers() {
 
 /* On vide le mini wordcloud et la liste des tweets */
 function refresh_lw_tw() {
-    $('#little-wordcloud').empty();
-    $('#twitterwidget').empty();
+    var little_wordcloud = $('#little-wordcloud');
+    /* Si un wordcloud a déjà été généré */
+    if (little_wordcloud.find('svg') !== 0) {
+        little_wordcloud.find('svg').find("g").remove();
+        /* Vide le wordcloud pour en accueillir un nouveau */
+    }
+    $('#twitterwidget').remove();
+
 }
 
 $(document).on("click", '.smooth_scroll_btn', function () {
