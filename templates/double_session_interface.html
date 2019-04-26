@@ -7,14 +7,14 @@
                 {% if 'email' in session %}
                     <ul id="nav-mobile" class="left hide-on-med-and-down">
                         <li>
-                            <a id="polarity_scroll"
-                               class="font_btn_scroll waves-effect waves-light btn orange accent-2 smooth_scroll_btn"
-                               data_id="polarity"><i class="material-icons right">mood</i>Sentiment</a>
-                        </li>
-                        <li>
                             <a id="location_scroll"
                                class="font_btn_scroll waves-effect waves-light btn blue accent-1 smooth_scroll_btn"
                                data_id="location"><i class="material-icons right">location_on</i>Location</a>
+                        </li>
+                        <li>
+                            <a id="polarity_scroll"
+                               class="font_btn_scroll waves-effect waves-light btn orange accent-2 smooth_scroll_btn"
+                               data_id="polarity"><i class="material-icons right">mood</i>Sentiment</a>
                         </li>
                         <li>
                             <a id="bar_chart_scroll"
@@ -197,7 +197,7 @@
             <div class="row center">
                 <div class="x_title hide-on-med-and-down">
                     <h2 class="flow-text left">Session: {{ current_session2.session_name }}   |   Nombre de Tweets: {{ current_session2.nbtweets }}
-                        </h2>
+                    </h2>
                     <div class="clearfix"></div>
                 </div>
             </div>
