@@ -20,7 +20,7 @@ $(document).ready(function () {
                 url: '/load_double_sessions/' + $('#session_target2').attr('data-session'),
                 data: '',
                 type: 'GET',
-                success: function (response) {console.log("script-double-session2");},
+                success: function (response) {/**/},
                 error: function (error) {/**/}
             });
         },1200);

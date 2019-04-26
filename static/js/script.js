@@ -112,7 +112,7 @@ function infoMarker(compteur, session){
         if(session==1) {
             info_marker.onAdd = function (map2) {
                 this._div = L.DomUtil.create('div', 'info_marker'); // create a div with a class "info_marker"
-                this._div.innerHTML = '<h4>Nombre de géolocalisation : '+ compteur+' </h4>';
+                this._div.innerHTML = '<h4>Nombre de géolocalisations : '+ compteur+' </h4>';
                 return this._div;
             };
             info_marker.addTo(map2);
@@ -120,7 +120,7 @@ function infoMarker(compteur, session){
         if (session==2) {
             info_marker2.onAdd = function (map3) {
                 this._div = L.DomUtil.create('div', 'info_marker'); // create a div with a class "info_marker"
-                this._div.innerHTML = '<h4>Nombre de géolocalisation : '+ compteur+' </h4>';
+                this._div.innerHTML = '<h4>Nombre de géolocalisations : '+ compteur+' </h4>';
                 return this._div;
             };
             info_marker2.addTo(map3);
@@ -129,7 +129,7 @@ function infoMarker(compteur, session){
     else{
         info_marker.onAdd = function (map2) {
             this._div = L.DomUtil.create('div', 'info_marker'); // create a div with a class "info_marker"
-            this._div.innerHTML = '<h4>Nombre de géolocalisation : '+ compteur+' </h4>';
+            this._div.innerHTML = '<h4>Nombre de géolocalisations : '+ compteur+' </h4>';
             return this._div;
         };
         info_marker.addTo(map2);
@@ -298,29 +298,28 @@ function refresh_wordcloud(stream) {
         }
     }
     ajax_wordcloud();
-
 }
 
-$('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 2, // Creates a dropdown of 15 years to control year
-    firstDay: 1,
-    labelMonthNext: 'Mois suivant',
-    labelMonthPrev: 'Mois précédent',
-    labelMonthSelect: 'Selectionner le mois',
-    labelYearSelect: 'Selectionner une année',
-    monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-    monthsShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
-    weekdaysFull: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-    weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-    weekdaysLetter: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-    today: 'Aujourd\'hui',
-    clear: 'Réinitialiser',
-    format: 'yyyy-mm-dd',
-    onSet: function () {
-        $('.picker__close').click();
-    }
+
+$(document).ready(function(){
+    $('.datepicker').datepicker({
+        firstDay: 1,
+        autoClose : true,
+        showClearBtn: true,
+        format: 'yyyy-mm-dd',
+        i18n: {
+            months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            monthsShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
+            weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+            weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+            weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+            clear: 'Réinitialiser',
+            cancel: 'Annuler',
+            done: '',
+        },
+    });
 });
+
 
 function refresh_histogram(first_load, value) {
     if (!first_load) {
@@ -334,7 +333,7 @@ function refresh_histogram(first_load, value) {
     ajax_freq_per_date(null, value);
 }
 
-$('.timepicker').pickatime({
+/*$('.timepicker').pickatime({
     default: 'now', // Set default time: 'now', '1:30AM', '16:30'
     fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
     twelvehour: false, // Use AM/PM or 24-hour format
@@ -344,12 +343,27 @@ $('.timepicker').pickatime({
     container: undefined, // ex. 'body' will append picker to body
     autoclose: false, // automatic close timepicker
     ampmclickable: true, // make AM PM clickable
+});*/
+
+$(document).ready(function(){
+    $('.timepicker').timepicker({
+        defaultTime: 'now',
+        fromNow: 0,
+        autoClose: false,
+        showClearBtn: true,
+        twelveHour: false,
+        i18n:{
+            cancel: 'Annuler',
+            clear: 'Réinitialiser',
+            done:  'Ok'
+        }
+    });
 });
 
 
 $(document).ready(function () {
     $('.modal').modal();
-    $('select').material_select();
+    $('select').formSelect();
 });
 
 function load_containers() {

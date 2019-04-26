@@ -9,8 +9,9 @@ nav {
 
 #intervalle_temps{
     position: absolute;
-    margin-left: 10%;
+    margin-left: 12%;
     margin-top: 20%;
+    text-align: left;
 }
 
 #intervalle_graph{

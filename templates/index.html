@@ -103,8 +103,11 @@
                             </div>
 
                             <div class="checkbox_s">
-                                <input type="checkbox" id="{{ s._id }}" value=""/>
-                                <label for="{{ s._id }}">Cochez deux sessions</label>
+
+                                <label for="{{ s._id }}">
+                                    <input type="checkbox" id="{{ s._id }}" value=""/>
+                                    <span>Cochez deux sessions</span>
+                                </label>
                             </div>
                             <div class="id_session">{{ s._id }}</div>
                         </div>
