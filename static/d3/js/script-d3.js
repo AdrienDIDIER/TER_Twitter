@@ -260,6 +260,7 @@ function ajax_tweet_sunburst(session){
                 $('#loading_circle_sunburst').hide();
             }
             createSunburst(response[0],response[1],response[2],response[3],session);
+
         },
         error: function (error) {
             console.log("ERROR");
@@ -268,98 +269,3 @@ function ajax_tweet_sunburst(session){
     });
 
 }
-function createSunburst(tweets,rts,coords,links,session){
-    if(session != null){
-        var valeurID = "#sunburst" + session;
-    }
-    else{
-        var valeurID = "#sunburst";
-    }
-    var autrestweets = tweets - (rts+coords+links);
-    var jsonsunburst = {
-        "name" : "SUNBURST", "children": [
-            {"name": "tweets", "children": [
-                    {"name": "retweets", "nb": rts},
-                    {"name": "coordonnées", "nb": coords},
-                    {"name": "liens", "nb": links},
-                    {"name": "autres", "nb": autrestweets},
-                ]
-            }
-        ]
-    }
-    var width = 500;
-    var height = 500;
-    var radius = Math.min(width, height) / 2;
-    var color = d3.scaleOrdinal(d3.schemeCategory20b);
-
-    var g = d3.select(valeurID).append("svg")
-        .attr('width', width)
-        .attr('height', height)
-        .style("font", "15px sans-serif")
-        .append('g')
-        .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
-
-    var partition = d3.partition()
-        .size([2 * Math.PI, radius]);
-
-    var root = d3.hierarchy(jsonsunburst)
-        .sum(function (d) { return d.nb});
-
-    partition(root);
-    var arc = d3.arc()
-        .startAngle(function (d) { return d.x0 })
-        .endAngle(function (d) { return d.x1 })
-        .innerRadius(function (d) { return d.y0 })
-        .outerRadius(function (d) { return d.y1 });
-
-    g.selectAll('g')
-        .data(root.descendants())
-        .enter().append('g').attr("class", "node").append('path')
-        .attr("display", function (d) { return d.depth ? null : "none"; })
-        .attr("d", arc)
-        .style('stroke', '#fff')
-        .style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
-
-    g.attr("pointer-events", "none")
-        .attr("text-anchor", "middle")
-        .attr("fill-opacity", 0.6);
-
-    g.selectAll("text")
-        .data(root.descendants().filter(d => d.depth && (d.y0 + d.y1) / 2 * (d.x1 - d.x0) > 10))
-        .enter().append("text")
-        .attr("transform", function(d) {
-            const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-            const y = (d.y0 + d.y1) / 2;
-            return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
-        })
-        .attr("dy", "0.35em")
-        .text(d => d.data.name);
-
-    /*g.selectAll(".node")
-        .append("text")
-        .attr("transform", function(d) {
-           return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
-        .attr("dx", "-20") // radius margin
-        .attr("dy", ".5em") // rotation align
-        .text(function(d) { return d.parent ? d.data.name : "" });*/
-
-    /*.append("text")
-            .attr("transform", function(d) {
-                    const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-                    const y = (d.y0 + d.y1) / 2;
-                    return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
-            })
-            .attr("dy", "0.35em")
-            .text(d => d.data.name);*/
-
-
-}
-
-function computeTextRotation(d) {
-    var angle = (d.x0 + d.x1) / Math.PI * 90;
-
-    // Avoid upside-down labels
-    return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
-    //return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
-}
-
