@@ -11,11 +11,11 @@ Flask == 1.0.2
 
 # index.py: 4
 # myapp.py: 2
-Flask_PyMongo == 2.1.0
+Flask_PyMongo == 2.2.0
 
 # auth.py: 3
-cryptography == 2.5
-bcrypt == 3.1.4
+cryptography == 2.6.1
+bcrypt == 3.1.5
 
 # session.py: 9,10
 pymongo == 3.6.0
@@ -23,15 +23,19 @@ pymongo == 3.6.0
 # retrieve_tweets/tweets_collection.py: 7
 
 # lib/google_images_download.py: 169,170
-selenium == 3.11.0
+selenium == 3.141.0
 
 # retrieve_tweets/tweets_collection.py: 6
-stop_words == 2015.2.23.1
+stop_words == 2018.7.23
 
 # auth.py: 4
 # tweepy_auth.py: 1
-tweepy == 3.5.0
+tweepy == 3.7.0
 
-textblob == 0.15.1
+textblob == 0.15.3
+
+
+
+
 
 

@@ -28,6 +28,11 @@ function createSunburst(tweets,rts,coords,links,session){
                 var vallegend = "#legend";
             }
      var autrestweets = tweets - (rts+coords+links);
+    console.log(tweets);
+    console.log(rts);
+    console.log(coords);
+    console.log(links);
+    console.log(autrestweets);
      var json = {
                 "name" : "SUNBURST", "children": [
                     {"name": "RT", "size": rts},

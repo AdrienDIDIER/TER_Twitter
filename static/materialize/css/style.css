@@ -416,7 +416,7 @@ form:after {
 
 .mainstyle {
   position: center;
-  width: 750px;
+  width: 100%;
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   font-weight: 400;
