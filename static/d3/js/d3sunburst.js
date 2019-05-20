@@ -4,14 +4,10 @@
  * https://bl.ocks.org/kerryrodden/7090426
  */
 
-function createSunburst(tweets,rts,coords,links,session){
-    console.log("session before if :" ,session);
+function createSunburst(tweets,rts,coords,links,otherstweets,session){
     if(session != null){
                 //pour les doubles sessions
-                console.log("valsunburst :" ,valsunburst);
-                console.log("session after if :" ,session);
                 var valsunburst = "#sunburst" + session;
-                console.log("valsunburst :",valsunburst);
                 var valname = "#name" + session;
                 var valcontainer = "container" + session;
                 var valsize = "#size" + session;
@@ -27,18 +23,12 @@ function createSunburst(tweets,rts,coords,links,session){
                 var valexplanation = "#explanation";
                 var vallegend = "#legend";
             }
-     var autrestweets = tweets - (rts+coords+links);
-    console.log(tweets);
-    console.log(rts);
-    console.log(coords);
-    console.log(links);
-    console.log(autrestweets);
      var json = {
                 "name" : "SUNBURST", "children": [
                     {"name": "RT", "size": rts},
                     {"name": "COORD", "size": coords},
                     {"name": "LINKS", "size": links},
-                    {"name": "OTHERS", "size": autrestweets},
+                    {"name": "OTHERS", "size": otherstweets},
                 ]
     };
 
@@ -154,8 +144,6 @@ function mouseover(d) {
              })
      .style("opacity", 1);
 
-  console.log("session mouseover :" ,valexplanation);
-
 }
 
 // Restore everything to full opacity when moving off the visualization.
@@ -174,8 +162,6 @@ function mouseleave(d) {
 
  d3.select(valexplanation)
      .style("visibility", "hidden");
-
-  console.log("session mouseleave :" ,valexplanation);
 
 }
 

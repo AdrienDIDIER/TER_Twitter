@@ -162,7 +162,6 @@ function refresh_tweet_polarity(start,session){
     if(start){
         if(session!= null && session==2) {
             var pol = '#polarity_panel' + session
-            console.log(pol);
             var polarity = $(pol);
             polarity.find('svg').remove();
             $('#loading_circle_polarity2').show();
@@ -232,11 +231,9 @@ $(document).ready(function verify() {
             if (this.checked) {
                 s_checked[this.value] = 1;
                 count++;
-                console.log(s_checked);
             } else {
                 s_checked[this.value] = 0;
                 count--;
-                console.log(s_checked);
             }
 
             if (count == 2) {

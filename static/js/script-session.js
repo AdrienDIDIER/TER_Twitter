@@ -114,11 +114,7 @@ $(document).ready(function () {
 
             if(datedtweets_button_pressed){
                 var nb_tweets = $('#div_number_of_tweets').text();
-                console.log("------------");
-                console.log(nb_tweets);
                 var batch = $('#start-dated_tweets_button').attr('data-batch');
-                console.log("------------");
-                console.log(batch);
                 $('#barre_progression').width((((nb_tweets % batch) / batch)* 100) + "%");
             }
         }

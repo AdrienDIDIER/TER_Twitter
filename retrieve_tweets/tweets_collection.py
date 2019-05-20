@@ -99,25 +99,33 @@ def tweet_by_geo():
 
 def tweet_for_sunburst():
     tweets_table = mongo.db.tweets
-    compteurtweet= count_number_of_tweets(session['last_session'])
     compteurrt = 0
     compteurcoord = 0
     compteurlink = 0
+    compteurotherstweets = 0
     tweets_sunburst_table = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
+        autretweet = True
         if 'retweeted_status' in tweet['tweet_object']:
             if tweet['tweet_object']['retweeted_status'] is not None:
                 compteurrt += 1
+                autretweet = False
         if 'coordinates' in tweet['tweet_object']:
             if tweet['tweet_object']['coordinates'] is not None:
                 compteurcoord += 1
+                autretweet = False
         if 'entities' in tweet['tweet_object']:
             if len(tweet['tweet_object']['entities']['urls']) != 0:
                 compteurlink += 1
+                autretweet = False
+        if autretweet:
+            compteurotherstweets += 1
+    compteurtweet = compteurlink + compteurcoord + compteurrt + compteurotherstweets
     tweets_sunburst_table.append(compteurtweet)
     tweets_sunburst_table.append(compteurrt)
     tweets_sunburst_table.append(compteurcoord)
     tweets_sunburst_table.append(compteurlink)
+    tweets_sunburst_table.append(compteurotherstweets)
     return tweets_sunburst_table
 
 
