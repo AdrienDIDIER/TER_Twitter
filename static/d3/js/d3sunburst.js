@@ -1,3 +1,9 @@
+/*
+ * Kerry Rodden’s Block 7090426 - Sequences sunburst
+ * Copyright 2013 Google Inc.
+ * https://bl.ocks.org/kerryrodden/7090426
+ */
+
 function createSunburst(tweets,rts,coords,links,session){
     console.log("session before if :" ,session);
     if(session != null){
