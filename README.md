@@ -8,7 +8,7 @@ Matéo MEYNIER
 Aurélien TROUCHE
 Et sous le tutorat de Mr Pascal Poncelet au cours de l'année 2018-2019.
 
-Ce projet est une plateforme d'analyse de tweets. Les tweets sont filtrès par l'utilisateur et sont présentés sous forme de nuage de mots dynamique et de graphiques statistiques.
+Ce projet est une plateforme d'analyse de tweets. Les tweets sont filtrés par l'utilisateur et sont présentés sous forme de nuage de mots dynamique et de graphiques statistiques.
 
 Un lien vers la vidéo de présentation : [lien youtube](https://www.youtube.com/watch?v=tZ1IKJi-IQg)
 
@@ -26,7 +26,7 @@ le clonage depuis github :
 installer les modules requis:
 
 `pip3 install -r requirements.txt`
->ici pip3 est utilisé car Tweetostats utilise python 3.5
+>ici pip3 est utilisé, car Tweetostats utilise python 3.5.4
 
 Pour lancer le serveur python: 
 `python3 myapp.py`
