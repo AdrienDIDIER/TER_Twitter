@@ -19,7 +19,7 @@ Dans ce dossier, vous avez à disposition le rapport de projet ainsi que le diap
 Pour installer ce projet: 
 
 le clonage depuis github :
-`git clone https://github.com/Haytu/app-python-analyse-tweets.git`
+`https://github.com/AdrienL3/TER_Twitter.git`
 
 `cd app-python-analyse-tweets`
 
