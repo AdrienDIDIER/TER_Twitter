@@ -10,7 +10,7 @@ Et sous le tutorat de Mr Pascal Poncelet au cours de l'année 2018-2019.
 
 Ce projet est une plateforme d'analyse de tweets. Les tweets sont filtrés par l'utilisateur et sont présentés sous forme de nuage de mots dynamique et de graphiques statistiques.
 
-Un lien vers la vidéo de présentation : [lien youtube](https://www.youtube.com/watch?v=tZ1IKJi-IQg)
+Un lien vers la vidéo de présentation : [lien youtube](https://youtu.be/UtbzQ0fVQbE)
 
 Lors du développement de ce projet, l'équipe a utilisé plusieurs modules que vous retrouverez dans le fichier "requirements.txt".
 
