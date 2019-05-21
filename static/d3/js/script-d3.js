@@ -259,7 +259,7 @@ function ajax_tweet_sunburst(session){
             }else{
                 $('#loading_circle_sunburst').hide();
             }
-            createSunburst(response[0],response[1],response[2],response[3],response[4],session);
+            createSunburst(response[0],response[1],response[2],response[3],response[4],response[5],session);
 
         },
         error: function (error) {

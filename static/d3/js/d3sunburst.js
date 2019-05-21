@@ -4,7 +4,7 @@
  * https://bl.ocks.org/kerryrodden/7090426
  */
 
-function createSunburst(tweets,rts,coords,links,otherstweets,session){
+function createSunburst(tweets,rts,coords,links,otherstweets,reply,session){
     if(session != null){
                 //pour les doubles sessions
                 var valsunburst = "#sunburst" + session;
@@ -27,16 +27,18 @@ function createSunburst(tweets,rts,coords,links,otherstweets,session){
                 "name" : "SUNBURST", "children": [
                     {"name": "RT", "size": rts},
                     {"name": "COORD", "size": coords},
-                    {"name": "LINKS", "size": links},
-                    {"name": "OTHERS", "size": otherstweets},
+                    {"name": "LINK", "size": links},
+                    {"name": "OTHER", "size": otherstweets},
+                    {"name": "REPLY", "size": reply},
                 ]
     };
 
     var colors = {
        "RT": "#5687d1",
-       "LINKS": "#7b615c",
+       "LINK": "#7b615c",
        "COORD": "#de783b",
-       "OTHERS" : "#049B0E"
+       "OTHER" : "#6ab975",
+       "REPLY" : "#a173d1"
     };
 
     var width = 500;

@@ -103,6 +103,7 @@ def tweet_for_sunburst():
     compteurcoord = 0
     compteurlink = 0
     compteurotherstweets = 0
+    compteurreply = 0
     tweets_sunburst_table = []
     for tweet in tweets_table.find({"session_id": session['last_session']}):
         autretweet = True
@@ -118,14 +119,21 @@ def tweet_for_sunburst():
             if len(tweet['tweet_object']['entities']['urls']) != 0:
                 compteurlink += 1
                 autretweet = False
+        if 'in_reply_to_user_id' in tweet['tweet_object']:
+            if tweet['tweet_object']['in_reply_to_user_id'] is not None:
+                compteurreply += 1
+                autretweet = False
         if autretweet:
             compteurotherstweets += 1
-    compteurtweet = compteurlink + compteurcoord + compteurrt + compteurotherstweets
+    compteurtweet = compteurlink + compteurcoord + compteurrt + compteurreply + compteurotherstweets
     tweets_sunburst_table.append(compteurtweet)
     tweets_sunburst_table.append(compteurrt)
     tweets_sunburst_table.append(compteurcoord)
     tweets_sunburst_table.append(compteurlink)
     tweets_sunburst_table.append(compteurotherstweets)
+    tweets_sunburst_table.append(compteurreply)
+
+
     return tweets_sunburst_table
 
 
